@@ -2,14 +2,18 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
+import LiquidButton from "./LiquidButton";
 
 interface CarouselProps {
   data: Array<{
     quote: string;
-    name: string;
-    role: string;
+    des?: string;
+    name?: string;
+    role?: string;
     image: string;
+    link?: string;
   }>;
 }
 
@@ -96,26 +100,31 @@ export default function Carousel({ data }: CarouselProps) {
           transition={{ duration: 0.5, ease: "easeInOut" }}
           className="w-fit h-full items-center flex flex-row sm:flex-col rounded-2xl sm:rounded-4xl gap-2 sm:gap-4 p-3 sm:p-3"
         >
-          {newData.map((item: { image: string; name: string }, idx: number) => (
-            <div
-              key={idx}
-              onClick={() => scrollTo(idx)}
-              className={`w-[100px] h-[100px] sm:w-[100px] sm:h-[100px] md:w-[150px] md:h-[150px] rounded-2xl sm:rounded-4xl flex items-center justify-center relative transition-all duration-300 cursor-pointer shrink-0 ${
-                idx === index
-                  ? "border-2 sm:border-4 border-tiger/70 scale-110 sm:scale-100 md:h-[200px]"
-                  : "grayscale opacity-60 hover:opacity-80"
-              }`}
-            >
-              <Image
-                src={item.image}
-                alt={item.name}
-                width={0}
-                height={0}
-                sizes="(max-width: 640px) 80px, (max-width: 768px) 100px, 150px"
-                className="rounded-xl sm:rounded-3xl object-cover w-full h-full flex z-10"
-              />
-            </div>
-          ))}
+          {newData.map(
+            (
+              item: { image: string; name?: string; role?: string },
+              idx: number
+            ) => (
+              <div
+                key={idx}
+                onClick={() => scrollTo(idx)}
+                className={`w-[100px] h-[100px] sm:w-[100px] sm:h-[100px] md:w-[150px] md:h-[150px] rounded-2xl sm:rounded-4xl flex items-center justify-center relative transition-all duration-300 cursor-pointer shrink-0 ${
+                  idx === index
+                    ? "border-2 sm:border-4 border-tiger/70 scale-110 sm:scale-100 md:h-[200px]"
+                    : "grayscale opacity-60 hover:opacity-80"
+                }`}
+              >
+                <Image
+                  src={item.image}
+                  alt={item.name || ""}
+                  width={0}
+                  height={0}
+                  sizes="(max-width: 640px) 80px, (max-width: 768px) 100px, 150px"
+                  className="rounded-xl sm:rounded-3xl object-cover w-full h-full flex z-10"
+                />
+              </div>
+            )
+          )}
         </motion.div>
       </div>
 
@@ -128,23 +137,51 @@ export default function Carousel({ data }: CarouselProps) {
           >
             <div className="w-full h-full flex flex-col">
               <div className="w-full h-full rounded-b-md flex flex-col justify-start p-4 sm:p-6 md:p-10 lg:p-15">
-                <div className="h-full flex flex-col justify-between gap-4">
+                <div className="h-full flex flex-col justify-between gap-4 overflow-y-auto pr-2">
                   <motion.p
                     className="text-sm sm:text-base md:text-lg lg:text-xl font-bold text-gray-900 leading-relaxed"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
                     transition={{ duration: 0.5 }}
                     key={newData[index].quote}
                   >
                     {newData[index].quote}
                   </motion.p>
+                  {newData[index].des && (
+                    <motion.p
+                      className="text-xs sm:text-sm text-gray-600 font-medium w-full text-left"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.5 }}
+                      key={newData[index].quote}
+                      dangerouslySetInnerHTML={{
+                        __html: newData[index].des || "",
+                      }}
+                    ></motion.p>
+                  )}
+                  {newData[index].link && (
+                    <motion.p
+                      className="text-xs sm:text-sm text-gray-600 font-medium w-full mt-auto"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.5 }}
+                      key={newData[index].link}
+                    >
+                      <LiquidButton
+                        text="Read More"
+                        link={newData[index].link || ""}
+                      />
+                    </motion.p>
+                  )}
                   <div className="flex flex-col gap-2 mt-auto">
                     <motion.p
                       className="text-base sm:text-lg md:text-xl text-gray-800 font-bold"
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
                       transition={{ duration: 0.5, delay: 0.1 }}
                       key={newData[index].name}
                     >
@@ -152,9 +189,9 @@ export default function Carousel({ data }: CarouselProps) {
                     </motion.p>
                     <motion.p
                       className="text-xs sm:text-sm text-gray-600 font-medium w-full"
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
                       transition={{ duration: 0.5, delay: 0.15 }}
                       key={newData[index].role}
                     >
