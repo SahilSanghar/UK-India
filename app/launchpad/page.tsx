@@ -280,7 +280,7 @@ export default function Influence() {
           landscape can be challenging to navigate.
         </p>
         <BoxImageText
-          description="Achieve your chosen objectives with UKIBC’s Launchpad™, which provides a dedicated team of in-country specialists. <br/><br/> Focus on growing your business with a forward-looking approach. Test the market, build high-trust relationships and adapt your strategy to match both your needs and India’s dynamic ecosystem. <br/><br/>Launchpad™ is ideal because its flexibility and predictable cost control provide last-mile connectivity, allowing you to scale quickly and with confidence. <br/><br/> Most importantly, this model removes the risk of setting up a full office in India while still acting as a catalyst for trade, investment and collaboration. As your business matures, you can pivot seamlessly, supported by our team that connects you to thrive through stronger ideas, networks and impact."
+          description="Achieve your chosen objectives with UKIBC’s Launchpad®, which provides a dedicated team of in-country specialists. <br/><br/> Focus on growing your business with a forward-looking approach. Test the market, build high-trust relationships and adapt your strategy to match both your needs and India’s dynamic ecosystem. <br/><br/>Launchpad® is ideal because its flexibility and predictable cost control provide last-mile connectivity, allowing you to scale quickly and with confidence. <br/><br/> Most importantly, this model removes the risk of setting up a full office in India while still acting as a catalyst for trade, investment and collaboration. As your business matures, you can pivot seamlessly, supported by our team that connects you to thrive through stronger ideas, networks and impact."
           className="my-20"
           images={[{ image: "/growth.jpeg", position: "center" }]}
           flip={false}
@@ -302,7 +302,7 @@ export default function Influence() {
             ref={intelligenceRef as unknown as React.RefObject<HTMLDivElement>}
           >
             <h1 className="md:text-5xl text-3xl font-bold text-white flex  md:w-[40%] w-fit ">
-              Using Launchpad™ Applications
+              Using Launchpad® Applications
             </h1>
             <ul className="gap-3 grid grid-cols-1 md:grid-cols-3 justify-items-center items-center place-items-center w-full">
               <div className="hidden md:flex col-span-1 md:col-span-3 w-fit justify-center">
@@ -421,7 +421,7 @@ export default function Influence() {
         </BackgroundGradientAnimation>
 
         <BoxImageText
-          title="Launchpad™ drives your India strategy now and sets you up for what comes next."
+          title="Launchpad® drives your India strategy now and sets you up for what comes next."
           description="We help you map the right India model with clarity and confidence, backed by advisors who bring last-mile connectivity and trusted networks across government, industry and academia. It is future-focused, practical, and built for impact."
           className="my-20"
           buttonText="Meet out launchpad Experts"
@@ -446,7 +446,7 @@ export default function Influence() {
             ref={intelligenceRef as unknown as React.RefObject<HTMLDivElement>}
           >
             <h1 className="md:text-4xl text-xl font-bold text-white flex  md:w-[60%] w-[90%] ">
-              With Launchpad™, our dedicated and exclusive team on the ground in
+              With Launchpad®, our dedicated and exclusive team on the ground in
               India can help you
             </h1>
             <ul className="gap-3 grid grid-cols-1 md:grid-cols-3 justify-items-center items-center place-items-center w-full">

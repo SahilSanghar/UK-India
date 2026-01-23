@@ -40,6 +40,7 @@ export default function Footer() {
     "Reports",
     "Events",
     "Projects",
+    "Launchpad",
     "Vacancies",
     "Group Board",
     "TNE",
