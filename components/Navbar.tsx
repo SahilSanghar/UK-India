@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+import { usePathname } from "next/navigation";
 // import { useNavbar } from "@/lib/navbar-context";
 
 interface Sublink {
@@ -18,6 +19,8 @@ interface NavLink {
 }
 
 export default function Navbar() {
+  const pathname = usePathname();
+  const isAdminDashboard = pathname?.startsWith("/admin/dashboard");
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [mobileMenu, setMobileMenu] = useState<boolean>(false);
   const change = false;
@@ -140,9 +143,10 @@ export default function Navbar() {
   }, []);
 
   return (
+    !isAdminDashboard && (
     <nav
       className={`flex w-full h-fit transition-all duration-300 ease-in-out text-black items-center px-6 md:px-10 fixed top-0 z-50 ${
-        scroll ? "bg-white shadow-lg" : "bg-transparent"
+        scroll ? "bg-white shadow-sm" : "bg-transparent"
       }`}
     >
       <div
@@ -188,7 +192,7 @@ export default function Navbar() {
       </div>
 
       <motion.ul
-        initial={{ opacity: 0, x: 20 }}
+        initial={{ opacity: 0, x: 0 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.5 }}
         className={`hidden lg:flex items-center justify-center transition-all duration-300 ease-in-out gap-1 md:gap-6 text-xs md:text-sm  xl:text-base font-medium h-12 px-10  rounded-full 2xl:absolute 2xl:left-1/2 2xl:-translate-x-1/2  2xl:w-fit
@@ -373,7 +377,8 @@ export default function Navbar() {
             })}
           </motion.ul>
         )}
-      </AnimatePresence>
-    </nav>
+        </AnimatePresence>
+      </nav>
+    )
   );
 }

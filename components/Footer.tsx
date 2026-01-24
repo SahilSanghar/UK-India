@@ -2,8 +2,11 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Footer() {
+  const pathname = usePathname();
+  const isAdminDashboard = pathname?.startsWith("/admin/dashboard");
   const [formData, setFormData] = useState({
     firstName: "",
     surname: "",
@@ -49,16 +52,17 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="w-full bg-navy text-white">
-      <div className="max-w-7xl mx-auto px-4 md:px-8 py-12 md:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
-          {/* Column 1: Branding and Social Media */}
-          <div className="flex flex-col gap-6 lg:border-r-2 border-white/20 pr-10">
-            <div>
-              <h2 className="text-2xl md:text-3xl font-bold mb-1">UK INDIA</h2>
-              <p className="text-sm md:text-base">BUSINESS COUNCIL</p>
-            </div>
-            <div className="flex flex-col gap-3">
+    !isAdminDashboard && (
+      <footer className="w-full bg-navy text-white">
+        <div className="max-w-7xl mx-auto px-4 md:px-8 py-12 md:py-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
+            {/* Column 1: Branding and Social Media */}
+            <div className="flex flex-col gap-6 lg:border-r-2 border-white/20 pr-10">
+              <div>
+                <h2 className="text-2xl md:text-3xl font-bold mb-1">UK INDIA</h2>
+                <p className="text-sm md:text-base">BUSINESS COUNCIL</p>
+              </div>
+              <div className="flex flex-col gap-3">
               <div className="flex items-center gap-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -359,5 +363,6 @@ export default function Footer() {
         </div>
       </div>
     </footer>
+    )
   );
 }
