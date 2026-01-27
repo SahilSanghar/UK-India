@@ -5,6 +5,7 @@ import React from 'react';
 import InfoCard from '@/components/InfoCard';
 import { useInfiniteQuery } from "@tanstack/react-query"
 import axios from 'axios';
+import { div } from 'framer-motion/client';
 
 
 interface PostProps {
@@ -35,22 +36,34 @@ export default function Page() {
 
   return (
     <>
-    <div className="w-full h-full flex flex-col overflow-x-hidden bg-white pb-10">
+    <div className="w-full h-full flex flex-col overflow-x-hidden bg-white pb-10 pt-24">
       <h1 className="text-4xl font-bold flex items-center justify-center pt-10 pb-5 text-navy">
         News
       </h1>
       <p className='text-sm text-center flex items-center justify-center mb-10 bg-navy w-fit mx-auto rounded-full px-4 py-2 text-white'>Total Posts: {data?.pages[0].count ?? 0}</p>
       <div className="w-fit h-fit flex-col gap-10 justify-center items-center grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3 mx-auto">
-        {posts?.map((post: PostProps) => (
+        {
+          isLoading ? (
+      <>
+              <InfoCard loading={true} />
+              <InfoCard loading={true} />
+              <InfoCard loading={true} />
+        
+          </>
+          ) : (
+            <>
+            {posts?.map((post: PostProps) => (
           <InfoCard
             title1={post.title}
             image={post.image || "/person.jpg"}
             animation="center"
             key={post.id}
             link={"/news/" + post.slug}
-            loading={isFetchingNextPage || isLoading ? true : false}
           />
         ))}
+            </>
+          )
+        }
       </div>
       {hasNextPage && (
         <button

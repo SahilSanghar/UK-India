@@ -7,11 +7,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 interface InfoCardProps {
-  title1: string;
+  title1?: string;
   des?: string;
   des2?: string;
   description?: string;
-  image: string;
+  image?: string;
   date?: string;
   link?: string;
   dark?: boolean | false;
@@ -21,7 +21,7 @@ interface InfoCardProps {
   extraLarge?: boolean | false;
   textPosition?: "left" | "center" | "right";
   idiot?: boolean | false;
-  animation: "left" | "center" | "right";
+  animation?: "left" | "center" | "right";
   loading?: boolean | false;
 }
 
@@ -83,7 +83,7 @@ export default function InfoCard({
       className={`flex ${loading ? "animate-pulse" : ""} flex-col cursor-pointer md:w-[350px] md:h-[400px] w-[300px] h-[340px] bg-black/50 backdrop-blur-xl rounded-2xl`}
     >
      
-      {!clicked && (
+      {!clicked && !loading && (
         <div
           className="flex flex-col bg-black/50 backdrop-blur-xl h-full rounded-2xl"
           onClick={() =>
@@ -96,7 +96,7 @@ export default function InfoCard({
         >
           <div className={`relative w-full duration-300 rounded-t-2xl h-full`}>
             <Image
-              src={image}
+              src={image || "/person.jpg"}
               width={0}
               height={0}
               sizes="100% 100%"
@@ -174,13 +174,13 @@ export default function InfoCard({
         </div>
       )}
 
-      {clicked && description && (
+      {clicked && description && !loading && (
         <>
           <div
             className={`absolute w-full h-full duration-300 rounded-t-2xl md:h-full -z-10`}
           >
             <Image
-              src={image}
+              src={image || "/person.jpg"}
               width={0}
               height={0}
               sizes="100% 100%"

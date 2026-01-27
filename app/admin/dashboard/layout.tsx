@@ -53,7 +53,7 @@ export default function layout({ children }: { children: React.ReactNode }) {
       <AdminNavbar />
       <div className="flex">
         <Sidebar links={links} />
-        <main className="w-full min-h-screen pt-24 px-6 ml-64">
+        <main className="w-full min-h-screen ml-64">
           {children}
         </main>
       </div>
