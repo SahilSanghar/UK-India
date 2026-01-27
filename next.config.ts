@@ -9,6 +9,11 @@ const nextConfig: NextConfig = {
         hostname: "bryanp25.sg-host.com",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "ukibc.s3.ap-south-1.amazonaws.com",
+        pathname: "/**",
+      },
     ],
   },
 };

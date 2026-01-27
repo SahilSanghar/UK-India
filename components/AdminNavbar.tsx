@@ -11,7 +11,7 @@ export  function AdminNavbar() {
     router.push("/");
   };
   return (
-    <div className="absolute w-full bg-white border-b border-gray-200 top-0 right-0 p-5 flex items-center justify-center gap-2 h-20"> 
+   <div className="z-20 fixed w-full bg-white border-b border-gray-200 top-0 right-0 p-5 flex items-center justify-center gap-2 h-20"> 
     <div className="w-28 h-auto flex gap-2">
     <Image src="/logo.jpg" alt="logo" width={0} height={0} sizes="100vw" className="w-full h-full object-cover" />
     </div>

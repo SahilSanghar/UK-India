@@ -22,6 +22,7 @@ interface InfoCardProps {
   textPosition?: "left" | "center" | "right";
   idiot?: boolean | false;
   animation: "left" | "center" | "right";
+  loading?: boolean | false;
 }
 
 export default function InfoCard({
@@ -39,6 +40,7 @@ export default function InfoCard({
   extraLarge,
   idiot,
   link,
+  loading,
 }: InfoCardProps) {
   const [clicked, setClicked] = useState(false);
   const router = useRouter();
@@ -78,8 +80,9 @@ export default function InfoCard({
         duration: 0.1,
       }}
       // onClick={() => setClicked1((clicked1) => !clicked1)}
-      className="flex flex-col cursor-pointer md:w-[350px] md:h-[400px] w-[300px] h-[340px] bg-black/50 backdrop-blur-xl rounded-2xl"
+      className={`flex ${loading ? "animate-pulse" : ""} flex-col cursor-pointer md:w-[350px] md:h-[400px] w-[300px] h-[340px] bg-black/50 backdrop-blur-xl rounded-2xl`}
     >
+     
       {!clicked && (
         <div
           className="flex flex-col bg-black/50 backdrop-blur-xl h-full rounded-2xl"

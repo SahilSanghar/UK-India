@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { DM_Sans, Montserrat } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
-import { NavbarProvider } from "@/lib/navbar-context";
 import Footer from "@/components/Footer";
+import { Provider } from "@/lib/provider";
 
 const dmsans = DM_Sans({
   variable: "--font-dmsans",
@@ -33,11 +33,11 @@ export default function RootLayout({
       <body
         className={`${montserrat.variable} ${dmsans.variable} antialiased overflow-x-hidden`}
       >
-        <NavbarProvider>
+        <Provider>
           <Navbar />
           {children}
           <Footer />
-        </NavbarProvider>
+        </Provider>
       </body>
     </html>
   );
