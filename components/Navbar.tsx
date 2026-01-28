@@ -31,12 +31,12 @@ export default function Navbar() {
       href: "",
       sublinks: [
         {
-          label: "Influence",
-          href: "/influence",
-        },
-        {
           label: "Interaction",
           href: "/interaction",
+        },
+        {
+          label: "Influence",
+          href: "/influence",
         },
         {
           label: "Intelligence",

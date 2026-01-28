@@ -132,22 +132,6 @@ export default function Home() {
         <div className="w-full lg:flex-row flex-col mt-20 grid md:grid-cols-3 grid-cols-2 overflow-x-hidden max-w-full">
           {" "}
           <FullCard
-            title1="Influence"
-            image="/home-card1.png"
-            des="We help you influence your audience through our strategic insights and expert advice."
-            animation="left"
-            large={true}
-            idiot={false}
-            link="/influence"
-            time={5000}
-            images={[
-              { image: "/home/eyes/influence-1.png", position: "50%_50%" },
-              { image: "/home/eyes/influence-2.png", position: "50%_50%" },
-              { image: "/home/eyes/influence-3.png", position: "50%_50%" },
-              // { image: "/home/eyes/influence-4.jpg", position: "bottom-right" },
-            ]}
-          />
-          <FullCard
             title1="Interaction"
             image="/home-card2.jpeg"
             des="We put you in the room with decision-makers through high-level convening across the UK-India corridor."
@@ -163,6 +147,23 @@ export default function Home() {
             idiot={false}
             link="/interaction"
           />
+          <FullCard
+            title1="Influence"
+            image="/home-card1.png"
+            des="We help you influence your audience through our strategic insights and expert advice."
+            animation="left"
+            large={true}
+            idiot={false}
+            link="/influence"
+            time={5000}
+            images={[
+              { image: "/home/eyes/influence-1.png", position: "50%_50%" },
+              { image: "/home/eyes/influence-2.png", position: "50%_50%" },
+              { image: "/home/eyes/influence-3.png", position: "50%_50%" },
+              // { image: "/home/eyes/influence-4.jpg", position: "bottom-right" },
+            ]}
+          />
+        
           <div className="col-span-2 md:col-span-1">
             <FullCard
               title1="Intelligence"
