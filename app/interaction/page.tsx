@@ -61,11 +61,11 @@ export default function Interaction() {
       image: "/3-eyes/interaction/chemicals.svg",
     },
     {
-      name: "Defence",
+      name: "Aerospace & Defence",
       image: "/3-eyes/interaction/defence.svg",
     },
     {
-      name: "Digital Economy",
+      name: "AI & Digital Economy",
       image: "/3-eyes/interaction/money.svg",
     },
     {
@@ -77,7 +77,7 @@ export default function Interaction() {
       image: "/3-eyes/interaction/food-drink.svg",
     },
     {
-      name: "Healthcare",
+      name: "Healthcare & Life Sciences",
       image: "/3-eyes/interaction/healthcare.svg",
     },
     {
@@ -88,18 +88,18 @@ export default function Interaction() {
       name: "Legal Services",
       image: "/3-eyes/interaction/legal.svg",
     },
-    {
-      name: "Life Sciences",
-      image: "/3-eyes/interaction/life-science.svg",
-    },
+    // {
+    //   name: "Life Sciences",
+    //   image: "/3-eyes/interaction/life-science.svg",
+    // },
     // {
     //   name: "Music",
     //   image: "/3-eyes/interaction/music.svg",
     // },
-    {
-      name: "Oil & Gas",
-      image: "/3-eyes/interaction/oil-gass.svg",
-    },
+    // {
+    //   name: "Oil & Gas",
+    //   image: "/3-eyes/interaction/oil-gass.svg",
+    // },
     {
       name: "Renewable Energy",
       image: "/3-eyes/interaction/renewable-energy.svg",
@@ -108,18 +108,24 @@ export default function Interaction() {
     //   name: "Leisure & Tourism",
     //   image: "/3-eyes/interaction/tourism.svg",
     // },
+    // {
+    //   name: "Smart Cities",
+    //   image: "/3-eyes/interaction/smart-cities.svg",
+    // },
     {
-      name: "Smart Cities",
-      image: "/3-eyes/interaction/smart-cities.svg",
+      name: "Education",
+      image: "/3-eyes/interaction/education.svg",
     },
     {
       name: "Sports",
       image: "/3-eyes/interaction/sports.svg",
     },
-    {
-      name: "Trade Bodies and Government Agencies",
-      image: "/3-eyes/interaction/trade.svg",
-    },
+
+    
+    // {
+    //   name: "Trade Bodies and Government Agencies",
+    //   image: "/3-eyes/interaction/trade.svg",
+    // },
   ];
 
   useEffect(() => {
@@ -210,7 +216,7 @@ export default function Interaction() {
                     height={56}
                     className="w-11 h-11 sm:w-14 sm:h-14 md:w-16 md:h-16 mb-1 p-2 md:p-3"
                   />
-                  <span className="text-xs sm:text-sm md:text-base font-bold leading-tight ">
+                  <span className="text-xs sm:text-sm md:text-base font-bold leading-tight p-2">
                     {sector.name}
                   </span>
                 </motion.div>

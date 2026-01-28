@@ -86,7 +86,7 @@ export default function Home() {
             des: "We provide equanimous influence, connecting businesses with government to deliver real outcomes.",
           },
           {
-            title: "Interactions that Drive Growth and Credibility",
+            title: "Interactions that Drive Growth and Sustainability",
             des: "We provide interactive opportunities to forge relationships across all levels of the government, credible advocacy, and practical intelligence that help businesses grow with confidence.",
           },
         ]}
@@ -235,7 +235,7 @@ export default function Home() {
                 data={[
                   {
                     title:
-                      "The UK India Business Council champions partnerships that drive jobs and growth in both countries.",
+                      "The UK India Business Council catalyzes bilateral trade and opportunity in both countries.",
                     image: "/home/who-we-are/1.webp",
                     link: "",
                   },
@@ -329,7 +329,7 @@ export default function Home() {
       <Fullscreen
         ref={membershipRef as unknown as React.RefObject<HTMLDivElement>}
         title1="Membership"
-        title2="The Right Rooms. The Right People."
+        title2="Right place, Right people"
         description="Join a trusted ecosystem where business, government, and academia meet with intent. As a member, you gain access to curated B2G and B2B forums that turn dialogue into insight and insight into opportunity. Our platform connects you with decision-makers, leading institutions, and growth-ready enterprises to build relationships that deliver long-term value."
         image="/home-membership.jpg"
         buttonText="JOIN THE NETWORK"
@@ -410,15 +410,14 @@ export default function Home() {
               Boosting trade and investment collaboration.
             </p>
             <p className="text-white text-base md:text-lg leading-5 font-medium mb-6">
-              An equal UK–India economic partnership built to create jobs and
-              fuel shared prosperity—a force for global good.
+              Equal partnerships to fuel shared prosperity—a force for global good.
             </p>
             <Link
               href="/about"
               className="rounded-full  bg-tiger px-8 py-3 text-sm font-semibold tracking-wide text-white  transition hover:bg-mix hover:text-black hover:scale-105 duration-200 w-max"
             >
               About UKIBC
-            </Link>
+            </Link> 
           </div>
 
           <div className="w-full md:w-1/2">

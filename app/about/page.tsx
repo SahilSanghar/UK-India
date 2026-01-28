@@ -138,7 +138,7 @@ export default function About() {
         title_data={[
           {
             title: "About us",
-            des: "The UK India Business Council passionately believes that the UK-India partnership creates jobs and growth in both countries, and that UK and Indian businesses have ideas, technology, services, and products that can succeed in India and the UK, respectively. Through our last-mile insights, networks, future-focused policy advocacy, and market-entry services, we support businesses in achieving this success.",
+            des: "The Ukibc is bilateral trade organisation that amplifies potential opportunities come our partnerships and collaborations, by conveying, communicating and coordinating industries across UK-India. Through last mile insights, connectivity in achieving this success.",
           },
         ]}
         flip={true}
@@ -277,7 +277,9 @@ export default function About() {
                     clipRule="evenodd"
                   />
                 </svg>
-                <p className="text-white text-base sm:text-lg md:text-xl font-bold">Market Advisory</p>
+                <p className="text-white text-base sm:text-lg md:text-xl font-bold">
+                  Market Advisory
+                </p>
                 <div className="w-full flex justify-center">
                   <LiquidButton text="Learn more" link="/intelligence" />
                 </div>
