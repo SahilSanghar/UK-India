@@ -5,8 +5,7 @@ import bcrypt from "bcrypt";
 import { cookies } from "next/headers";
 import { SignJWT } from "jose";
 
-const secret = process.env.JWT_SECRET!;
-const expiresIn = "1h";
+const expiresIn = "30d";
 
 const dynamoClient = new DynamoDBClient({
   region: "ap-south-1",
