@@ -3,21 +3,24 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 
 interface EventCardProps {
-  title1: string;
-  date: string;
-  image: string;
+  title1?: string;
+  date?: string;
+  image?: string;
   link?: string;
-  animation: "left" | "center" | "right";
+  animation?: "left" | "center" | "right";
   key?: React.Key;
-  location: string;
-  venue: string;
-  who_can_attend: string;
-  event_date: string;
-  event_end_date: string;
-  time: string;
+  location?: string;
+  venue?: string;
+  who_can_attend?: string;
+  event_date?: string;
+  event_end_date?: string;
+  time?: string;
+  loading?: boolean;
+  className?: string;
 }
 
 export default function EventCard({
+  className,
   title1,
   date,
   image,
@@ -30,6 +33,7 @@ export default function EventCard({
   event_date,
   event_end_date,
   time,
+  loading,
 }: EventCardProps) {
   return (
     <motion.div
@@ -49,14 +53,14 @@ export default function EventCard({
       transition={{
         duration: 0.1,
       }}
-      className="flex flex-col md:flex-row cursor-pointer w-full max-w-[800px] min-h-[300px] md:h-[300px] border-2 border-black/10 bg-white text-black  backdrop-blur-xl rounded-2xl"
+      className={`${loading ? "animate-pulse bg-black/10" : "bg-white"} flex flex-col md:flex-row cursor-pointer w-full max-w-[800px] min-h-[300px] md:h-[300px] border-2 border-black/10  text-black  backdrop-blur-xl rounded-2xl ${loading ? "animate-pulse" : ""} ${className}`}
       onClick={() => link && window.open(link)}
     >
       <div className="flex flex-col w-full md:w-1/2 h-full">
         <div className="w-full p-2 md:p-3 h-[200px] md:h-[200px] overflow-hidden">
           <Image
-            src={image}
-            alt={title1}
+            src={image || "/person.jpg"}
+            alt={title1 || "Event Image"}
             width={0}
             height={0}
             sizes="100vw"
@@ -75,7 +79,7 @@ export default function EventCard({
               overflow: "hidden",
             }}
             dangerouslySetInnerHTML={{
-              __html: title1,
+              __html: title1 || "",
             }}
           ></h3>
         </div>
