@@ -79,12 +79,12 @@ export default function Team() {
       active: false,
       sort: 3,
     },
-    {
-      name: "Events",
-      team_area: "events",
-      active: false,
-      sort: 4,
-    },
+    // {
+    //   name: "Events",
+    //   team_area: "events",
+    //   active: false,
+    //   sort: 4,
+    // },
   ]);
 
   const { data, isLoading, error } = useQuery({
