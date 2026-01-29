@@ -124,7 +124,7 @@ export default function Page() {
       <Lander
         title_data={[
           {
-            title: "News And Advice",
+            title: "News and Advice",
             title2:
               "Discover the latest from UKIBC experts, including recent news, expert blogs, key announcements, and updates on government engagements.",
 
@@ -137,7 +137,7 @@ export default function Page() {
       />{" "}
       <section id="more">
         <div className="w-full h-fit flex flex-col gap-10 items-center justify-center py-20">
-          <p className="text-4xl font-bold text-navy">News And Advice</p>
+          <p className="text-4xl font-bold text-navy">News and Insights</p>
           <div className="w-fit h-fit flex flex-row md:gap-4 gap-2 items-center justify-center">
             {filter.map((item) => (
               <div

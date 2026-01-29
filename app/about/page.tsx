@@ -138,7 +138,7 @@ export default function About() {
         title_data={[
           {
             title: "About us",
-            des: "The Ukibc is bilateral trade organisation that amplifies potential opportunities come our partnerships and collaborations, by conveying, communicating and coordinating industries across UK-India. Through last mile insights, connectivity in achieving this success.",
+            des: "The UKIBC is a bilateral trade organisation that amplifies potential opportunities come our partnerships and collaborations, by conveying, communicating and coordinating industries across UK-India. Through last mile insights, connectivity in achieving this success.",
           },
         ]}
         flip={true}
@@ -174,7 +174,7 @@ export default function About() {
         <div className="flex gap-5 md:flex-row flex-col my-20 items-center justify-center">
           <InfoCard
             title1={"Interaction"}
-            des={"Why: Putting you in the room with decision-makers. "}
+            des={"We are Putting you in the room with decision-makers. "}
             des2={
               "How: We’re a bilateral not-for-profit with unique access and a powerful network. We convene political and business leaders in both countries."
             }
@@ -184,21 +184,9 @@ export default function About() {
             animation={"left"}
             link={"/interaction"}
           />
-          <InfoCard
-            title1={"Intelligence"}
-            des={"Why: Helping you understand what’s important and why."}
-            des2={
-              "How: In the UK-India economic corridor, we are the leader in original data, actionable knowledge, in-market insights and advisory."
-            }
-            extraLarge={true}
-            textPosition={"left"}
-            image={"/home/eyes/intel-1.png"}
-            animation={"center"}
-            link={"/intelligence"}
-          />
-          <InfoCard
-            title1={"Intelligence"}
-            des={"Why: Enabling better business outcomes."}
+           <InfoCard
+            title1={"Influence"}
+            des={"We are Enabling better business outcomes."}
             des2={
               "How: We advocate for sector-specific as well as cross-cutting policy reforms. We inform Government decision-making."
             }
@@ -208,6 +196,19 @@ export default function About() {
             animation={"right"}
             link={"/influence"}
           />
+          <InfoCard
+            title1={"Intelligence"}
+            des={"We are Helping you understand what’s important and why."}
+            des2={
+              "How: In the UK-India economic corridor, we are the leader in original data, actionable knowledge, in-market insights and advisory."
+            }
+            extraLarge={true}
+            textPosition={"left"}
+            image={"/home/eyes/intel-1.png"}
+            animation={"center"}
+            link={"/intelligence"}
+          />
+         
         </div>
 
         <div className="flex gap-5 flex-col my-20 text-navy ">
