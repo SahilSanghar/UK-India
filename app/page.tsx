@@ -236,7 +236,7 @@ export default function Home() {
                 data={[
                   {
                     title:
-                      "The UK India Business Council catalyzes bilateral trade and opportunity in both countries.",
+                      "The UK India Business Council catalyses bilateral trade and opportunity in both countries.",
                     image: "/home/who-we-are/1.webp",
                     link: "",
                   },

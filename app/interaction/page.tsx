@@ -56,10 +56,10 @@ export default function Interaction() {
       name: "Automotive",
       image: "/3-eyes/interaction/automotive.svg",
     },
-    {
-      name: "Chemicals",
-      image: "/3-eyes/interaction/chemicals.svg",
-    },
+    // {
+    //   name: "Chemicals",
+    //   image: "/3-eyes/interaction/chemicals.svg",
+    // },
     {
       name: "Aerospace & Defence",
       image: "/3-eyes/interaction/defence.svg",
@@ -194,7 +194,7 @@ export default function Interaction() {
             <p className="md:text-lg text-base text-gray-700 mx-10 md:mx-0 text-center mb-10 max-w-2xl">
               UKIBC supports companies across a wide range of sectors
             </p>
-            <div className="mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-y-3 gap-x-2 md:gap-y-5 md:gap-x-4 justify-items-center w-[96%] sm:w-[90%] max-w-7xl">
+            <div className="mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-y-3 gap-x-2 md:gap-y-5 md:gap-x-4 justify-items-center w-[96%] sm:w-[90%] max-w-7xl">
               {sectors.map((sector, index) => (
                 <motion.div
                   initial={{
