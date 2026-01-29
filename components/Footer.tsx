@@ -35,8 +35,8 @@ export default function Footer() {
   };
 
   const usefulLinks = [
-    "Influence",
     "Interaction",
+    "Influence",
     "Intelligence",
     "About",
     "Membership",
