@@ -18,22 +18,15 @@ import Connect from "@/components/Connect";
 import TeamCard from "@/components/Team";
 import Person from "@/components/Person";
 import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
 
 interface TeamMemberProps {
-  title: { rendered: string };
-  yoast_head_json: {
-    og_image: [
-      {
-        url: string;
-      }
-    ];
-  };
-  class_list: string[];
-  content: { rendered: string };
-  acf: {
-    team_job_title: string;
-    locatLocationion: string;
-  };
+  title: string;
+  image: string;
+  filters: string[]
+  content: string;
+  location: string;
+  job_title: string;
 }
 
 export default function Team() {
@@ -94,21 +87,13 @@ export default function Team() {
     },
   ]);
 
-  useEffect(() => {
-    const timestamp = Date.now();
-    axios
-      .get(
-        `https://bryanp25.sg-host.com/wp-json/wp/v2/team_member?per_page=100&page=1&order=asc&_ts=${timestamp}`
-      )
-      .then((res) => {
-        setLoading(false);
-        setTeam(res.data);
-        console.log(res.data[19]);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["team"],
+    queryFn: () => axios.get("/api/admin/team").then((res) => res.data.team),
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+  });
 
   useEffect(() => {
     if (intelligenceInView) {
@@ -166,8 +151,8 @@ export default function Team() {
                     filter.map((i) =>
                       i.sort === item.sort
                         ? { ...i, active: true }
-                        : { ...i, active: false }
-                    )
+                        : { ...i, active: false },
+                    ),
                   )
                 }
               >
@@ -183,14 +168,13 @@ export default function Team() {
               </div>
             ))}
           </div>
-          {loading && (
+          {isLoading && (
             <div className="w-full h-full flex items-center justify-center mx-auto mt-10">
               <div className="w-10 h-10 border-5 border-navy border-t-transparent border-r-transparent border-l-transparent rounded-full animate-spin "></div>
             </div>
           )}
           <div className="w-[80%] mt-10 grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-x-0 gap-y-10  items-start justify-items-start justify-center ">
-            {team
-              .filter((item: TeamMemberProps) => {
+            {data?.filter((item: TeamMemberProps) => {
                 const activeFilter = filter.find((f) => f.active);
                 if (!activeFilter) return true;
 
@@ -201,12 +185,12 @@ export default function Team() {
 
                 // Check if team member's class_list contains a matching team_area class
                 // Convert filter.team_area from "business_solutions" to "business-solutions"
-                const teamAreaClass = `team_area-${activeFilter.team_area.replace(
+                const teamAreaClass = `${activeFilter.team_area.replace(
                   /_/g,
-                  "-"
+                  "-",
                 )}`;
-                return item.class_list?.some(
-                  (className) => className === teamAreaClass
+                return item.filters?.some(
+                  (className) => className === teamAreaClass,
                 );
               })
               .sort((a: TeamMemberProps, b: TeamMemberProps) => {
@@ -228,17 +212,17 @@ export default function Team() {
 
                 // Helper function to get the sort order of a team member
                 const getTeamMemberSortOrder = (
-                  member: TeamMemberProps
+                  member: TeamMemberProps,
                 ): number => {
                   for (let i = 0; i < teamAreaOrder.length; i++) {
                     const teamArea = teamAreaOrder[i];
-                    const teamAreaClass = `team_area-${teamArea.replace(
+                    const teamAreaClass = `${teamArea.replace(
                       /_/g,
-                      "-"
+                      "-",
                     )}`;
                     if (
-                      member.class_list?.some(
-                        (className) => className === teamAreaClass
+                      member.filters?.some(
+                        (className) => className === teamAreaClass,
                       )
                     ) {
                       return i;
@@ -255,13 +239,13 @@ export default function Team() {
               .map((item: TeamMemberProps, index: number) => {
                 return (
                   <Person
-                    name={item.title.rendered}
+                    name={item.title}
                     image={
-                      item.yoast_head_json.og_image?.[0]?.url || "/person.jpg"
+                      item.image || "/person.jpg"
                     }
-                    role={item.acf.team_job_title || ""}
-                    des1={item.content.rendered}
-                    location={item.acf.locatLocationion || ""}
+                    role={item.job_title || ""}
+                    des1={item.content}
+                    location={item.location || ""}
                     theme="dark"
                     key={index}
                   />
