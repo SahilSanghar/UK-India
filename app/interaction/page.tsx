@@ -232,7 +232,7 @@ export default function Interaction() {
           buttonLink="/team"
           className="my-20"
           images={[
-            { image: "/noble.jpg", position: "center" },
+            // { image: "/noble.jpg", position: "center" },
             { image: "/noble2.jpg", position: "center" },
             { image: "/noble3.jpg", position: "center" },
           ]}
