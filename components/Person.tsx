@@ -57,10 +57,10 @@ export default function Person({
             className="w-full h-full rounded-full object-cover select-none"
           ></Image>
         </div>
-        <p className="md:text-xl md:h-fit min-h-[30px] h-fit text-lg font-bold text-center leading-4 mt-2">
+        <p className="md:text-xl md:h-fit min-h-[30px] h-fit text-lg font-bold text-center leading-5 mt-2">
           {name}
         </p>
-        <p className="md:text-base text-sm font-medium opacity-80 text-center">
+        <p className="md:text-base text-sm font-medium opacity-80 text-center leading-5 xl:mt-0 mt-2">
           {role2 ? (
             <>
               {role} <br /> {role2}
