@@ -23,10 +23,11 @@ import { useQuery } from "@tanstack/react-query";
 interface TeamMemberProps {
   title: string;
   image: string;
-  filters: string[]
+  filters: string[];
   content: string;
   location: string;
   job_title: string;
+  sort?: string; // sort key from DB
 }
 
 export default function Team() {
@@ -151,8 +152,8 @@ export default function Team() {
                     filter.map((i) =>
                       i.sort === item.sort
                         ? { ...i, active: true }
-                        : { ...i, active: false },
-                    ),
+                        : { ...i, active: false }
+                    )
                   )
                 }
               >
@@ -174,7 +175,8 @@ export default function Team() {
             </div>
           )}
           <div className="w-[80%] mt-10 grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-x-0 gap-y-10  items-start justify-items-start justify-center ">
-            {data?.filter((item: TeamMemberProps) => {
+            {data
+              ?.filter((item: TeamMemberProps) => {
                 const activeFilter = filter.find((f) => f.active);
                 if (!activeFilter) return true;
 
@@ -187,62 +189,27 @@ export default function Team() {
                 // Convert filter.team_area from "business_solutions" to "business-solutions"
                 const teamAreaClass = `${activeFilter.team_area.replace(
                   /_/g,
-                  "-",
+                  "-"
                 )}`;
                 return item.filters?.some(
-                  (className) => className === teamAreaClass,
+                  (className) => className === teamAreaClass
                 );
               })
               .sort((a: TeamMemberProps, b: TeamMemberProps) => {
-                const activeFilter = filter.find((f) => f.active);
+                // sort using DB `sort` value (string compare),
+                // same logic as admin dashboard team page
+                const aSort = a.sort ?? "";
+                const bSort = b.sort ?? "";
 
-                // Only sort when "all" is selected
-                if (activeFilter?.team_area !== "all") {
-                  return 0;
-                }
-
-                // Define the order of team areas
-                const teamAreaOrder = [
-                  "executive_leadership_team",
-                  "business_solutions",
-                  "membership_and_advocacy",
-                  "business_operations",
-                  "events",
-                ];
-
-                // Helper function to get the sort order of a team member
-                const getTeamMemberSortOrder = (
-                  member: TeamMemberProps,
-                ): number => {
-                  for (let i = 0; i < teamAreaOrder.length; i++) {
-                    const teamArea = teamAreaOrder[i];
-                    const teamAreaClass = `${teamArea.replace(
-                      /_/g,
-                      "-",
-                    )}`;
-                    if (
-                      member.filters?.some(
-                        (className) => className === teamAreaClass,
-                      )
-                    ) {
-                      return i;
-                    }
-                  }
-                  // If no matching team area found, put at the end
-                  return teamAreaOrder.length;
-                };
-
-                const orderA = getTeamMemberSortOrder(a);
-                const orderB = getTeamMemberSortOrder(b);
-                return orderA - orderB;
+                if (aSort < bSort) return -1;
+                if (aSort > bSort) return 1;
+                return 0;
               })
               .map((item: TeamMemberProps, index: number) => {
                 return (
                   <Person
                     name={item.title}
-                    image={
-                      item.image || "/person.jpg"
-                    }
+                    image={item.image || "/person.jpg"}
                     role={item.job_title || ""}
                     des1={item.content}
                     location={item.location || ""}
