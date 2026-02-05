@@ -31,28 +31,28 @@ export async function GET() {
     });
 
     // count
-    // const countCommand = new QueryCommand({
-    //   TableName: "ukibc_reports",
-    //   KeyConditionExpression: "#t = :t",
-    //   ExpressionAttributeNames: {
-    //     "#t": "type",
-    //   },
-    //   ExpressionAttributeValues: {
-    //     ":t": "report",
-    //   },
-    //   Select: "COUNT",
-    // });
+    const countCommand = new QueryCommand({
+      TableName: "ukibc_team",
+      KeyConditionExpression: "#t = :t",
+      ExpressionAttributeNames: {
+        "#t": "type",
+      },
+      ExpressionAttributeValues: {
+        ":t": "team",
+      },
+      Select: "COUNT",
+    });
 
     const result = await dynamoClient.send(command);
-    // const countResult = await dynamoClient.send(countCommand);
+    const countResult = await dynamoClient.send(countCommand);
 
     return NextResponse.json(
       {
         team: result.Items ?? [],
         // lastKey: result.LastEvaluatedKey ?? null,
-        // count: countResult.Count ?? 0,
+        count: countResult.Count ?? 0,
       },
-      { status: 200 },
+      { status: 200 }
     );
   } catch (error) {
     return NextResponse.json(
@@ -60,7 +60,7 @@ export async function GET() {
         message: "Failed to get team members",
         error: error instanceof Error ? error.message : "Unknown error",
       },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }
