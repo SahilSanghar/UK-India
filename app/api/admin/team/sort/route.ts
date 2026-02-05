@@ -1,5 +1,6 @@
 import { DynamoDBClient, UpdateItemCommand } from "@aws-sdk/client-dynamodb";
 import { NextResponse } from "next/server";
+import { getSession } from "@/lib/session";
 
 const dynamoClient = new DynamoDBClient({
   region: "ap-south-1",
@@ -51,6 +52,11 @@ function generateKeyBetween(left: string | null, right: string | null): string {
 
 export async function POST(req: Request) {
   try {
+    const session = await getSession();
+    if (!session) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
     const { id, date, left, right } = await req.json();
 
     if (!id || !date) {

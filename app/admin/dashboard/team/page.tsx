@@ -92,7 +92,7 @@ export default function Page() {
 
     // auto scroll page when dragging near top/bottom
     const { clientY } = event;
-    const threshold = 80;
+    const threshold = 200;
     const viewportHeight = window.innerHeight;
 
     if (clientY < threshold) {
@@ -140,7 +140,7 @@ export default function Page() {
 
   return (
     <>
-      <div className="w-full h-full flex flex-col pb-10 pt-10 px-10">
+      <div className="w-full h-full flex flex-col pb-10 pt-25 px-10 z-20">
         <h1 className="text-4xl font-bold flex items-center justify-center pt-10 pb-5 text-navy">
           Team Members
         </h1>

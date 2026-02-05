@@ -114,7 +114,7 @@ export default function layout({ children }: { children: React.ReactNode }) {
   ];
   return (
     <>
-      {/* <AdminNavbar /> */}
+      <AdminNavbar />
       <div className="flex">
         <Sidebar links={links} />
         <main className="w-full min-h-screen ml-64">{children}</main>
@@ -129,9 +129,9 @@ export function Sidebar({
   links: { name: string; href: string; icon: React.ReactNode }[];
 }) {
   return (
-    <div className="fixed left-0 w-64 h-[calc(100vh-5rem)] border-r border-gray-200 bg-white">
+    <div className="fixed left-0 w-64 h-[calc(100vh-5rem)] mt-20 border-r border-gray-200 bg-white">
       <div className="h-full flex-col w-full flex items-center">
-        <div className="p-5">
+        {/* <div className="p-5">
           <div className="w-25 items-center justify-center flex border-b border-gray-200 ">
             <Image
               src="/logo.jpg"
@@ -142,7 +142,7 @@ export function Sidebar({
               className="w-full h-full object-cover flex items-center justify-center"
             />
           </div>
-        </div>
+        </div> */}
 
         {links.map((link) => (
           <Link
