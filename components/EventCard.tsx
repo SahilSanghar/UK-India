@@ -8,7 +8,6 @@ interface EventCardProps {
   image?: string;
   link?: string;
   animation?: "left" | "center" | "right";
-  key?: React.Key;
   location?: string;
   venue?: string;
   who_can_attend?: string;
@@ -26,7 +25,6 @@ export default function EventCard({
   image,
   link,
   animation,
-  key,
   location,
   venue,
   who_can_attend,

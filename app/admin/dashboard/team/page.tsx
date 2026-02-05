@@ -2,9 +2,10 @@
 
 import React, { useEffect, useState } from "react";
 
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 interface PostProps {
   id: number;
@@ -20,13 +21,15 @@ interface PostProps {
   twitter: string;
   instagram: string;
   linkedin: string;
-  sort: number;
+  date: string;
+  sort: string;
 }
 
 export default function Page() {
+  const queryClient = useQueryClient();
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useInfiniteQuery({
-      queryKey: ["posts"],
+      queryKey: ["team"],
       queryFn: ({ pageParam }) =>
         axios
           .get("/api/admin/team", {
@@ -38,9 +41,6 @@ export default function Page() {
           .then((res) => res.data),
       getNextPageParam: (lastPage) => lastPage.lastKey ?? undefined,
       initialPageParam: undefined,
-      refetchOnWindowFocus: false,
-      refetchOnMount: false,
-      refetchOnReconnect: false,
     });
 
   const [sortedTeam, setSortedTeam] = useState<PostProps[]>([]);
@@ -49,35 +49,35 @@ export default function Page() {
 
   useEffect(() => {
     const nextTeam =
-      data?.pages.flatMap((page) => page.team as PostProps[]) ?? [];
+      data?.pages
+        .flatMap((page) => (page?.team as PostProps[]) ?? [])
+        ?.filter(Boolean) ?? [];
 
     // initialize list ordered by `sort` from DB
-    const sortedBySort = [...nextTeam].sort(
-      (a: PostProps, b: PostProps) => (a.sort ?? 0) - (b.sort ?? 0)
-    );
-
-    console.log(sortedBySort);
+    const sortedBySort = [...nextTeam].sort((a, b) => {
+      if (a.sort < b.sort) return -1;
+      if (a.sort > b.sort) return 1;
+      return 0;
+    });
 
     // eslint-disable-next-line
     setSortedTeam(sortedBySort);
   }, [data]);
 
-  const callSortUpdateApi = async (items: PostProps[]) => {
-    if (!items.length) return;
-
-    const frontSort = items[0]?.sort;
-    const lastSort = items[items.length - 1]?.sort;
-
-    console.log(frontSort, lastSort);
-
+  const callSortUpdateApi = async (
+    left: string,
+    right: string,
+    id: string,
+    date: string
+  ) => {
     try {
-      await axios.post("/api/admin/team/sort", {
-        frontSort,
-        lastSort,
-      });
+      await axios.post("/api/admin/team/sort", { left, right, id, date });
     } catch (error) {
       console.error("Failed to update team sort order", error);
+      return;
     }
+
+    queryClient.invalidateQueries({ queryKey: ["team"] });
   };
 
   const handleDragStart = (index: number) => {
@@ -96,9 +96,9 @@ export default function Page() {
     const viewportHeight = window.innerHeight;
 
     if (clientY < threshold) {
-      window.scrollBy({ top: -10, behavior: "smooth" });
+      window.scrollBy({ top: -50, behavior: "smooth" });
     } else if (clientY > viewportHeight - threshold) {
-      window.scrollBy({ top: 10, behavior: "smooth" });
+      window.scrollBy({ top: 50, behavior: "smooth" });
     }
 
     setDragOverIndex(index);
@@ -116,12 +116,20 @@ export default function Page() {
       return;
     }
 
-    setSortedTeam((prev) => {
+    setSortedTeam((prev: PostProps[]) => {
       const updated = [...prev];
       const [moved] = updated.splice(draggedIndex, 1);
       updated.splice(index, 0, moved);
 
-      void callSortUpdateApi(updated);
+      // Find the left and right sort keys **surrounding** the new index
+      const leftSort = updated[index - 1]?.sort ?? null;
+      const rightSort = updated[index + 1]?.sort ?? null;
+      void callSortUpdateApi(
+        leftSort,
+        rightSort,
+        updated[index].id.toString(),
+        updated[index].date.toString()
+      );
 
       return updated;
     });
@@ -132,12 +140,18 @@ export default function Page() {
 
   return (
     <>
-      <div className="w-full h-full flex flex-col pb-10 pt-24 px-10">
+      <div className="w-full h-full flex flex-col pb-10 pt-10 px-10">
         <h1 className="text-4xl font-bold flex items-center justify-center pt-10 pb-5 text-navy">
           Team Members
         </h1>
-        <p className="text-sm text-center flex items-center justify-center mb-10 bg-navy w-fit mx-auto rounded-full px-4 py-2 text-white ">
+        <p className="text-sm text-center flex items-center justify-center mb-5 bg-navy w-fit mx-auto rounded-full px-4 py-2 text-white ">
           Total members: {data?.pages[0].count ?? 0}
+        </p>
+
+        <p className="text-sm text-black text-center mb-10">
+          Drag and drop to reorder the team members.
+          <br />
+          (Editing is not available yet)
         </p>
         <div className="w-full h-fit flex-col gap-5 flex justify-center items-center">
           {isLoading ? (
@@ -151,7 +165,11 @@ export default function Page() {
                 const isDragOver = dragOverIndex === index;
 
                 return (
-                  <div
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    transition={{ duration: 0.3 }}
                     key={member.id}
                     className={`w-full bg-black/10 h-fit flex items-center rounded-lg p-4 gap-5 cursor-move transition-all duration-150 ${
                       isDragged ? "opacity-60 scale-[0.99]" : ""
@@ -167,8 +185,8 @@ export default function Page() {
                     onDragEnd={handleDragEnd}
                   >
                     <Image
-                      src={member.image}
-                      alt={member.title}
+                      src={member.image || "/person.jpg"}
+                      alt={member.title || "No title"}
                       width={0}
                       height={0}
                       sizes="100vw"
@@ -182,19 +200,19 @@ export default function Page() {
                         {member.job_title}
                       </p>
                       <p className="text-sm text-black">{member.location}</p>
-                      <p className="text-sm text-black">{member.email}</p>
+                      {/* <p className="text-sm text-black">{member.email}</p>
                       <p className="text-sm text-black">{member.phone}</p>
                       <p className="text-sm text-black">{member.website}</p>
                       <p className="text-sm text-black">{member.facebook}</p>
                       <p className="text-sm text-black">{member.twitter}</p>
                       <p className="text-sm text-black">{member.instagram}</p>
-                      <p className="text-sm text-black">{member.linkedin}</p>
+                      <p className="text-sm text-black">{member.linkedin}</p> */}
                     </div>
 
-                    {/* <div className="ml-auto mr-5 underline cursor-pointer">
+                    <div className="ml-auto mr-5 underline cursor-pointer">
                       <p className="text-black font-medium">Edit</p>
-                    </div> */}
-                  </div>
+                    </div>
+                  </motion.div>
                 );
               })}
             </>

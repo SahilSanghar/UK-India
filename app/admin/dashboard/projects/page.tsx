@@ -30,12 +30,10 @@ export default function Page() {
           .then((res) => res.data),
       getNextPageParam: (lastPage) => lastPage.lastKey ?? undefined,
       initialPageParam: undefined,
-      refetchOnWindowFocus: false,
-      refetchOnMount: false,
-      refetchOnReconnect: false,
     });
 
-  const projects = data?.pages.flatMap((page) => page.projects) ?? [];
+  const projects =
+    data?.pages.flatMap((page) => page?.projects ?? [])?.filter(Boolean) ?? [];
 
   return (
     <>

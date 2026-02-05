@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 
 import { AdminNavbar } from "@/components/AdminNavbar";
+import Image from "next/image";
 
 export default function layout({ children }: { children: React.ReactNode }) {
   const links = [
@@ -113,7 +114,7 @@ export default function layout({ children }: { children: React.ReactNode }) {
   ];
   return (
     <>
-      <AdminNavbar />
+      {/* <AdminNavbar /> */}
       <div className="flex">
         <Sidebar links={links} />
         <main className="w-full min-h-screen ml-64">{children}</main>
@@ -128,12 +129,21 @@ export function Sidebar({
   links: { name: string; href: string; icon: React.ReactNode }[];
 }) {
   return (
-    <div className="fixed top-16 left-0 w-64 h-[calc(100vh-5rem)] border-r border-gray-200 pt-4 bg-white">
-      <div className="flex h-full flex-col ">
-        {/* <div className="flex h-20 items-center justify-center border-b border-gray-200"> 
-   
-          <p className="text-xl font-bold text-black">Dashboard</p>
-        </div> */}
+    <div className="fixed left-0 w-64 h-[calc(100vh-5rem)] border-r border-gray-200 bg-white">
+      <div className="h-full flex-col w-full flex items-center">
+        <div className="p-5">
+          <div className="w-25 items-center justify-center flex border-b border-gray-200 ">
+            <Image
+              src="/logo.jpg"
+              alt="logo"
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="w-full h-full object-cover flex items-center justify-center"
+            />
+          </div>
+        </div>
+
         {links.map((link) => (
           <Link
             href={link.href}
