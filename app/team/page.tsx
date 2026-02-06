@@ -209,7 +209,13 @@ export default function Team() {
                 return (
                   <Person
                     name={item.title}
-                    image={item.image || "/person.jpg"}
+                    image={
+                      item.image
+                        ? `${item.image}${
+                            item.image.includes("?") ? "&" : "?"
+                          }v=${Math.floor(new Date().getTime() / 60000)}`
+                        : "/person.jpg"
+                    }
                     role={item.job_title || ""}
                     des1={item.content}
                     location={item.location || ""}

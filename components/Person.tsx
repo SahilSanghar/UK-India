@@ -55,6 +55,7 @@ export default function Person({
             alt={""}
             sizes="100% 100%"
             className="w-full h-full rounded-full object-cover select-none"
+            
           ></Image>
         </div>
         <p className="md:text-xl md:h-fit min-h-[30px] h-fit text-lg font-bold text-center leading-5 mt-2">
