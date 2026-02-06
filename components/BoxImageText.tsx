@@ -2,6 +2,7 @@ import React from "react";
 import LiquidButton from "./LiquidButton";
 import { motion } from "framer-motion";
 import ImageSlider from "./ImageSlider";
+import { normalizeRichTextHtml } from "../lib/normalizeRichTextHtml";
 
 interface BoxImageTextProps {
   title?: string;
@@ -39,9 +40,11 @@ export default function BoxImageText({
           <h1 className="text-xl sm:text-2xl md:text-2xl lg:text-2xl xl:text-3xl 2xl:text-3xl font-bold text-navy text-center w-full md:w-[90%] xl:w-[70%] mx-auto">
             {title}
           </h1>
-          <p
-            className="text-xs sm:text-sm md:text-sm lg:text-sm xl:text-base 2xl:text-base leading-tight sm:leading-relaxed md:leading-normal font-medium px-4 sm:px-6 md:px-8 lg:px-10 mb-auto w-full  text-justify"
-            dangerouslySetInnerHTML={{ __html: description as string }}
+          <div
+            className="text-xs sm:text-sm md:text-sm lg:text-sm xl:text-base 2xl:text-base leading-tight sm:leading-relaxed md:leading-normal font-medium px-4 sm:px-6 md:px-8 lg:px-10 mb-auto w-full text-justify [&_p]:mb-4 [&_p:last-child]:mb-0 [&_p:empty]:before:content-['\\00a0']"
+            dangerouslySetInnerHTML={{
+              __html: normalizeRichTextHtml(description as string),
+            }}
           />
           {buttonText && buttonLink && (
             <LiquidButton text={buttonText} link={buttonLink} />

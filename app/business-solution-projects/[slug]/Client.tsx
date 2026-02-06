@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { normalizeRichTextHtml } from "../../../lib/normalizeRichTextHtml";
 
 interface PostProps {
   yoast_head_json: {
@@ -66,8 +67,10 @@ export default function Client({ post }: { post: PostProps }) {
             : ""}
         </p>
         <div
-          className="mt-10"
-          dangerouslySetInnerHTML={{ __html: post?.content?.rendered ?? "" }}
+          className="mt-10 prose prose-p:mb-4 prose-p:last:mb-0 prose-p:leading-relaxed"
+          dangerouslySetInnerHTML={{
+            __html: normalizeRichTextHtml(post?.content?.rendered ?? ""),
+          }}
         />
       </motion.div>
     </motion.div>

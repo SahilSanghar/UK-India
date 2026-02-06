@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import LiquidButton from "./LiquidButton";
+import { normalizeRichTextHtml } from "../lib/normalizeRichTextHtml";
 
 interface CarouselProps {
   data: Array<{
@@ -149,17 +150,17 @@ export default function Carousel({ data }: CarouselProps) {
                     {newData[index].quote}
                   </motion.p>
                   {newData[index].des && (
-                    <motion.p
-                      className="text-xs sm:text-sm text-gray-600 font-medium w-full text-left"
+                    <motion.div
+                      className="text-xs sm:text-sm text-gray-600 font-medium w-full text-left [&_p]:mb-3 [&_p:last-child]:mb-0 [&_p:empty]:before:content-['\\00a0']"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.5 }}
                       key={newData[index].quote}
                       dangerouslySetInnerHTML={{
-                        __html: newData[index].des || "",
+                        __html: normalizeRichTextHtml(newData[index].des || ""),
                       }}
-                    ></motion.p>
+                    ></motion.div>
                   )}
                   {newData[index].link && (
                     <motion.p

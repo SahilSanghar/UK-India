@@ -4,8 +4,17 @@ import Lander from "@/components/Lander";
 import React from "react";
 import Person from "@/components/Person";
 import Connect from "@/components/Connect";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
-export default function page() {
+interface GroupBoardProps {
+  title: string;
+  job_title: string;
+  image: string;
+  content: string;
+}
+
+export default function Page() {
   const groupBoard = [
     {
       name: "Richard Heald, OBE",
@@ -62,6 +71,12 @@ export default function page() {
       des: `Alexander leads Tata Sons’ public policy engagement in the UK.  This includes extensive engagement with the Government, parliamentary and Civil Service stakeholders.<br /><br />An expert in business policy, including regulation, enterprise support and employment law. Alexander served for seven years as a ministerial appointment to the Government’s regulatory watchdog, the Regulatory Policy Committee.<br /><br />Alexander has significant experience of a wide range of industrial sectors, including manufacturing, consumer goods, aerospace, defence, automotive and energy.<br /><br />Prior to joining Tata, Alexander worked as the Deputy Director of Policy for the Institute of Directors where he led a range of policy responses and thought leadership initiatives for the organisation’s membership.    He was also a leading media spokesperson and commentator for the organisation.<br /><br />Alexander has been a local government Councillor for the London Borough of Richmond upon Thames since 2014, where he leads the Council’s work on Transport and Air Quality. He has served as a School Governor and Trustee for various organisations.<br /><br />Alexander is on the board of UK-India Business Council.`,
     },
   ];
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["group-board"],
+    queryFn: () =>
+      axios.get("/api/admin/group_board").then((res) => res.data.groupBoard),
+  });
   return (
     <>
       <Lander
@@ -95,13 +110,13 @@ export default function page() {
           Group Board
         </h1>
         <div className="w-[80%] mt-10 grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-x-0 gap-y-10  items-start justify-items-start justify-center mx-auto">
-          {groupBoard.map((item, index) => (
+          {data?.map((item: GroupBoardProps, index: number) => (
             <Person
-              name={item.name}
-              role={item.role}
+              name={item.title}
+              role={item.job_title}
               theme="dark"
               image={item.image}
-              des1={item.des}
+              des1={item.content}
               key={index}
             />
           ))}

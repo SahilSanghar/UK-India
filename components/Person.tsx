@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
+import { normalizeRichTextHtml } from "../lib/normalizeRichTextHtml";
 
 interface Props {
   name: string;
@@ -30,6 +31,14 @@ export default function Person({
   link,
 }: Props) {
   const [clicked, setClicked] = useState(false);
+
+  // Only open the popup if des1 is NOT empty or null
+  const handleClick = () => {
+    if (des1 && des1.trim() !== "") {
+      setClicked(true);
+    }
+  };
+
   return (
     <>
       <motion.div
@@ -43,7 +52,7 @@ export default function Person({
       >
         <div
           className="md:w-32 md:h-32 w-28 h-28 rounded-full bg-black flex cursor-pointer hover:opacity-50 duration-300 select-none "
-          onClick={() => setClicked(true)}
+          onClick={handleClick}
         >
           <Image
             src={image}
@@ -55,7 +64,6 @@ export default function Person({
             alt={""}
             sizes="100% 100%"
             className="w-full h-full rounded-full object-cover select-none"
-            
           ></Image>
         </div>
         <p className="md:text-xl md:h-fit min-h-[30px] h-fit text-lg font-bold text-center leading-5 mt-2">
@@ -78,7 +86,7 @@ export default function Person({
       </motion.div>
 
       <AnimatePresence>
-        {clicked && (
+        {clicked && des1 && des1.trim() !== "" && (
           <>
             {/* Modal Overlay */}
             <motion.div
@@ -152,9 +160,11 @@ export default function Person({
               {/* Modal Description */}
               <div className="relative w-full flex flex-col items-center justify-center md:py-12 py-6">
                 {des1 && (
-                  <p
-                    className="text-center text-base md:text-lg font-medium px-4"
-                    dangerouslySetInnerHTML={{ __html: des1 }}
+                  <div
+                    className="text-center text-base md:text-lg font-medium px-4 [&_p]:mb-4 [&_p:last-child]:mb-0 [&_p]:leading-relaxed [&_p:empty]:before:content-['\\00a0']"
+                    dangerouslySetInnerHTML={{
+                      __html: normalizeRichTextHtml(des1),
+                    }}
                   />
                 )}
               </div>
