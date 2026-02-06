@@ -238,7 +238,7 @@ export default function Page() {
         <p className="text-sm text-black text-center mb-10">
           Drag and drop to reorder the team members.
           <br />
-          (Editing is not available yet)
+          (Editing is available now! (new members can not be added/removed yet!))
         </p>
         <div className="w-full h-fit flex-col gap-5 flex justify-center items-center">
           {isLoading ? (
@@ -276,7 +276,9 @@ export default function Page() {
                         <Image
                           src={
                             member.image
-                              ? `${member.image}${member.image.includes('?') ? '&' : '?'}v=${new Date().getTime()}`
+                              ? `${member.image}${
+                                  member.image.includes("?") ? "&" : "?"
+                                }v=${new Date().getTime()}`
                               : "/person.jpg"
                           }
                           alt={member.title || "No title"}
@@ -352,7 +354,13 @@ export default function Page() {
                           onClick={() => fileInputRef.current?.click()}
                         >
                           <Image
-                            src={previewImage || edit.image || "/person.jpg"}
+                            src={
+                              previewImage || edit.image
+                                ? `${edit.image}${
+                                    edit.image.includes("?") ? "&" : "?"
+                                  }v=${new Date().getTime()}`
+                                : "/person.jpg"
+                            }
                             alt={edit.title || "No title"}
                             width={0}
                             height={0}
