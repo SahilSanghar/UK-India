@@ -63,7 +63,6 @@ export default function Page() {
     edit: false,
     title: "",
     image: false,
-    job_title: "",
     content: "",
     loading: false,
   });
@@ -76,7 +75,6 @@ export default function Page() {
     id: "",
     title: "",
     image: "",
-    job_title: "",
     content: "",
     date: "",
   });
@@ -99,7 +97,7 @@ export default function Page() {
     setPreviewImage(objectUrl);
 
     const signedUrl = await axios.post("/api/admin/team/image/signed", {
-      key: `group-board/${id}`,
+      key: `posts/${id}`,
     });
 
     if (!signedUrl) {
@@ -127,15 +125,14 @@ export default function Page() {
   const handleCreate = async () => {
     setNewMember({ ...newMember, loading: true });
     try {
-      const response = await axios.post("/api/admin/group_board/create", {
+      const response = await axios.post("/api/admin/posts/create", {
         title: newMember.title,
         image: Boolean(newMemberFile),
-        job_title: newMember.job_title,
         content: newMember.content,
         date: new Date().toISOString(),
         sort: generateKeyBetween(
           sortedTeam[sortedTeam.length - 1]?.sort ?? null,
-          null
+          null,
         ),
       });
 
@@ -147,23 +144,22 @@ export default function Page() {
             },
           });
         }
-        queryClient.invalidateQueries({ queryKey: ["group-board"] });
+        queryClient.invalidateQueries({ queryKey: ["news"] });
         setNewMember({
           edit: false,
           title: "",
           image: false,
-          job_title: "",
           content: "",
           loading: false,
         });
         setNewMemberFile(null);
         setNewMemberPreview(null);
       } else {
-        alert("Failed to create group board member");
+        alert("Failed to create news post");
         setNewMember({ ...newMember, edit: true, loading: false });
       }
     } catch (error) {
-      console.error("Failed to create group board member", error);
+      console.error("Failed to create news post", error);
       setNewMember({ ...newMember, loading: false });
     }
   };
@@ -172,16 +168,15 @@ export default function Page() {
     mutationFn: (data: {
       id: string;
       title: string;
-      job_title: string;
       content: string;
       date: string;
-    }) => axios.post("/api/admin/group_board/edit", data),
+    }) => axios.post("/api/admin/posts/edit", data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["group-board"] });
+      queryClient.invalidateQueries({ queryKey: ["news"] });
       setEdit({ ...edit, edit: false });
     },
     onError: () => {
-      console.error("Failed to edit group board member");
+      console.error("Failed to edit news post");
     },
   });
 
@@ -189,7 +184,6 @@ export default function Page() {
     editTeam({
       id: edit.id,
       title: edit.title,
-      job_title: edit.job_title,
       content: edit.content,
       date: edit.date,
     });
@@ -216,18 +210,18 @@ export default function Page() {
   const handleDelete = async (id: string, date: string) => {
     if (
       !confirm(
-        "Are you sure you want to delete this group board member? \nThis action cannot be undone!"
+        "Are you sure you want to delete this news post? \nThis action cannot be undone!",
       )
     ) {
       return;
     }
     try {
-      await axios.post("/api/admin/group_board/delete", { id, date });
-      queryClient.invalidateQueries({ queryKey: ["group-board"] });
+      await axios.post("/api/admin/posts/delete", { id, date });
+      queryClient.invalidateQueries({ queryKey: ["news"] });
       setEdit({ ...edit, edit: false });
     } catch (error) {
-      console.error("Failed to delete group board member", error);
-      alert("Failed to delete group board member");
+      console.error("Failed to delete news post", error);
+      alert("Failed to delete news post");
     }
   };
 
@@ -235,14 +229,14 @@ export default function Page() {
     <>
       <div className="w-full h-full flex flex-col pb-10 pt-25 px-10 z-20">
         <h1 className="text-4xl font-bold flex items-center justify-center pt-10 pb-5 text-navy">
-          Group Board Members
+          News Posts
         </h1>
         <p className="text-sm text-center flex items-center justify-center mb-5 bg-navy w-fit mx-auto rounded-full px-4 py-2 text-white ">
-          Total members: {data?.pages[0].count ?? 0}
+          Total posts: {data?.pages[0].count ?? 0}
         </p>
 
         {/* <p className="text-sm text-black text-center mb-10">
-          Drag and drop to reorder the group board members.
+          Drag and drop to reorder the news posts.
         </p> */}
         <div className="w-full h-fit flex-col gap-5 flex justify-center items-center">
           {isLoading ? (
@@ -268,14 +262,14 @@ export default function Page() {
                   )}
                 </button>
                 <p className="text-sm text-navy font-bold">
-                  {newMember.edit ? "Close" : "Add a new member"}
+                  {newMember.edit ? "Close" : "Add new post"}
                 </p>
               </div>
 
               {newMember.edit && (
                 <div
                   className="w-full px-20 py-10 bg-white/90 flex flex-col md:flex-row justify-center items-center rounded-2xl shadow-lg p-6 gap-8 border border-navy/10 transition-all duration-150 overflow-hidden"
-                  key={"edit-new-member"}
+                  key={"edit-new-post"}
                 >
                   <div
                     className={`w-56 h-56 mb-auto rounded-2xl border-2 border-dashed flex flex-col items-center justify-center cursor-pointer transition-colors ${
@@ -329,7 +323,7 @@ export default function Page() {
                         htmlFor="title"
                         className="text-sm md:text-base text-navy font-bold mb-1"
                       >
-                        Name
+                        Title
                       </label>
                       <input
                         type="text"
@@ -344,31 +338,10 @@ export default function Page() {
 
                     <div className="flex flex-col">
                       <label
-                        htmlFor="job_title"
-                        className="text-sm md:text-base text-navy font-bold mb-1"
-                      >
-                        Job Title
-                      </label>
-                      <input
-                        type="text"
-                        value={newMember.job_title}
-                        onChange={(e) =>
-                          setNewMember({
-                            ...newMember,
-                            job_title: e.target.value,
-                          })
-                        }
-                        placeholder="E.g. Director, Project Manager"
-                        className="text-base font-medium text-black border border-navy/30 focus:border-navy outline-none w-full px-4 py-2 rounded-lg transition-all placeholder:text-navy/40"
-                      />
-                    </div>
-
-                    <div className="flex flex-col">
-                      <label
                         htmlFor="content"
                         className="text-sm md:text-base text-navy font-bold mb-1"
                       >
-                        Bio / Content
+                        Content
                       </label>
 
                       <TextEditor
@@ -462,7 +435,6 @@ export default function Page() {
                                 id: member.id.toString(),
                                 title: member.title,
                                 image: member.image,
-                                job_title: member.job_title,
                                 content: member.content,
                                 date: member.date,
                               });
@@ -534,7 +506,7 @@ export default function Page() {
                                 htmlFor="title"
                                 className="text-sm md:text-base text-navy font-bold mb-1"
                               >
-                                Name
+                                Title
                               </label>
                               <input
                                 type="text"
@@ -549,31 +521,10 @@ export default function Page() {
 
                             <div className="flex flex-col">
                               <label
-                                htmlFor="job_title"
-                                className="text-sm md:text-base text-navy font-bold mb-1"
-                              >
-                                Job Title
-                              </label>
-                              <input
-                                type="text"
-                                value={edit.job_title}
-                                onChange={(e) =>
-                                  setEdit({
-                                    ...edit,
-                                    job_title: e.target.value,
-                                  })
-                                }
-                                placeholder="E.g. Director, Project Manager"
-                                className="text-base font-medium text-black border border-navy/30 focus:border-navy outline-none w-full px-4 py-2 rounded-lg transition-all placeholder:text-navy/40"
-                              />
-                            </div>
-
-                            <div className="flex flex-col">
-                              <label
                                 htmlFor="content"
                                 className="text-sm md:text-base text-navy font-bold mb-1"
                               >
-                                Bio / Content
+                                Content
                               </label>
 
                               <TextEditor
@@ -604,7 +555,7 @@ export default function Page() {
                                 onClick={() =>
                                   handleDelete(
                                     member.id.toString(),
-                                    member.date.toString()
+                                    member.date.toString(),
                                   )
                                 }
                                 className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-full shadow hover:bg-navy/5 transition-colors duration-150 cursor-pointer"
@@ -621,7 +572,7 @@ export default function Page() {
             </>
           )}
         </div>
-        {hasNextPage && (
+        {!edit.edit && !newMember.edit && hasNextPage && (
           <button
             onClick={() => fetchNextPage()}
             disabled={isFetchingNextPage}
