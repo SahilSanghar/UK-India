@@ -3,9 +3,9 @@ import Image from "next/image";
 import Client from "./Client";
 
 // Fetch posts by slug, expecting an array from the API
-async function getPost(slug: string) {
+async function getPost(slug: string, date: string) {
   const res = await fetch(
-    `https://bryanp25.sg-host.com/wp-json/wp/v2/posts?slug=${slug}`
+    `https://bryanp25.sg-host.com/wp-json/wp/v2/posts?slug=${slug}`,
   );
   if (!res.ok) {
     return null;
@@ -15,10 +15,10 @@ async function getPost(slug: string) {
 }
 
 export default async function page(props: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; date: string }>;
 }) {
   const params = await props.params;
-  const posts = await getPost(params.slug);
+  const posts = await getPost(params.slug, params.date);
 
   if (!posts || !Array.isArray(posts) || posts.length === 0) {
     return notFound();

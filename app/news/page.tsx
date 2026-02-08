@@ -2,123 +2,101 @@
 
 import Lander from "@/components/Lander";
 import React, { useEffect, useState, useMemo } from "react";
-
+import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 import InfoCard from "@/components/InfoCard";
 
+const ITEMS_PER_PAGE = 25;
+
 interface PostProps {
-  yoast_head_json: {
-    og_image: { url: string }[];
-  };
-  title: { rendered: string };
-  date: string;
-  content: { rendered: string };
+  id: string;
+  title: string;
+  image: string;
+  content: string;
   slug: string;
-  class_list: string[];
+  date: string;
+  filters: string[];
 }
+
+const FILTERS = [
+  { name: "All", team_area: "all", active: true, sort: 5 },
+  { name: "Advice", team_area: "advice", active: false, sort: 0 },
+  { name: "News", team_area: "news", active: false, sort: 1 },
+  { name: "In the Media", team_area: "in-the-media", active: false, sort: 2 },
+] as const;
+
 export default function Page() {
-  const [posts, setPosts] = useState<PostProps[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
   const [showLoadMore, setShowLoadMore] = useState(false);
-  const itemsPerPage = 10;
   const [filter, setFilter] = useState<
     { name: string; team_area: string; active: boolean; sort: number }[]
-  >([
-    {
-      name: "All",
-      team_area: "all",
-      active: true,
-      sort: 5,
-    },
-    {
-      name: "Advice",
-      active: false,
-      team_area: "advice",
-      sort: 0,
-    },
-    {
-      name: "News",
-      team_area: "news",
-      active: false,
-      sort: 1,
-    },
-    {
-      name: "In the Media",
-      team_area: "in-the-media",
-      active: false,
-      sort: 2,
-    },
-  ]);
-  useEffect(() => {
-    axios
-      .get(
-        "https://bryanp25.sg-host.com/wp-json/wp/v2/posts?_embed&per_page=100"
-      )
-      .then((res) => {
-        setPosts(res.data);
-        setLoading(false);
-        console.log(res.data[0]);
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoading(false);
-      });
-  }, []);
+  >([...FILTERS]);
+
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+    isFetching,
+  } = useInfiniteQuery({
+    queryKey: ["news", "posts"],
+    queryFn: ({ pageParam }) =>
+      axios
+        .get("/api/admin/posts", {
+          params: {
+            limit: ITEMS_PER_PAGE,
+            lastKey: pageParam ? JSON.stringify(pageParam) : undefined,
+          },
+        })
+        .then((res) => res.data),
+    getNextPageParam: (lastPage) => lastPage.lastKey ?? undefined,
+    initialPageParam: undefined as Record<string, unknown> | undefined,
+  });
+
+  // Flatten all pages into a single list
+  const posts = useMemo(
+    () => (data?.pages ?? []).flatMap((p) => p.posts ?? []) as PostProps[],
+    [data?.pages],
+  );
 
   // Filter posts based on active filter
   const filteredPosts = useMemo(() => {
-    return posts.filter((item: PostProps) => {
-      const activeFilter = filter.find((f) => f.active);
-      if (!activeFilter) return true;
-
-      // If filter is "all", show all posts
-      if (activeFilter.team_area === "all") {
-        return true;
-      }
-
-      // Check if post's class_list contains a matching team_area class
-      const teamAreaClass = `category-${activeFilter.team_area.replace(
-        /_/g,
-        "-"
-      )}`;
-      return item.class_list?.some((className) => className === teamAreaClass);
-    });
+    const activeFilter = filter.find((f) => f.active);
+    if (!activeFilter) return posts;
+    if (activeFilter.team_area === "all") return posts;
+    return posts.filter((item: PostProps & { filters?: string[] }) =>
+      item.filters && Array.isArray(item.filters)
+        ? item.filters.includes(activeFilter.team_area)
+        : false,
+    );
   }, [posts, filter]);
 
-  // Get paginated posts
-  const paginatedPosts = useMemo(() => {
-    return filteredPosts.slice(0, currentPage * itemsPerPage);
-  }, [filteredPosts, currentPage]);
-
-  const hasMore = filteredPosts.length > currentPage * itemsPerPage;
+  const loading = isLoading;
 
   // Show load more button when user scrolls down
   useEffect(() => {
-    if (!hasMore) {
-      return;
-    }
+    if (!hasNextPage) return;
 
     const handleScroll = () => {
       const scrollPosition = window.innerHeight + window.scrollY;
       const documentHeight = document.documentElement.scrollHeight;
-      // Show button when user is near bottom (within 300px) or has scrolled past 50% of page
       const distanceFromBottom = documentHeight - scrollPosition;
       const scrollPercentage =
-        (window.scrollY / (documentHeight - window.innerHeight)) * 100;
+        documentHeight > window.innerHeight
+          ? (window.scrollY / (documentHeight - window.innerHeight)) * 100
+          : 0;
 
-      if ((distanceFromBottom < 300 || scrollPercentage > 50) && hasMore) {
+      if ((distanceFromBottom < 300 || scrollPercentage > 50) && hasNextPage) {
         setShowLoadMore(true);
       } else if (distanceFromBottom >= 300 && scrollPercentage <= 50) {
         setShowLoadMore(false);
       }
     };
 
-    // Check on mount and after content changes
     handleScroll();
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [hasMore, paginatedPosts.length]);
+  }, [hasNextPage, filteredPosts.length]);
   return (
     <>
       <Lander
@@ -148,11 +126,9 @@ export default function Page() {
                     filter.map((i) =>
                       i.sort === item.sort
                         ? { ...i, active: true }
-                        : { ...i, active: false }
-                    )
+                        : { ...i, active: false },
+                    ),
                   );
-                  // Reset pagination when filter changes
-                  setCurrentPage(1);
                   setShowLoadMore(false);
                 }}
               >
@@ -174,14 +150,12 @@ export default function Page() {
             </div>
           )}
           <div className="w-fit mx-auto mt-10 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4  gap-10  items-center justify-items-center justify-center">
-            {paginatedPosts.map((item: PostProps, index: number) => {
+            {filteredPosts.map((item: PostProps, index: number) => {
               return (
                 <InfoCard
-                  title1={item.title.rendered}
+                  title1={item.title}
                   date={item.date}
-                  image={
-                    item.yoast_head_json.og_image?.[0]?.url || "/home-1.png"
-                  }
+                  image={item.image || "/home-1.png"}
                   link={"/news/" + item.slug}
                   animation="center"
                   key={index}
@@ -189,20 +163,18 @@ export default function Page() {
               );
             })}
           </div>
-          {hasMore && (
+          {hasNextPage && (
             <div className="w-full flex items-center justify-center mt-10 mb-10">
               <button
-                onClick={() => {
-                  setCurrentPage((prev) => prev + 1);
-                }}
-                className={`px-6 py-3 bg-navy text-white font-bold rounded-full hover:bg-opacity-90 transition-all duration-300 cursor-pointer ${
+                onClick={() => fetchNextPage()}
+                disabled={isFetchingNextPage}
+                className={`px-6 py-3 bg-navy text-white font-bold rounded-full hover:bg-opacity-90 transition-all duration-300 cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed ${
                   showLoadMore
                     ? "opacity-100 translate-y-0 scale-100"
                     : "opacity-60 translate-y-2 scale-95"
                 }`}
               >
-                Load More ({filteredPosts.length - paginatedPosts.length}{" "}
-                remaining)
+                {isFetchingNextPage ? "Loading…" : "Load More"}
               </button>
             </div>
           )}

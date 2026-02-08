@@ -10,7 +10,7 @@ interface PostProps {
     og_image: [
       {
         url: string;
-      }
+      },
     ];
   };
   title: string | { rendered: string };
@@ -75,8 +75,8 @@ export default function PostsCarousel({ posts }: PostsCarouselProps) {
                   typeof post.title === "object" && post.title?.rendered
                     ? post.title.rendered
                     : typeof post.title === "string"
-                    ? post.title
-                    : ""
+                      ? post.title
+                      : ""
                 }
                 date={post.date || ""}
                 image={

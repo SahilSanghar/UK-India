@@ -54,10 +54,10 @@ export default function Client({ post }: { post: PostProps }) {
                   day % 10 === 1 && day !== 11
                     ? "st"
                     : day % 10 === 2 && day !== 12
-                    ? "nd"
-                    : day % 10 === 3 && day !== 13
-                    ? "rd"
-                    : "th";
+                      ? "nd"
+                      : day % 10 === 3 && day !== 13
+                        ? "rd"
+                        : "th";
                 const month = dateObj.toLocaleString("default", {
                   month: "long",
                 });
