@@ -136,7 +136,7 @@ export default function Page() {
         date: new Date().toISOString(),
         sort: generateKeyBetween(
           sortedTeam[sortedTeam.length - 1]?.sort ?? null,
-          null
+          null,
         ),
       });
 
@@ -216,7 +216,7 @@ export default function Page() {
     left: string,
     right: string,
     id: string,
-    date: string
+    date: string,
   ) => {
     try {
       await axios.post("/api/admin/group_board/sort", {
@@ -239,7 +239,7 @@ export default function Page() {
 
   const handleDragOver = (
     event: React.DragEvent<HTMLDivElement>,
-    index: number
+    index: number,
   ) => {
     event.preventDefault();
 
@@ -281,7 +281,7 @@ export default function Page() {
         leftSort,
         rightSort,
         updated[index].id.toString(),
-        updated[index].date.toString()
+        updated[index].date.toString(),
       );
 
       return updated;
@@ -294,7 +294,7 @@ export default function Page() {
   const handleDelete = async (id: string, date: string) => {
     if (
       !confirm(
-        "Are you sure you want to delete this group board member? \nThis action cannot be undone!"
+        "Are you sure you want to delete this group board member? \nThis action cannot be undone!",
       )
     ) {
       return;
@@ -356,7 +356,7 @@ export default function Page() {
                   key={"edit-new-member"}
                 >
                   <div
-                    className={`w-56 h-56 mb-auto rounded-2xl border-2 border-dashed flex flex-col items-center justify-center cursor-pointer transition-colors ${
+                    className={`w-56 h-56 mb-auto rounded-full   flex flex-col items-center justify-center cursor-pointer transition-colors ${
                       isImageDragOver
                         ? "border-navy bg-navy/5"
                         : "border-navy/30 bg-white"
@@ -383,7 +383,7 @@ export default function Page() {
                       width={0}
                       height={0}
                       sizes="100vw"
-                      className="rounded-2xl w-52 h-52 object-cover border border-navy/20 shadow-sm"
+                      className="w-52 h-52 object-cover border border-navy/20 shadow-sm rounded-full"
                     />
                     <p className="mt-2 text-xs text-center text-navy/80 px-2">
                       Drag & drop or click to upload a new photo
@@ -573,7 +573,7 @@ export default function Page() {
                           key={edit.id}
                         >
                           <div
-                            className={`w-56 h-56 mb-auto rounded-2xl border-2 border-dashed flex flex-col items-center justify-center cursor-pointer transition-colors ${
+                            className={`w-56 h-56 mb-auto  border-2 border-dashed rounded-2xl flex flex-col items-center justify-center cursor-pointer transition-colors ${
                               isImageDragOver
                                 ? "border-navy bg-navy/5"
                                 : "border-navy/30 bg-white"
@@ -709,7 +709,7 @@ export default function Page() {
                                 onClick={() =>
                                   handleDelete(
                                     member.id.toString(),
-                                    member.date.toString()
+                                    member.date.toString(),
                                   )
                                 }
                                 className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-full shadow hover:bg-navy/5 transition-colors duration-150 cursor-pointer"

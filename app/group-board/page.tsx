@@ -124,7 +124,11 @@ export default function Page() {
                 name={item.title}
                 role={item.job_title}
                 theme="dark"
-                image={item.image}
+                image={
+                  item.image
+                    ? `${item.image}${item.image.includes("?") ? "&" : "?"}cacheBust=${new Date().getTime()}`
+                    : "/person.jpg"
+                }
                 des1={item.content}
                 key={index}
               />
