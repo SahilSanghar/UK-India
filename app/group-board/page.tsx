@@ -11,6 +11,7 @@ interface GroupBoardProps {
   title: string;
   job_title: string;
   image: string;
+  sort: string;
   content: string;
 }
 
@@ -109,16 +110,25 @@ export default function Page() {
           Group Board
         </h1>
         <div className="w-[80%] mt-10 grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-x-0 gap-y-10  items-start justify-items-start justify-center mx-auto">
-          {data?.map((item: GroupBoardProps, index: number) => (
-            <Person
-              name={item.title}
-              role={item.job_title}
-              theme="dark"
-              image={item.image}
-              des1={item.content}
-              key={index}
-            />
-          ))}
+          {data
+            ?.sort((a: GroupBoardProps, b: GroupBoardProps) => {
+              const aSort = a.sort ?? "";
+              const bSort = b.sort ?? "";
+
+              if (aSort < bSort) return -1;
+              if (aSort > bSort) return 1;
+              return 0;
+            })
+            .map((item: GroupBoardProps, index: number) => (
+              <Person
+                name={item.title}
+                role={item.job_title}
+                theme="dark"
+                image={item.image}
+                des1={item.content}
+                key={index}
+              />
+            ))}
         </div>
       </div>
 
