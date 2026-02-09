@@ -83,7 +83,7 @@ export default function Page() {
         title_data={[
           {
             title: "Group Board",
-            des: "The UK India Business Council (UKIBC) Group Board is a prestigious assembly of senior leaders and influential figures committed to enhancing the bilateral trade and investment landscape between the UK and India",
+            des: "The UK India Business Council (UKIBC) Group Board is a prestigious assembly of senior leaders and influential figures committed to enhancing the bilateral trade and investment landscape between the UK and India.",
           },
         ]}
         flip={true}
@@ -93,14 +93,13 @@ export default function Page() {
 
       <div className="w-full h-full flex flex-col justify-center items-center py-20">
         <p className=" md:text-lg  text-base font-medium leading-relaxed xl:w-[50%] md:w-[70%] w-[90%] mx-auto text-justify mb-10">
-          This diverse board comprises industry experts, business leaders, and
-          policymakers who collaborate to drive strategic initiatives and foster
-          meaningful partnerships across sectors.
-          <br />
-          <br />
+          This diverse board comprises industry experts, business leaders,
+          academia and policymakers who collaborate to drive strategic
+          initiatives and foster meaningful partnerships across sectors.
+          <br /> <br />
           The Group Board’s primary mission is to provide oversight and
           strategic direction for UKIBC’s activities, ensuring that the
-          organization effectively addresses the evolving needs of businesses
+          organisation effectively addresses the evolving needs of businesses
           operating in both markets. Board members leverage their extensive
           experience and networks to facilitate high-level dialogues, advocate
           for policy reforms, and identify emerging opportunities that promote
