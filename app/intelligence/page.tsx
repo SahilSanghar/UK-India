@@ -419,7 +419,7 @@ export default function Intelligence() {
               },
               {
                 quote:
-                  "The UKIBC set up our subsidiary. They have been managing our India company compliance over the past five years and providing market advice when needed. Our team has tripled as we build valuable business ties",
+                  "The UKIBC set up our subsidiary. They have been managing our India company compliance over the past five years and providing market advice when needed. Our team has tripled as we build valuable business ties.",
                 name: "Jonathan Mahoney",
                 role: "Biocomposites",
                 image: "/person.jpg",

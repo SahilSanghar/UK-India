@@ -6,17 +6,11 @@ import InfoCard from "@/components/InfoCard";
 
 interface PostProps {
   id: number;
-  yoast_head_json: {
-    og_image: [
-      {
-        url: string;
-      },
-    ];
-  };
-  title: string | { rendered: string };
+  image: string;
+  title: string;
   date: string;
   jetpack_featured_media_url: string;
-  excerpt: string | { rendered: string };
+  excerpt: string;
   link: string;
   slug: string;
 }
@@ -71,19 +65,9 @@ export default function PostsCarousel({ posts }: PostsCarouselProps) {
               }}
             >
               <InfoCard
-                title1={
-                  typeof post.title === "object" && post.title?.rendered
-                    ? post.title.rendered
-                    : typeof post.title === "string"
-                      ? post.title
-                      : ""
-                }
+                title1={post.title}
                 date={post.date || ""}
-                image={
-                  post.yoast_head_json?.og_image?.[0]?.url ||
-                  post.jetpack_featured_media_url ||
-                  "/home-1.png"
-                }
+                image={post.image || "/home-1.png"}
                 link={"/news/" + post.slug}
                 animation="center"
               />

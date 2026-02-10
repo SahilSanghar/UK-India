@@ -256,7 +256,7 @@ export default function About() {
           >
             <div className="flex flex-col gap-3 sm:gap-5 items-center justify-center w-full px-4">
               <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold text-white flex leading-tight max-w-2xl mx-auto">
-                For those seeking practical advice,
+                For those seeking practical advice
               </h1>
               <p className="text-white text-base sm:text-lg md:text-xl w-full sm:w-[85%] md:w-[70%] mx-auto">
                 We provide insights to help businesses influence policy,

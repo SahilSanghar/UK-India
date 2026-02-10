@@ -2,26 +2,36 @@
 
 import Lander from "@/components/Lander";
 import React, { useEffect, useState, useMemo } from "react";
-
+import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 import LandscapeCard from "@/components/LandscapeCard";
 
 interface PostProps {
-  yoast_head_json: {
-    og_image: { url: string }[];
-  };
-  title: { rendered: string };
+  image: string;
+  title: string;
   date: string;
-  content: { rendered: string };
   slug: string;
-  class_list: string[];
 }
+
+const fetchReports = async ({
+  pageParam = null,
+}: {
+  pageParam?: string | null;
+}): Promise<{
+  reports: PostProps[];
+  lastKey: string | null;
+  count: number;
+}> => {
+  const res = await axios.get("/api/admin/reports", {
+    params: {
+      limit: 10,
+      lastKey: pageParam ? JSON.stringify(pageParam) : undefined,
+    },
+  });
+  return res.data;
+};
+
 export default function Page() {
-  const [posts, setPosts] = useState<PostProps[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [showLoadMore, setShowLoadMore] = useState(false);
-  const itemsPerPage = 10;
   // Dynamically build a year-based filter from posts
   const [filter, setFilter] = useState<
     { name: string; team_area: string; active: boolean; sort: number }[]
@@ -33,6 +43,19 @@ export default function Page() {
       sort: 0,
     },
   ]);
+
+  const { data, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage } =
+    useInfiniteQuery({
+      queryKey: ["reports"],
+      queryFn: fetchReports,
+      getNextPageParam: (lastPage) => lastPage.lastKey ?? undefined,
+      initialPageParam: undefined,
+    });
+
+  const posts: PostProps[] = useMemo(
+    () => data?.pages.flatMap((page) => page.reports) ?? [],
+    [data],
+  );
 
   // Update filter when posts are fetched
   useEffect(() => {
@@ -74,21 +97,6 @@ export default function Page() {
     setFilter(filters);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [posts]);
-  useEffect(() => {
-    axios
-      .get(
-        "https://bryanp25.sg-host.com/wp-json/wp/v2/report?_embed&per_page=100",
-      )
-      .then((res) => {
-        setPosts(res.data);
-        setLoading(false);
-        console.log(res.data[0]);
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoading(false);
-      });
-  }, []);
 
   // Filter posts based on active filter
   const filteredPosts = useMemo(() => {
@@ -107,39 +115,6 @@ export default function Page() {
     });
   }, [posts, filter]);
 
-  // Get paginated posts
-  const paginatedPosts = useMemo(() => {
-    return filteredPosts.slice(0, currentPage * itemsPerPage);
-  }, [filteredPosts, currentPage]);
-
-  const hasMore = filteredPosts.length > currentPage * itemsPerPage;
-
-  // Show load more button when user scrolls down
-  useEffect(() => {
-    if (!hasMore) {
-      return;
-    }
-
-    const handleScroll = () => {
-      const scrollPosition = window.innerHeight + window.scrollY;
-      const documentHeight = document.documentElement.scrollHeight;
-      // Show button when user is near bottom (within 300px) or has scrolled past 50% of page
-      const distanceFromBottom = documentHeight - scrollPosition;
-      const scrollPercentage =
-        (window.scrollY / (documentHeight - window.innerHeight)) * 100;
-
-      if ((distanceFromBottom < 300 || scrollPercentage > 50) && hasMore) {
-        setShowLoadMore(true);
-      } else if (distanceFromBottom >= 300 && scrollPercentage <= 50) {
-        setShowLoadMore(false);
-      }
-    };
-
-    // Check on mount and after content changes
-    handleScroll();
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [hasMore, paginatedPosts.length]);
   return (
     <>
       <Lander
@@ -169,9 +144,6 @@ export default function Page() {
                         : { ...i, active: false },
                     ),
                   );
-                  // Reset pagination when filter changes
-                  setCurrentPage(1);
-                  setShowLoadMore(false);
                 }}
               >
                 <p
@@ -186,21 +158,19 @@ export default function Page() {
               </div>
             ))}
           </div>
-          {loading && (
+          {isLoading && (
             <div className="w-full h-full flex items-center justify-center mx-auto mt-10">
               <div className="w-10 h-10 border-5 border-navy border-t-transparent border-r-transparent border-l-transparent rounded-full animate-spin "></div>
             </div>
           )}
           <div className="w-fit mx-auto mt-10 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4  gap-10  items-center justify-items-center justify-center">
-            {paginatedPosts.map((item: PostProps, index: number) => {
+            {filteredPosts.map((item: PostProps, index: number) => {
               return (
                 <LandscapeCard
-                  title1={item.title.rendered}
+                  title1={item.title || ""}
                   date={item.date}
                   landscape={true}
-                  image={
-                    item.yoast_head_json.og_image?.[0]?.url || "/home-1.png"
-                  }
+                  image={item.image || "/home-1.png"}
                   link={"/reports/" + item.slug}
                   animation="center"
                   key={index}
@@ -208,20 +178,14 @@ export default function Page() {
               );
             })}
           </div>
-          {hasMore && (
+          {hasNextPage && (
             <div className="w-full flex items-center justify-center mt-10 mb-10">
               <button
-                onClick={() => {
-                  setCurrentPage((prev) => prev + 1);
-                }}
-                className={`px-6 py-3 bg-navy text-white font-bold rounded-full hover:bg-opacity-90 transition-all duration-300 cursor-pointer ${
-                  showLoadMore
-                    ? "opacity-100 translate-y-0 scale-100"
-                    : "opacity-60 translate-y-2 scale-95"
-                }`}
+                onClick={() => fetchNextPage()}
+                disabled={isFetchingNextPage}
+                className={`px-6 py-3 bg-navy text-white font-bold rounded-full hover:bg-opacity-90 transition-all duration-300 cursor-pointer ${"opacity-100 translate-y-0 scale-100"}`}
               >
-                Load More ({filteredPosts.length - paginatedPosts.length}{" "}
-                remaining)
+                {isFetchingNextPage ? "Loading..." : "Load More"}
               </button>
             </div>
           )}

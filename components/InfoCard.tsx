@@ -82,7 +82,6 @@ export default function InfoCard({
       // onClick={() => setClicked1((clicked1) => !clicked1)}
       className={`flex ${loading ? "animate-pulse" : ""} flex-col cursor-pointer md:w-[350px] md:h-[400px] w-[300px] h-[340px] bg-black/50 backdrop-blur-xl rounded-2xl`}
     >
-     
       {!clicked && !loading && (
         <div
           className="flex flex-col bg-black/50 backdrop-blur-xl h-full rounded-2xl"
@@ -90,8 +89,8 @@ export default function InfoCard({
             description
               ? setClicked((clicked) => !clicked)
               : !idiot
-              ? router.push(link || "")
-              : null
+                ? router.push(link || "")
+                : null
           }
         >
           <div className={`relative w-full duration-300 rounded-t-2xl h-full`}>
@@ -103,7 +102,6 @@ export default function InfoCard({
               alt="Saturn Roman"
               className={`w-full h-full object-cover object-center duration-300 rounded-2xl `}
             ></Image>
-            
 
             <div
               className={`absolute bottom-0 left-0 w-full ${
@@ -114,8 +112,8 @@ export default function InfoCard({
                  large
                    ? "[mask-image:linear-gradient(to_top,black_70%,transparent)]"
                    : extraLarge
-                   ? "[mask-image:linear-gradient(to_top,black_100%,transparent)]"
-                   : "[mask-image:linear-gradient(to_top,black_50%,transparent)]"
+                     ? "[mask-image:linear-gradient(to_top,black_100%,transparent)]"
+                     : "[mask-image:linear-gradient(to_top,black_50%,transparent)]"
                }
                [Webkit-mask-image:linear-gradient(to_top,black_50%,transparent)] rounded-b-2xl`}
             />
@@ -134,18 +132,20 @@ export default function InfoCard({
               large
                 ? "h-1/2"
                 : extraLarge
-                ? "h-1/2  p-2 justify-start"
-                : "h-1/3"
+                  ? "h-1/2  p-2 justify-start"
+                  : "h-1/3"
             } transition px-5 absolute flex flex-col m-auto justify-center items-center  left-0 right-0 bottom-0 rounded-b-2xl `}
           >
             {large || extraLarge ? (
-              <p className="text-white font-bold md:text-3xl leading-tight text-xl text-center line-clamp-3 overflow-hidden">
-                {title1}
-              </p>
+              <p
+                className="text-white font-bold md:text-3xl leading-tight text-xl text-center line-clamp-3 overflow-hidden"
+                dangerouslySetInnerHTML={{ __html: title1 || "" }}
+              ></p>
             ) : (
-              <p className="text-white font-semibold md:text-md leading-tight text-lg text-center line-clamp-3 overflow-hidden">
-                {title1}
-              </p>
+              <p
+                className="text-white font-semibold md:text-md leading-tight text-lg text-center line-clamp-3 overflow-hidden"
+                dangerouslySetInnerHTML={{ __html: title1 || "" }}
+              ></p>
             )}
 
             <p

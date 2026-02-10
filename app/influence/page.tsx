@@ -101,7 +101,7 @@ export default function Influence() {
 
         <BoxImageText
           title="Our Approach"
-          description="Our expert in-house team of account managers, sector specialists, and consultants curate and convenes a powerful bilateral network spanning industry, academia, and government, creating platforms where informed dialogue shapes outcomes. <br/><br/>We work in partnership with multiple levels of government, at the national and state levels in India, and the devolved administration, city region, and national levels in the UK"
+          description="Our expert in-house team of account managers, sector specialists, and consultants curate and convenes a powerful bilateral network spanning industry, academia, and government, creating platforms where informed dialogue shapes outcomes. <br/><br/>We work in partnership with multiple levels of government, at the national and state levels in India, and the devolved administration, city region, and national levels in the UK."
           buttonText="Meet the team"
           className="my-20"
           buttonLink="/team"

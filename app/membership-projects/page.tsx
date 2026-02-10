@@ -39,7 +39,7 @@ export default function page() {
         <div className="md:w-[70%] w-[95%] flex flex-col text-center gap-6 sm:gap-10 mt-10 sm:mt-20 mb-6 sm:mb-10 bg-black/5 rounded-xl px-3 sm:px-10 py-6 sm:py-10">
           <h1 className="text-xl sm:text-2xl font-bold text-black md:w-[50%] w-full sm:w-[90%] mx-auto text-center">
             On FSSAI&apos;s publication of a clarification on standards for
-            in-shell nuts (almonds).
+            in-shell nuts (almonds)
           </h1>
           <p className="text-gray-700 text-sm sm:text-base font-medium leading-relaxed text-justify sm:text-center">
             We warmly welcome the recent announcement by the Food Safety and
@@ -186,7 +186,7 @@ Around 75 recommendations were made to the Task Force, and the Government issued
               },
               {
                 quote:
-                  "Law commission report recommending the legalisation and regulation of sports betting and gaming (July 2018)",
+                  "Law Commission Report recommending the legalisation and regulation of sports betting and gaming (July 2018)",
                 des: `In 2018, the Law Commission of India submitted a comprehensive, pragmatic legal framework to the Government, recommending the regulation of gambling and sports betting.<br/><br/>
 The recommendations were developed after several rounds of stakeholder consultations and input. We are delighted that the UKIBC and UK industry were closely engaged in the process, including hosting the Law Commission Chairman in the UK, providing insights into how the UK regulates sports betting.<br/><br/>
 We believe this move is positive for protecting the integrity of sport, stamping out corruption, expanding the tax base, and stimulating greater investment and job creation in the Indian economy.

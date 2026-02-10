@@ -83,7 +83,7 @@ export default function Lander({
           className={`absolute h-full w-full flex flex-col ${
             flip ? "items-center " : "items-start"
           } justify-center  z-10 `}
-        >
+      >
           <div
             className={`w-full mt-10  xl:mt-0 h-full xl:h-fit flex flex-col justify-center px-6 md:px-10 lg:ml-5 gap-4 md:gap-5 lg:gap-6 lg:py-0  ${
               flip ? "lg:w-[80%]" : "lg:w-[90%]"

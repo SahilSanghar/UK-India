@@ -390,7 +390,7 @@ export default function Interaction() {
                 quote:
                   "UKIBC and its expert staff have been instrumental in ensuring that our expansion in India has involved minimal risk, stability, and the ingredients for long-term success.",
                 name: "Sian Impey",
-                role: "Head International Development Office, Swansea University",
+                role: "Head of International Development Office, Swansea University",
                 image: "/home-person3.jpg",
               },
               {

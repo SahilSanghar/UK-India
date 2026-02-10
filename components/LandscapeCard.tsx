@@ -61,9 +61,9 @@ export default function LandscapeCard({
           className="object-cover object-center duration-300 rounded-t-2xl w-full h-full"
         />
       </div>
-      <div className="w-full h-1/3  rounded-b-2xl p-5">
-        <h3 className=" text-xl font-bold line-clamp-4">{title1}</h3>
-        <p className="text-sm font-medium">
+      <div className="w-full h-[200px]  rounded-b-2xl p-5 flex flex-col justify-between">
+        <h3 className=" text-xl font-bold line-clamp-4" dangerouslySetInnerHTML={{ __html: title1 || "" }}></h3>
+        <p className="text-sm font-medium mt-auto flex">
           {betterDate}
         </p>
       </div>

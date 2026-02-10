@@ -55,9 +55,9 @@ export default function Home() {
 
   useEffect(() => {
     axios
-      .get("https://bryanp25.sg-host.com/wp-json/wp/v2/posts?_embed")
+      .get("/api/admin/posts?limit=10")
       .then((res) => {
-        setPosts(res.data);
+        setPosts(res.data.posts);
         // console.log(res.data[0].yoast_head_json.og_image[0].url);
       })
       .catch((err) => {
@@ -103,11 +103,7 @@ export default function Home() {
 
       <div className="w-full h-fit flex flex-col gap-2 justify-center items-center py-20 overflow-x-hidden max-w-full">
         <Ticker
-          title={posts
-            .slice(0, 5)
-            .map(
-              (post: { title: { rendered: string } }) => post.title.rendered,
-            )}
+          title={posts.slice(0, 5).map((post: { title: string }) => post.title)}
         />
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
@@ -341,7 +337,7 @@ export default function Home() {
           data={[
             {
               quote:
-                "We have done similar research in other markets. The key is to find a partner who understands our business. We sensed very early on that UKIBC had that ability. We’re discovering valuable insights into the market.",
+                "We have done similar research in other markets. The key is to find a partner who understands our business. We sensed very early on that UKIBC had that ability. We are discovering valuable insights into the market.",
               name: "Caroline Newbury",
               role: "Head of International Communications and Business Development, Penguin Random House",
               image: "/home-person1.jpg",
@@ -357,7 +353,7 @@ export default function Home() {
               quote:
                 "UKIBC and their expert staff have been instrumental in ensuring that our expansion in India has had minimal risk, stability and the ingredients for long-term success",
               name: "Sian Impey",
-              role: "Head International Development Office, Swansea University",
+              role: "Head of International Development Office, Swansea University",
               image: "/home-person3.jpg",
             },
           ]}
