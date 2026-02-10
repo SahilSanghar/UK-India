@@ -43,8 +43,8 @@ export default function Page() {
       new Set(
         posts
           .map((post) => (post.date ? post.date.slice(0, 4) : null))
-          .filter((y): y is string => !!y)
-      )
+          .filter((y): y is string => !!y),
+      ),
     )
       .sort((a, b) => Number(b) - Number(a))
       .slice(0, 5);
@@ -77,7 +77,7 @@ export default function Page() {
   useEffect(() => {
     axios
       .get(
-        "https://bryanp25.sg-host.com/wp-json/wp/v2/report?_embed&per_page=100"
+        "https://bryanp25.sg-host.com/wp-json/wp/v2/report?_embed&per_page=100",
       )
       .then((res) => {
         setPosts(res.data);
@@ -166,8 +166,8 @@ export default function Page() {
                     filter.map((i) =>
                       i.sort === item.sort
                         ? { ...i, active: true }
-                        : { ...i, active: false }
-                    )
+                        : { ...i, active: false },
+                    ),
                   );
                   // Reset pagination when filter changes
                   setCurrentPage(1);

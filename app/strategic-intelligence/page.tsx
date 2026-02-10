@@ -90,9 +90,8 @@ export default function Influence() {
         currency={false}
         button={false}
         images={[
-          { image: "/home/eyes/influence-1.png", position: "50%_50%" },
-          { image: "/home/eyes/influence-2.png", position: "50%_50%" },
-          { image: "/home/eyes/influence-3.png", position: "50%_50%" },
+          { image: "/si1.jpg", position: "50%_50%" },
+          { image: "/si2.jpg", position: "50%_50%" },
         ]}
       />
       {/* <SimpleLander
@@ -125,160 +124,70 @@ We gather, analyse, and interpret crucial data on market trends, competitors, an
 UKIBC experts provide tailored solutions, insights, and guidance to help you make future-focused choices, seize opportunities, and navigate India’s complex landscape with confidence. Our intelligence goes beyond reporting. It acts as the foundation of your market strategy, offering last-mile connectivity. <br/><br/>
 We guide you through every insight with pre- and post-engagement consultations. This helps you understand how to apply findings effectively while identifying the right partners and stakeholders across ecosystems. In doing so, we serve as a catalyst for trade, investment, and deeper collaboration, connecting businesses to thrive through ideas, networks, and impact."
           className="my-20"
-          images={[{ image: "/growth.jpeg", position: "center" }]}
+          images={[
+            { image: "/si3.jpg", position: "center" },
+            { image: "/si4.jpg", position: "center" },
+          ]}
           flip={false}
         />
 
-        <BackgroundGradientAnimation
-          gradientBackgroundStart="rgb(1 45 107)"
-          gradientBackgroundEnd="rgb(0 11 25)"
-          firstColor="3, 107, 252"
-          secondColor="2, 87, 207"
-          thirdColor="1, 30, 71"
-          fourthColor="139, 187, 254"
-          fifthColor="139, 187, 254"
-          interactive={false}
-          containerClassName="w-full min-h-screen 2xl:h-[140vh] xl:h-[150vh] lg:h-[120vh] md:h-[140vh] h-[140vh] flex  justify-center items-center bg-navy relative"
-        >
+        <div className="w-full flex justify-center items-center bg-gradient-to-b from-blue-950 to-navy/90 py-20">
           <div
-            className="z-20 absolute top-0 left-0 mx-auto w-full  h-fit flex flex-col justify-center items-center text-center gap-14 md:pt-20  pt-20 "
+            className="z-20 w-full max-w-5xl flex flex-col justify-center items-center text-center gap-14"
             ref={intelligenceRef as unknown as React.RefObject<HTMLDivElement>}
           >
             <h1 className="md:text-5xl text-3xl font-bold text-white flex md:w-[40%] w-fit text-center justify-center items-center">
               Our Services
             </h1>
-            <ul className="gap-3 justify-items-center items-center place-items-center w-full mt-6">
-              <div className="w-full grid grid-cols-1 md:grid-cols-2 justify-center gap-2 ">
-                {services.map((service, index) => (
-                  <motion.div
-                    initial={{
-                      y: 10,
-                      opacity: 0,
-                      scale: 1,
-                    }}
-                    whileInView={{
-                      y: 0,
-                      opacity: 1,
-                      transition: { duration: 0.5 },
-                    }}
-                    whileTap={{
-                      scale: 1.1,
-                      transition: { duration: 0.1 },
-                    }}
-                    transition={{ duration: 0.1 }}
-                    key={index}
-                    className="flex flex-col md:gap-2 gap-0 items-center justify-center text-center  w-full "
-                  >
-                    <div className="p-2 bg-tiger rounded-full flex items-center justify-center mx-auto">
-                      {/* search svg */}
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="md:size-6 size-4 text-white"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-                        />
-                      </svg>
-                    </div>
-                    <li className="md:text-xl text-sm font-bold text-white text-center list-none md:w-[60%] w-full">
-                      {service.name}
-                    </li>
-                    <li className="xl:text-base text-[11px] font-bold text-white text-center list-none md:w-[60%] w-[80%]">
-                      {service.des}
-                    </li>
-                  </motion.div>
-                ))}
-              </div>
-              {/* <div className="hidden md:flex col-span-1 md:col-span-3 w-full justify-center mt-5">
-                {apps.slice(3).map((app, index) => (
-                  <motion.div
-                    initial={{
-                      y: 10,
-                      opacity: 0,
-                      scale: 1,
-                    }}
-                    whileInView={{
-                      y: 0,
-                      opacity: 1,
-                      transition: { duration: 0.5 },
-                    }}
-                    whileTap={{
-                      scale: 1.1,
-                      transition: { duration: 0.1 },
-                    }}
-                    transition={{ duration: 0.1 }}
-                    key={index + 3}
-                    className="flex flex-col gap-2 items-center justify-center text-center mx-6"
-                  >
-                    <div className="px-7 py-7 bg-tiger rounded-full flex items-center justify-center mx-auto">
-                      {app.svg}
-                    </div>
-                    <li className="md:text-xl text-base font-bold text-white text-center list-none md:w-[60%] w-full">
-                      {app.name}
-                    </li>
-                  </motion.div>
-                ))}
-              </div> */}
-              {/* mobile view */}
-              {/* <div className="cols-span-1 md:col-span-3 w-full grid grid-cols-2 md:hidden justify-center items-center gap-5">
-                {apps.map((app, index) => (
-                  <motion.div
-                    initial={{
-                      y: 10,
-                      opacity: 0,
-                      scale: 1,
-                    }}
-                    whileInView={{
-                      y: 0,
-                      opacity: 1,
-                      transition: { duration: 0.5 },
-                    }}
-                    whileTap={{
-                      scale: 1.1,
-                      transition: { duration: 0.1 },
-                    }}
-                    transition={{ duration: 0.1 }}
-                    key={index}
-                    className="flex flex-col gap-2 items-center justify-center text-center mx-6"
-                  >
-                    <div className="px-5 py-5 bg-tiger rounded-full flex items-center justify-center mx-auto">
-                      {app.svg}
-                    </div>
-                    <li className="md:text-xl text-base font-bold text-white text-center list-none md:w-[60%] w-full">
-                      {app.name}
-                    </li>
-                  </motion.div>
-                ))}
-              </div> */}
-            </ul>
-            {/* <div className="w-full  h-fit flex flex-row sm:flex-row gap-6 sm:gap-10 md:gap-15 justify-center text-center ">
-              <StatCard
-                animation="left"
-                number={105}
-                description="UKIBC Members"
-                color="white"
-              />
-              <StatCard
-                animation="center"
-                number={1200}
-                description="Attendees in financial year 2024/25"
-                color="white"
-              />
-              <StatCard
-                animation="right"
-                number={4}
-                description="MoUs with State Governments Signed"
-                color="white"
-              />
-            </div> */}
+            <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+              {services.map((service, index) => (
+                <motion.div
+                  initial={{
+                    y: 10,
+                    opacity: 0,
+                    scale: 1,
+                  }}
+                  whileInView={{
+                    y: 0,
+                    opacity: 1,
+                    transition: { duration: 0.5 },
+                  }}
+                  whileTap={{
+                    scale: 1.1,
+                    transition: { duration: 0.1 },
+                  }}
+                  transition={{ duration: 0.1 }}
+                  key={index}
+                  className="flex flex-col md:gap-2 gap-0 items-center justify-center text-center w-full bg-white/5 p-6 rounded-xl"
+                >
+                  <div className="p-3 bg-tiger rounded-full flex items-center justify-center mb-3">
+                    {/* search svg */}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="md:size-6 size-4 text-white"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+                      />
+                    </svg>
+                  </div>
+                  <div className="md:text-xl text-base font-bold text-white text-center md:w-[80%] w-full mb-1">
+                    {service.name}
+                  </div>
+                  <div className="xl:text-base text-xs font-normal text-white/90 text-center md:w-[80%] w-[95%]">
+                    {service.des}
+                  </div>
+                </motion.div>
+              ))}
+            </div>
           </div>
-        </BackgroundGradientAnimation>
+        </div>
 
         <BoxImageText
           title="Why Choose Us?"
@@ -291,8 +200,11 @@ This is an economic barometer of India`s performance and addresses the “trade-
 For more information on this or for a longer-term view, contact us. "
           className="my-20"
           buttonText="Meet the experts"
-          buttonLink="/team?filter=business_solutions"
-          images={[{ image: "/meeting.jpg", position: "center" }]}
+      buttonLink="/team?filter=business_solutions"
+          images={[
+            { image: "/si5.jpg", position: "center" },
+            { image: "/si6.jpg", position: "center" },
+          ]}
           flip={true}
         />
 
@@ -310,8 +222,8 @@ For more information on this or for a longer-term view, contact us. "
                 quote:
                   "The UKIBC set up our subsidiary. They have been managing our India company compliance over the past five years and providing market advice when needed. Our team has tripled as we build valuable business ties.",
                 name: "Jonathan Mahoney",
-              role: "Biocomposites",
-              image: "/home/testimonial/jonathan.jpg",
+                role: "Biocomposites",
+                image: "/home/testimonial/jonathan.jpg",
               },
             ]}
           />

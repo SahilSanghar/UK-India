@@ -34,7 +34,7 @@ export default function Influence() {
 
   const apps = [
     {
-      name: "partner eco-system development",
+      name: "Partner Eco-System Development",
       svg: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -52,7 +52,7 @@ export default function Influence() {
       ),
     },
     {
-      name: "market Landscape analysis",
+      name: "Market Landscape Analysis",
       svg: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -102,7 +102,7 @@ export default function Influence() {
       ),
     },
     {
-      name: "Offshored digital & tech teams",
+      name: "Offshored Digital & Tech Teams",
       svg: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -250,8 +250,8 @@ export default function Influence() {
         flip={true}
         currency={false}
         images={[
-          { image: "/home/eyes/influence-1.png", position: "50%_50%" },
-          { image: "/home/eyes/influence-2.png", position: "50%_50%" },
+          { image: "/l1.jpg", position: "50%_50%" },
+          { image: "/home-2.jpeg", position: "50%_50%" },
           { image: "/home/eyes/influence-3.png", position: "50%_50%" },
         ]}
       />
@@ -282,7 +282,10 @@ export default function Influence() {
         <BoxImageText
           description="Achieve your chosen objectives with UKIBC’s Launchpad®, which provides a dedicated team of in-country specialists. <br/><br/> Focus on growing your business with a forward-looking approach. Test the market, build high-trust relationships and adapt your strategy to match both your needs and India’s dynamic ecosystem. <br/><br/>Launchpad® is ideal because its flexibility and predictable cost control provide last-mile connectivity, allowing you to scale quickly and with confidence. <br/><br/> Most importantly, this model removes the risk of setting up a full office in India while still acting as a catalyst for trade, investment and collaboration. As your business matures, you can pivot seamlessly, supported by our team that connects you to thrive through stronger ideas, networks and impact."
           className="my-20"
-          images={[{ image: "/growth.jpeg", position: "center" }]}
+          images={[
+            { image: "/l2.jpg", position: "center" },
+            { image: "/l3.jpg", position: "center" },
+          ]}
           flip={false}
         />
 
@@ -426,7 +429,10 @@ export default function Influence() {
           className="my-20"
           buttonText="Meet out launchpad Experts"
           buttonLink="/team?filter=business_solutions"
-          images={[{ image: "/meeting.jpg", position: "center" }]}
+          images={[
+            { image: "/l4.jpg", position: "center" },
+            { image: "/l5.jpg", position: "center" },
+          ]}
           flip={true}
         />
 
@@ -537,7 +543,7 @@ export default function Influence() {
           description="To connect with one of our India Experts simply email us or send us a message via our contact page. We look forward to connecting with you."
           image="/connect.webp"
         />
-      </section>  
+      </section>
     </>
   );
 }
