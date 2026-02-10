@@ -68,7 +68,16 @@ export default function page() {
             its members and clients, identified a range of regulatory and
             practical issues being faced by businesses and which have been
             presented to the Government of India and to DIT India through
-            several submissions and dialogues.
+            several submissions and dialogues. <br />
+            <br />
+            <a
+              href="https://www.ukibc.com/ukibc-submit-recommendations-to-government-of-india-to-support-business-in-relation-to-covid-19/"
+              target="_blank"
+              className="text-blue-500 underline"
+            >
+              UKIBC submit recommendations to the Government of India to support
+              business in relation to COVID-19
+            </a>
           </p>
         </div>
 
