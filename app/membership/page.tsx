@@ -90,10 +90,12 @@ export default function Membership() {
             title: "Why Become a UKIBC Member?",
             title2:
               "Dialogue, Decisions, Development - Networks That Deliver Growth",
+
             // title2: "Shaping the Conversations That Shape Policy",
             des: "Through curated events and member-only Sector Policy Groups, we help you meet the right people, uncover new opportunities and learn from senior leaders across business and policy. Become part of a network designed to deliver impact.",
           },
         ]}
+        button={false}
         flip={true}
         currency={false}
         buttonLink="#more"
@@ -120,9 +122,10 @@ export default function Membership() {
         <BoxImageText
           title="Corporate"
           description="Corporate membership gives you access to our core pillars: Influence, Interact and Intelligence. You join our Ease of Doing Business Working Group, sector groups and key B2G forums, with entry to UKIBC events across the UK and India. This level connects you to our trusted networks across government, industry and academia and keeps you ahead with future-focused insight."
-          buttonText="Enquire"
+          // buttonText="Enquire"
           className="mt-20"
-          buttonLink="/contact"
+          // buttonLink="/contact"
+  
           images={[
             { image: "/corpo1.jpeg", position: "center" },
             { image: "/corpo2.jpeg", position: "center" },
@@ -130,12 +133,12 @@ export default function Membership() {
           ]}
           flip={false}
         />
-        <BoxImageText
+      <BoxImageText
           title="Corporate Plus"
           description="Corporate Plus offers higher dedicated support and deeper access. You gain entry to exclusive leadership dinners and roundtables in both countries, plus priority visibility at major UKIBC conferences on themes like technology, sustainability and university–industry partnerships. This tier strengthens your profile and expands last-mile connectivity with high-level stakeholders."
-          buttonText="Enquire"
+          // buttonText="Enquire"
           className="mt-5"
-          buttonLink="/contact"
+          // buttonLink="/contact"
           flip={true}
           images={[
             { image: "/home/who-we-are/1.webp", position: "center" },
@@ -145,9 +148,9 @@ export default function Membership() {
         <BoxImageText
           title="Strategic Partner"
           description="Strategic Partners receive a fully tailored partnership built around their individual goals. We work closely with you on bespoke engagement, from targeted B2G connections to one-on-one meetings with senior officials. This tier positions your organisation as a trusted leader in the UK–India corridor and acts as a catalyst for collaboration, trade and long-term impact."
-          buttonText="Enquire"
+          // buttonText="Enquire"
           className="mt-5 mb-20"
-          buttonLink="/contact"
+          // buttonLink="/contact"
           flip={false}
           images={[
             { image: "/govtmeet.jpg", position: "center" },

@@ -15,6 +15,7 @@ export default function page() {
         ]}
         flip={true}
         currency={false}
+        button={false}
         buttonTxt="Know more"
         buttonLink="#more"
         images={[{ image: "/contacthome.png", position: "50%_50%" }]}

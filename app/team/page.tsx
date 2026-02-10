@@ -119,7 +119,9 @@ export default function Team() {
             des: "The UK India Business Council (UKIBC) team is committed to enhancing the trade and investment relationship between the UK and India, fostering a vibrant and equitable economic partnership that creates jobs and prosperity in both nations while serving as a force for global good.",
           },
         ]}
+        button={false}
         flip={true}
+        
         currency={false}
         images={[
           { image: "/about.webp", position: "bottom-right" },

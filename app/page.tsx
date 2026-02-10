@@ -106,7 +106,7 @@ export default function Home() {
           title={posts
             .slice(0, 5)
             .map(
-              (post: { title: { rendered: string } }) => post.title.rendered
+              (post: { title: { rendered: string } }) => post.title.rendered,
             )}
         />
         <motion.h1
@@ -157,13 +157,12 @@ export default function Home() {
             link="/influence"
             time={5000}
             images={[
-              { image: "/home/eyes/influence-1.png", position: "50%_50%" },
-              { image: "/home/eyes/influence-2.png", position: "50%_50%" },
+              { image: "/inf1.jpg", position: "50%_50%" },
+              { image: "/inf2.jpg", position: "50%_50%" },
               { image: "/home/eyes/influence-3.png", position: "50%_50%" },
               // { image: "/home/eyes/influence-4.jpg", position: "bottom-right" },
             ]}
           />
-        
           <div className="col-span-2 md:col-span-1">
             <FullCard
               title1="Intelligence"
@@ -212,7 +211,7 @@ export default function Home() {
             valueAfter=" Billion"
             animation="right"
             description="of revenue to the worlds economy"
-            link="/members"
+            link="/launchpad"
           />
         </div>
 
@@ -411,14 +410,15 @@ export default function Home() {
               Boosting trade and investment collaboration.
             </p>
             <p className="text-white text-base md:text-lg leading-5 font-medium mb-6">
-              Equal partnerships to fuel shared prosperity—a force for global good.
+              Equal partnerships to fuel shared prosperity—a force for global
+              good.
             </p>
             <Link
               href="/about"
               className="rounded-full  bg-tiger px-8 py-3 text-sm font-semibold tracking-wide text-white  transition hover:bg-mix hover:text-black hover:scale-105 duration-200 w-max"
             >
               About UKIBC
-            </Link> 
+            </Link>
           </div>
 
           <div className="w-full md:w-1/2">

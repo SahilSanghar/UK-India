@@ -70,7 +70,7 @@ export default function Lander({
 
   return (
     <div
-      className={`pt-15 max-w-screen overflow-hidden md:h-screen h-[70vh] flex flex-col lg:flex-row ${
+      className={`pt-15 max-w-screen overflow-hidden h-screen h-160 flex flex-col lg:flex-row ${
         flip ? "lg:flex-row-reverse" : "lg:flex-row"
       } justify-center bg-white`}
       ref={ref as unknown as React.RefObject<HTMLDivElement>}
@@ -85,7 +85,7 @@ export default function Lander({
           } justify-center  z-10 `}
         >
           <div
-            className={`w-full mt-10 md:mt-20 xl:mt-0 h-full xl:h-fit flex flex-col justify-center px-6 md:px-10 lg:ml-5 gap-4 md:gap-5 lg:gap-6 lg:py-0  ${
+            className={`w-full mt-10  xl:mt-0 h-full xl:h-fit flex flex-col justify-center px-6 md:px-10 lg:ml-5 gap-4 md:gap-5 lg:gap-6 lg:py-0  ${
               flip ? "lg:w-[80%]" : "lg:w-[90%]"
             }`}
           >
