@@ -145,7 +145,7 @@ export default function Page() {
       <Lander
         title_data={[
           {
-            title: "Reports",
+            title: "Case Studies",
             des: "UKIBC’s research provides an authoritative analysis of the UK–India economic corridor. Our reports examine critical sectors and trends, equipping businesses and policymakers with the insight needed to navigate trade and investment opportunities with confidence.",
           },
         ]}
@@ -155,7 +155,7 @@ export default function Page() {
       />
       <section id="more">
         <div className="w-full h-fit flex flex-col gap-10 items-center justify-center py-20">
-          <p className="text-4xl font-bold text-navy">Reports</p>
+          <p className="text-4xl font-bold text-navy">Case Studies</p>
           <div className="w-fit h-fit flex flex-row md:gap-4 gap-2 items-center justify-center">
             {filter.map((item) => (
               <div
@@ -201,7 +201,7 @@ export default function Page() {
                   image={
                     item.yoast_head_json.og_image?.[0]?.url || "/home-1.png"
                   }
-                  link={"/reports/" + item.slug}
+                  link={"/case-studies/" + item.slug}
                   animation="center"
                   key={index}
                 />

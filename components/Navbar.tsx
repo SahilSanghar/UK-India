@@ -67,8 +67,8 @@ export default function Navbar() {
       href: "#",
       sublinks: [
         {
-          label: "Reports",
-          href: "/reports",
+          label: "Case Studies",
+          href: "/case-studies",
         },
         {
           label: "Projects",
