@@ -70,7 +70,7 @@ export default function Lander({
 
   return (
     <div
-      className={`pt-15 max-w-screen overflow-hidden md:h-screen h-[50vh] flex flex-col lg:flex-row ${
+      className={` max-w-screen overflow-hidden md:h-screen h-[50vh] flex flex-col lg:flex-row ${
         flip ? "lg:flex-row-reverse" : "lg:flex-row"
       } justify-center bg-white`}
       ref={ref as unknown as React.RefObject<HTMLDivElement>}
@@ -137,7 +137,7 @@ export default function Lander({
                     key={currentTitle}
                     className="absolute inset-0 flex flex-row gap-2 lg:w-full w-full "
                   >
-                    <h1 className="text-navy text-2xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-black leading-tight md:leading-10 xl:leading-10 2xl:leading-14 tracking-tight justify-center items-center flex">
+                    <h1 className="text-navy text-2xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-4xl  2xl:text-5xl font-black leading-tight md:leading-10 xl:leading-10 2xl:leading-14 tracking-tight justify-center items-center flex ">
                       <motion.p
                         key={currentTitle}
                         className="flex flex-wrap gap-x-2 md:gap-x-3"
@@ -331,7 +331,7 @@ export default function Lander({
               </motion.div>
             )}
             {video && (
-              <div className="lg:w-full md:w-[400px] w-[300px] max-w-[500px]  aspect-video flex items-center justify-center overflow-hidden rounded-xl shadow-xl md:mt-0 mt-10">
+              <div className="lg:w-[450px] md:w-[400px] w-[300px] max-w-[500px] aspect-video flex items-center justify-center overflow-hidden rounded-xl shadow-xl md:mt-0 mt-10">
                 <Video
                   src={homepage}
                   className="w-full h-full shadow-lg object-cover"
