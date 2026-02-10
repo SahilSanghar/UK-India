@@ -174,9 +174,9 @@ export default function About() {
         <div className="flex gap-5 md:flex-row flex-col my-20 items-center justify-center">
           <InfoCard
             title1={"Interaction"}
-            des={"We are Putting you in the room with decision-makers. "}
+            des={"We are putting you in the room with decision-makers."}
             des2={
-              "How: We’re a bilateral not-for-profit with unique access and a powerful network. We convene political and business leaders in both countries."
+              "How: We are a bilateral not-for-profit with unique access and a powerful network. We convene political and business leaders in both countries."
             }
             textPosition={"left"}
             extraLarge={true}
@@ -184,11 +184,11 @@ export default function About() {
             animation={"left"}
             link={"/interaction"}
           />
-           <InfoCard
+          <InfoCard
             title1={"Influence"}
-            des={"We are Enabling better business outcomes."}
+            des={"We are enabling better business outcomes."}
             des2={
-              "How: We advocate for sector-specific as well as cross-cutting policy reforms. We inform Government decision-making."
+              "How: We advocate for sector-specific and cross-cutting policy reforms. We inform Government decision-making."
             }
             extraLarge={true}
             image={"/home/eyes/influence-2.png"}
@@ -198,7 +198,7 @@ export default function About() {
           />
           <InfoCard
             title1={"Intelligence"}
-            des={"We are Helping you understand what’s important and why."}
+            des={"We are helping you understand what’s important and why."}
             des2={
               "How: In the UK-India economic corridor, we are the leader in original data, actionable knowledge, in-market insights and advisory."
             }
@@ -208,16 +208,15 @@ export default function About() {
             animation={"center"}
             link={"/intelligence"}
           />
-         
         </div>
 
         <div className="flex gap-5 flex-col my-20 text-navy ">
           <h1 className="md:text-3xl text-xl font-bold text-center md:w-[70%] w-[90%] mx-auto mb-5">
-            We provide insight to help businesses influence policy, interact
-            with the right stakeholders and turn intelligence into growth.
+            We provide insights to help businesses influence policy, interact
+            with the right stakeholders, and turn intelligence into growth
           </h1>
           <BoxImageText
-            description="Our first-hand experience of entering and growing businesses make us uniquely qualified. We want to share our experiences to help others achieve success whether they are well-established in India or in the early stages of their engagement. <br/><br/> Working with the both Governments and other influential and connected partners, we ensure business interests are conveyed. The UK India Business Council seek to influence decisions that will make it easier for UK businesses to operate in India and vice versa."
+            description="Our first-hand experience of entering and growing businesses make us uniquely qualified. We want to share our experiences to help others achieve success whether they are well-established in India or in the early stages of their engagement. <br/><br/> Working with both Governments and other influential and connected partners, we ensure business interests are conveyed. The UK India Business Council seeks to influence decisions that will make it easier for UK businesses to operate in India and for Indian businesses to operate in the UK."
             images={[
               { image: "/corpo1.webp", position: "center" },
               { image: "/comp.webp", position: "center" },
@@ -260,8 +259,9 @@ export default function About() {
                 For those seeking practical advice,
               </h1>
               <p className="text-white text-base sm:text-lg md:text-xl w-full sm:w-[85%] md:w-[70%] mx-auto">
-                We provide insight to help businesses influence policy, interact
-                with the right stakeholders and turn intelligence into growth.
+                We provide insights to help businesses influence policy,
+                interact with the right stakeholders, and turn intelligence into
+                growth.
               </p>
             </div>
             <div className="w-full h-fit flex flex-col sm:flex-row gap-7 sm:gap-6 md:gap-10 lg:gap-15 justify-center text-center px-4">

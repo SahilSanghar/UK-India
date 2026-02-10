@@ -79,11 +79,11 @@ export default function Home() {
         title_data={[
           {
             title: "Influence that Builds Trust, Impact that Lasts",
-            des: "Policy-aware intelligence that reduces risk, builds trust, and helps organisations succeed across the UK–India corridor.",
+            des: "We provide the necessary influence, connecting businesses with the government to deliver real outcomes.",
           },
           {
             title: "Intelligence that Catalyses Insight and Impact",
-            des: "We provide equanimous influence, connecting businesses with government to deliver real outcomes.",
+            des: "Policy-aware intelligence that reduces risk, builds trust, and helps organisations succeed across the UK–India corridor.",
           },
           {
             title: "Interactions that Drive Growth and Sustainability",
@@ -341,21 +341,21 @@ export default function Home() {
           data={[
             {
               quote:
-                "We’ve done similar research in other markets. The key is to find a partner who can understand us as a business. We got the sense very early on that UKIBC had that ability. We’re discovering valuable insights into the market.",
+                "We have done similar research in other markets. The key is to find a partner who understands our business. We sensed very early on that UKIBC had that ability. We’re discovering valuable insights into the market.",
               name: "Caroline Newbury",
               role: "Head of International Communications and Business Development, Penguin Random House",
               image: "/home-person1.jpg",
             },
             {
               quote:
-                "UKIBC is a fantastic partner. I would like to focus on the convening power of the UKIBC; you can have real conversation with people and members. UKIBC has been a platform for many businesses like Arup to come and talk to each other and to form long term relationships which are the foundations of business collaboration is invaluable. It has been incredibly valuable for me and my firm, in many different ways.",
+                "UKIBC is a fantastic partner. I would like to focus on the convening power of the UKIBC; it enables real conversations with people and members. UKIBC has been a platform for many businesses, such as Arup, to connect and build long-term relationships that provide invaluable foundations for collaboration. It has been incredibly valuable for me and my firm in many different ways",
               name: "Sowmya Parthasarathy",
               role: "Arup",
               image: "/home-person2.jpg",
             },
             {
               quote:
-                "UKIBC and their expert staff have been instrumental in ensuring that our expansion in India has had minimal risk, stability and the ingredients for long-term success.",
+                "UKIBC and their expert staff have been instrumental in ensuring that our expansion in India has had minimal risk, stability and the ingredients for long-term success",
               name: "Sian Impey",
               role: "Head International Development Office, Swansea University",
               image: "/home-person3.jpg",

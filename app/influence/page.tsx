@@ -67,7 +67,7 @@ export default function Influence() {
           {
             title: "Influence",
             title2: "Shaping the Conversations That Shape Policy",
-            des: "We work to create a level playing field where industries can grow with confidence, clarity, and fairness. This is achieved through sustained advocacy with government and regulatory bodies, and by facilitating highimpact engagements including policy dialogues, roundtables, forums, receptions, delegations, and direct industry–government interactions",
+            des: "We work to create a level playing field where industries can grow with confidence, clarity, and fairness. This is achieved through sustained advocacy with government and regulatory bodies, and by facilitating high-impact engagements including policy dialogues, roundtables, forums, receptions, delegations, and direct industry-government interactions.",
           },
         ]}
         flip={true}
@@ -101,7 +101,7 @@ export default function Influence() {
 
         <BoxImageText
           title="Our Approach"
-          description="Our expert in-house team of account managers, sector specialists, and consultants curate and convene a powerful bilateral network spanning industry, academia, and government, creating platforms where informed dialogue shapes outcomes. <br/><br/>We work in partnership with multiple levels of government: at the National and State levels in India, and the devolved administration, city region, and national levels in the UK."
+          description="Our expert in-house team of account managers, sector specialists, and consultants curate and convenes a powerful bilateral network spanning industry, academia, and government, creating platforms where informed dialogue shapes outcomes. <br/><br/>We work in partnership with multiple levels of government, at the national and state levels in India, and the devolved administration, city region, and national levels in the UK"
           buttonText="Meet the team"
           className="my-20"
           buttonLink="/team"
@@ -342,14 +342,14 @@ export default function Influence() {
             data={[
               {
                 quote:
-                  "UKIBC is now at the forefront of their dialogue for sustainability and how energy transition is advancing and the technology benefits that can happen between the two countries.",
-                name: "Nandita- Sahgal Tully",
+                  "UKIBC is now at the forefront of the dialogue on sustainability, the energy transition, and the technology benefits that can arise from the two countries' collaboration.",
+                name: "Nandita Sahgal-Tully",
                 role: "Group Board Member UKIBC",
                 image: "/home/testimonial/nandita.webp",
               },
               {
                 quote:
-                  "Tata is a long-standing UKIBC member as we value the insights their excellent team provide and the interactions they curate with senior figures from business and government.",
+                  "Tata is a long-standing UKIBC member, as we value the insights their excellent team provide and the interactions they curate with senior figures from business and government.",
                 name: "Tim Jones",
                 role: "Executive Director, Tata",
                 image: "/home/testimonial/tim.webp",

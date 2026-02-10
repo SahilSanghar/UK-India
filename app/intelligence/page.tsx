@@ -405,21 +405,21 @@ export default function Intelligence() {
             data={[
               {
                 quote:
-                  "UKIBC provided us with excellent advice and support at every stage in the recruitment. Our membership enables us to tap into a network of universities and other UK-focused organisations. This is useful for our wider objectives of engagement with Indian universities and businesses with whom we seek research collaboration and employment opportunities for our graduates.",
+                  "UKIBC provided us with excellent advice and support throughout the recruitment process. Our membership enables us to tap into a network of universities and other UK-focused organisations. This is useful for our broader objectives of engaging with Indian universities and businesses, with whom we seek research collaborations and employment opportunities for our graduates.",
                 name: "Richard Cotton",
                 role: "Director of Student Recruitment and Outreach, University of Manchester",
                 image: "/home/testimonial/richard.jpg",
               },
               {
                 quote:
-                  "I have nothing but praise for Gunjan’s team. They have been very proactive about delivering what they said they would. I’d highly recommend them. What they’re delivering for us is exactly what we asked them to deliver. Their reports are bespoke to us and delivered what they said they would.",
+                  "I have nothing but praise for Gunjan’s team. They have been very proactive about delivering what they said they would. I’d highly recommend them. They’re delivering exactly what we asked them to. Their reports are bespoke to us and delivered as promised.",
                 name: "Cameron Hunt",
                 role: "Anglo American",
                 image: "/home/testimonial/hunt.png",
               },
               {
                 quote:
-                  "The UKIBC set up our subsidiary. They have been managing our India company compliance over the past five years and providing market advice when needed. Our team has tripled as we build valuable business ties.",
+                  "The UKIBC set up our subsidiary. They have been managing our India company compliance over the past five years and providing market advice when needed. Our team has tripled as we build valuable business ties",
                 name: "Jonathan Mahoney",
                 role: "Biocomposites",
                 image: "/person.jpg",
@@ -430,17 +430,17 @@ export default function Intelligence() {
         <div className="w-full h-fit flex flex-col md:flex-row justify-center items-center gap-10 pb-20 bg-black/5">
           <InfoCard
             animation="left"
-            title1="Reports"
+            title1="Case Studies"
             des="Our intelligence comes to life through rigorous reports grounded in market research and policy insight"
             image="/annual.jpg"
             buttonText="Reports"
             // idiot={true}
             large={true}
-            link="/reports"
+            link="/case-studies"
           />
           <InfoCard
             animation="right"
-            title1="Case Studies"
+            title1="Business Solutions Projects"
             des="See how our members have successfully entered, expanded, and scaled across the UK–India corridor, offering practical lessons, strategic clarity, and proven pathways for informed decision-making"
             image="/case.webp"
             buttonText="Case Studies"

@@ -121,7 +121,6 @@ export default function Interaction() {
       image: "/3-eyes/interaction/sports.svg",
     },
 
-    
     // {
     //   name: "Trade Bodies and Government Agencies",
     //   image: "/3-eyes/interaction/trade.svg",
@@ -389,7 +388,7 @@ export default function Interaction() {
             data={[
               {
                 quote:
-                  "UKIBC and their expert staff have been instrumental in ensuring that our expansion in India has had minimal risk, stability and the ingredients for long-term success.",
+                  "UKIBC and its expert staff have been instrumental in ensuring that our expansion in India has involved minimal risk, stability, and the ingredients for long-term success.",
                 name: "Sian Impey",
                 role: "Head International Development Office, Swansea University",
                 image: "/home-person3.jpg",
