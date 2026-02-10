@@ -135,7 +135,7 @@ export default function Membership() {
         />
       <BoxImageText
           title="Corporate Plus"
-          description="Corporate Plus offers higher dedicated support and deeper access. You gain entry to exclusive leadership dinners and roundtables in both countries, plus priority visibility at major UKIBC conferences on themes like technology, sustainability and university–industry partnerships. This tier strengthens your profile and expands last-mile connectivity with high-level stakeholders."
+          description="Corporate Plus offers higher dedicated support and deeper access. You gain entry to exclusive leadership dinners and roundtables in both countries, plus priority visibility at major UKIBC conferences on themes like technology, sustainability and university-industry partnerships. This tier strengthens your profile and expands last-mile connectivity with high-level stakeholders."
           // buttonText="Enquire"
           className="mt-5"
           // buttonLink="/contact"
@@ -300,14 +300,14 @@ export default function Membership() {
             data={[
               {
                 quote:
-                  "The UKIBC is important as UK relationship with India have to be right at a political level and the economic level. This organisation brings both of these things together. It enables us to have a good dialogue, and much more. The opportunities are enormous in both countries.",
+                  "The UKIBC is important as the UK relationship with India has to be right at a political level and the economic level. This organisation brings both of these things together. It enables us to have a good dialogue, and much more. The opportunities are enormous in both countries.",
                 name: "Lord Edward Udny Lister",
                 role: "Former HSBC",
                 image: "/home/testimonial/lord.webp",
               },
               {
                 quote:
-                  "UKIBC is doing the right thing by trying to understand what it’s members really want so they can fulfil those expectations. So, I think it is a good initiative",
+                  "UKIBC is doing the right thing by trying to understand what its members really want so they can fulfil those expectations. So, I think it is a good initiative.",
                 name: "Archana Venkat",
                 role: "Trilegal",
                 image: "/home/testimonial/archana.webp",

@@ -46,23 +46,15 @@ export default function Client({ post }: { post: PostProps }) {
         <p className="text-md font-medium text-gray-500">
           {post?.date
             ? (() => {
-                // Formatter for: e.g. 26th August 2020
+                // Formatter for: October 24, 2024
                 const dateObj = new Date(post.date);
                 if (isNaN(dateObj.getTime())) return "";
-                const day = dateObj.getDate();
-                const ordinal =
-                  day % 10 === 1 && day !== 11
-                    ? "st"
-                    : day % 10 === 2 && day !== 12
-                      ? "nd"
-                      : day % 10 === 3 && day !== 13
-                        ? "rd"
-                        : "th";
                 const month = dateObj.toLocaleString("default", {
                   month: "long",
                 });
+                const day = dateObj.getDate();
                 const year = dateObj.getFullYear();
-                return `${day}${ordinal} ${month} ${year}`;
+                return `${month} ${day}, ${year}`;
               })()
             : ""}
         </p>

@@ -10,7 +10,7 @@ export default function page() {
         title_data={[
           {
             title: "Contact us",
-            title2: "Have a query? Feel free to reach out",
+            title2: "Have a query? Feel free to reach out!",
           },
         ]}
         flip={true}
@@ -24,13 +24,13 @@ export default function page() {
       <section id="more" className="w-screen h-fit py-20">
         <div className="w-full max-w-6xl mx-auto flex flex-col gap-8 items-center justify-center text-center">
           <h1 className="md:text-4xl text-2xl font-bold text-navy">
-            Boosting trade, investment and technology collaboration.
+            Boosting trade, investment and technology collaboration
           </h1>
           <p className="md:text-lg text-sm font-medium leading-relaxed md:w-full w-[90%] text-center m-auto ">
-            Whether you’re seeking to forge new partnerships, unlock
+            Whether you are seeking to forge new partnerships, unlock
             opportunities, or simply explore how we can support your journey,
             our team at UKIBC is here to guide you every step of the way. Reach
-            out to us, and together let’s shape a brighter, more prosperous
+            out to us, and together let us shape a brighter, more prosperous
             future.
           </p>
         </div>

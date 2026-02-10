@@ -47,7 +47,7 @@ export default function InfoCard({
   const betterDate = date
     ? new Date(date)
         .toLocaleDateString("en-US", {
-          month: "short",
+          month: "long",
           day: "numeric",
           year: "numeric",
         })

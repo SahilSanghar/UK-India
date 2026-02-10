@@ -22,6 +22,14 @@ export default function LandscapeCard({
   animation,
   key,
 }: LandscapeCardProps) {
+  const betterDate = date
+    ? new Date(date).toLocaleDateString("en-US", {
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      })
+        .replace(/ /g, " ")
+    : "";
   return (
     <motion.div
       initial={{
@@ -56,26 +64,7 @@ export default function LandscapeCard({
       <div className="w-full h-1/3  rounded-b-2xl p-5">
         <h3 className=" text-xl font-bold line-clamp-4">{title1}</h3>
         <p className="text-sm font-medium">
-          {date
-            ? (() => {
-                const d = new Date(date);
-                if (isNaN(d as unknown as number)) return date;
-                const day = d.getDate();
-                const ordinal =
-                  day % 10 === 1 && day !== 11
-                    ? "st"
-                    : day % 10 === 2 && day !== 12
-                    ? "nd"
-                    : day % 10 === 3 && day !== 13
-                    ? "rd"
-                    : "th";
-                const month = d
-                  .toLocaleString("en-US", { month: "long" })
-                  .toLowerCase();
-                const year = d.getFullYear();
-                return `${day}${ordinal} ${month} ${year}`;
-              })()
-            : ""}
+          {betterDate}
         </p>
       </div>
     </motion.div>

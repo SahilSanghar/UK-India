@@ -436,11 +436,11 @@ export default function Intelligence() {
             buttonText="Reports"
             // idiot={true}
             large={true}
-            link="/case-studies"
+            link="/reports"
           />
           <InfoCard
             animation="right"
-            title1="Business Solutions Projects"
+            title1="Case Studies"
             des="See how our members have successfully entered, expanded, and scaled across the UK–India corridor, offering practical lessons, strategic clarity, and proven pathways for informed decision-making"
             image="/case.webp"
             buttonText="Case Studies"
