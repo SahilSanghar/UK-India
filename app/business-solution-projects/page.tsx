@@ -7,14 +7,11 @@ import axios from "axios";
 import LandscapeCard from "@/components/LandscapeCard";
 
 interface PostProps {
-  yoast_head_json: {
-    og_image: { url: string }[];
-  };
-  title: { rendered: string };
+  image: string;
+  title: string;
   date: string;
-  content: { rendered: string };
   slug: string;
-  class_list: string[];
+  id: string;
 }
 export default function Page() {
   const [posts, setPosts] = useState<PostProps[]>([]);
@@ -43,8 +40,8 @@ export default function Page() {
       new Set(
         posts
           .map((post) => (post.date ? post.date.slice(0, 4) : null))
-          .filter((y): y is string => !!y)
-      )
+          .filter((y): y is string => !!y),
+      ),
     )
       .sort((a, b) => Number(b) - Number(a))
       .slice(0, 5);
@@ -76,11 +73,9 @@ export default function Page() {
   }, [posts]);
   useEffect(() => {
     axios
-      .get(
-        "https://bryanp25.sg-host.com/wp-json/wp/v2/project?_embed&per_page=100"
-      )
+      .get("/api/admin/projects?limit=100")
       .then((res) => {
-        setPosts(res.data);
+        setPosts(res.data.projects);
         setLoading(false);
         console.log(res.data[0]);
       })
@@ -169,8 +164,8 @@ export default function Page() {
                     filter.map((i) =>
                       i.sort === item.sort
                         ? { ...i, active: true }
-                        : { ...i, active: false }
-                    )
+                        : { ...i, active: false },
+                    ),
                   );
                   // Reset pagination when filter changes
                   setCurrentPage(1);
@@ -198,12 +193,10 @@ export default function Page() {
             {paginatedPosts.map((item: PostProps, index: number) => {
               return (
                 <LandscapeCard
-                  title1={item.title.rendered}
+                  title1={item.title}
                   date={item.date}
                   landscape={true}
-                  image={
-                    item.yoast_head_json.og_image?.[0]?.url || "/home-1.png"
-                  }
+                  image={item.image || "/home-1.png"}
                   link={"/business-solution-projects/" + item.slug}
                   animation="center"
                   key={index}
