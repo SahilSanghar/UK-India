@@ -29,8 +29,8 @@ export default function page() {
         <p className="text-4xl font-bold text-navy text-center">Projects</p>
         <div className="w-full h-fit flex md:flex-row flex-col gap-10 items-center justify-center">
           <InfoCard
-            title1="Membership"
-            image="/annual.jpg"
+          title1="Membership"
+            image="/l2.jpg"
             animation="center"
             buttonText="View Projects"
             large={true}

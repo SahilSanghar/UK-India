@@ -436,19 +436,9 @@ export default function Influence() {
           flip={true}
         />
 
-        <BackgroundGradientAnimation
-          gradientBackgroundStart="rgb(1 45 107)"
-          gradientBackgroundEnd="rgb(0 11 25)"
-          firstColor="3, 107, 252"
-          secondColor="2, 87, 207"
-          thirdColor="1, 30, 71"
-          fourthColor="139, 187, 254"
-          fifthColor="139, 187, 254"
-          interactive={false}
-          containerClassName="w-full min-h-screen md:h-screen h-[150vh]  flex  justify-center items-center bg-navy relative"
-        >
+        <div className="w-full h-fit min-h-screen  flex  justify-center items-center bg-navy bg-gradient-to-b from-navy to-black/50">
           <div
-            className=" z-10 absolute top-0 left-0 mx-auto w-full md:h-screen h-[150vh] flex flex-col justify-center items-center text-center gap-20 py-30 "
+            className=" z-10 top-0 left-0 mx-auto w-full  flex flex-col justify-center items-center text-center gap-20 py-30 "
             ref={intelligenceRef as unknown as React.RefObject<HTMLDivElement>}
           >
             <h1 className="md:text-4xl text-xl font-bold text-white flex  md:w-[60%] w-[90%] ">
@@ -475,12 +465,12 @@ export default function Influence() {
                     }}
                     transition={{ duration: 0.1 }}
                     key={index}
-                    className="flex flex-col gap-2 items-center justify-center text-center md:mx-6 mx-2"
+                    className="flex flex-col h-full gap-2 items-center  text-center md:mx-6 mx-2 "
                   >
                     <div className="px-5 py-5 bg-tiger rounded-full flex items-center justify-center mx-auto">
                       {app.svg}
                     </div>
-                    <li className="md:text-lg text-[12px] font-bold text-white text-center list-none md:w-[60%] w-full">
+                    <li className="md:text-lg text-[12px] font-bold text-white text-center list-none xl:w-[90%] w-full">
                       {app.name}
                     </li>
                   </motion.div>
@@ -508,7 +498,7 @@ export default function Influence() {
               />
             </div> */}
           </div>
-        </BackgroundGradientAnimation>
+        </div>
 
         <div className="w-full h-fit flex justify-center items-center py-20 bg-black/5">
           <Carousel
