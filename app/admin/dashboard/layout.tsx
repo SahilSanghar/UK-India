@@ -5,6 +5,28 @@ import { AdminNavbar } from "@/components/AdminNavbar";
 import Image from "next/image";
 
 export default function layout({ children }: { children: React.ReactNode }) {
+  const maintenance = process.env.MAINTENANCE === "true";
+  if (maintenance) {
+    return (
+      <>
+        <AdminNavbar />
+        <div className="flex">
+          <div className="w-full h-screen flex flex-col items-center justify-center">
+            <div className="flex flex-col items-center justify-center h-fit ">
+              <img
+                src="/maintenance.png"
+                alt="Under Maintenance"
+                className="w-auto h-[150px] object-contain justify-self-center"
+              />
+              <h1 className="text-3xl text-center font-bold">
+                Admin Dashboard is under maintenance
+              </h1>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  }
   const links = [
     {
       name: "Team",

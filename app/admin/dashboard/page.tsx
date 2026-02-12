@@ -1,5 +1,4 @@
 import { getSession } from "@/lib/session";
-import { motion } from "framer-motion";
 
 export default async function Page() {
   const session = await getSession();
