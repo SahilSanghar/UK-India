@@ -512,7 +512,7 @@ export default function Page() {
                           <Image
                             src={
                               member.image
-                                ? `${member.image}${
+                                ? `${member.image.replace("ukibc", "ukibc-storage")}${
                                     member.image.includes("?") ? "&" : "?"
                                   }v=${new Date().getTime()}`
                                 : "/person.jpg"
@@ -592,7 +592,7 @@ export default function Page() {
                             <Image
                               src={
                                 previewImage || edit.image
-                                  ? `${edit.image}${
+                                  ? `${edit.image.replace("ukibc", "ukibc-storage")}${
                                       edit.image.includes("?") ? "&" : "?"
                                     }v=${new Date().getTime()}`
                                   : "/person.jpg"

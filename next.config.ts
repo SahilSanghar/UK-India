@@ -12,7 +12,7 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname: "ukibc.s3.ap-south-1.amazonaws.com",
+        hostname: "ukibc-storage.s3.ap-south-1.amazonaws.com",
         pathname: "/**",
       },
     ],

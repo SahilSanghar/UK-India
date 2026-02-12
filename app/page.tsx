@@ -193,7 +193,7 @@ export default function Home() {
           />
           <StatCard
             title="Recruited"
-            number={40000}
+            number={46000}
             valueBefore=""
             valueAfter=""
             animation="center"

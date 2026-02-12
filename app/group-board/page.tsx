@@ -126,7 +126,7 @@ export default function Page() {
                 theme="dark"
                 image={
                   item.image
-                    ? `${item.image}${item.image.includes("?") ? "&" : "?"}cacheBust=${new Date().getTime()}`
+                    ? `${item.image.replace("ukibc", "ukibc-storage")}${item.image.includes("?") ? "&" : "?"}cacheBust=${new Date().getTime()}`
                     : "/person.jpg"
                 }
                 des1={item.content}

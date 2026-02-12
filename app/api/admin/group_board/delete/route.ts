@@ -41,7 +41,7 @@ export async function POST(req: Request) {
 
     await s3Client.send(
       new DeleteObjectCommand({
-        Bucket: "ukibc",
+        Bucket: "ukibc-storage",
         Key: `group-board/${id}`,
       })
     );

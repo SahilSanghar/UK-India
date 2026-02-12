@@ -44,6 +44,9 @@ export default function Page() {
     },
   ]);
 
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState<PostProps[] | null>(null);
+
   const { data, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage } =
     useInfiniteQuery({
       queryKey: ["reports"],
@@ -98,10 +101,13 @@ export default function Page() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [posts]);
 
-  // Filter posts based on active filter
-  const filteredPosts = useMemo(() => {
-    return posts.filter((item: PostProps) => {
-      const activeFilter = filter.find((f) => f.active);
+  // Posts to display: apply year filter and sorting to either search results or all posts
+  const visiblePosts = useMemo(() => {
+    const baseList = searchResults ?? posts;
+
+    const activeFilter = filter.find((f) => f.active);
+
+    const filtered = baseList.filter((item: PostProps) => {
       if (!activeFilter) return true;
 
       // If filter is "all", show all posts
@@ -113,7 +119,72 @@ export default function Page() {
       const postYear = item.date ? item.date.slice(0, 4) : "";
       return postYear === activeFilter.team_area;
     });
-  }, [posts, filter]);
+
+    // Sort by date descending (newest first) if a date exists
+    return filtered.slice().sort((a, b) => {
+      const aDate = a.date || "";
+      const bDate = b.date || "";
+      if (!aDate && !bDate) return 0;
+      if (!aDate) return 1;
+      if (!bDate) return -1;
+      return bDate.localeCompare(aDate);
+    });
+  }, [posts, filter, searchResults]);
+
+  const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const term = searchTerm.trim();
+
+    // If search is empty, just reset to normal view
+    if (!term) {
+      setSearchResults(null);
+      setFilter(
+        filter.map((item) =>
+          item.team_area === "all"
+            ? { ...item, active: true }
+            : { ...item, active: false },
+        ),
+      );
+      return;
+    }
+
+    // Activate "All" filter while searching
+    setFilter(
+      filter.map((item) =>
+        item.team_area === "all"
+          ? { ...item, active: true }
+          : { ...item, active: false },
+      ),
+    );
+
+    try {
+      const res = await axios.get("/api/admin/reports/search", {
+        params: {
+          search: term,
+        },
+      });
+
+      if (res.status === 200) {
+        setSearchResults(res.data as PostProps[]);
+      }
+    } catch {
+      // On error, fall back to normal posts
+      setSearchResults(null);
+    }
+  };
+
+  const handleClearSearch = () => {
+    setSearchTerm("");
+    setSearchResults(null);
+    setFilter(
+      filter.map((item) =>
+        item.team_area === "all"
+          ? { ...item, active: true }
+          : { ...item, active: false },
+      ),
+    );
+  };
 
   return (
     <>
@@ -131,7 +202,30 @@ export default function Page() {
       <section id="more">
         <div className="w-full h-fit flex flex-col gap-10 items-center justify-center py-20">
           <p className="text-4xl font-bold text-navy">Reports</p>
-          <div className="w-fit h-fit flex flex-row md:gap-4 gap-2 items-center justify-center">
+          <div className="w-fit h-fit flex flex-row items-center justify-center gap-2">
+            <form
+              action=""
+              className="w-full h-fit flex flex-row items-center justify-center gap-2"
+              onSubmit={(e) => handleSearch(e)}
+            >
+              <input
+                type="text"
+                name="search"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="border-2 border-navy focus:outline-none rounded-full px-2 py-1 w-full"
+              />
+
+              <button
+                type={searchResults ? "button" : "submit"}
+                className="bg-navy text-white px-4 py-2 rounded-full"
+                onClick={searchResults ? handleClearSearch : undefined}
+              >
+                {searchResults ? "Clear" : "Search"}
+              </button>
+            </form>
+          </div>
+          {/* <div className="w-fit h-fit flex flex-row md:gap-4 gap-2 items-center justify-center">
             {filter.map((item) => (
               <div
                 key={item.sort}
@@ -157,20 +251,24 @@ export default function Page() {
                 </p>
               </div>
             ))}
-          </div>
+          </div> */}
+
           {isLoading && (
             <div className="w-full h-full flex items-center justify-center mx-auto mt-10">
               <div className="w-10 h-10 border-5 border-navy border-t-transparent border-r-transparent border-l-transparent rounded-full animate-spin "></div>
             </div>
           )}
           <div className="w-fit mx-auto mt-10 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4  gap-10  items-center justify-items-center justify-center">
-            {filteredPosts.map((item: PostProps, index: number) => {
+            {visiblePosts.map((item: PostProps, index: number) => {
               return (
                 <LandscapeCard
                   title1={item.title || ""}
                   date={item.date}
                   landscape={true}
-                  image={item.image || "/home-1.png"}
+                  image={
+                    item.image.replace("ukibc", "ukibc-storage") ||
+                    "/home-1.png"
+                  }
                   link={"/reports/" + item.slug}
                   animation="center"
                   key={index}
@@ -178,7 +276,7 @@ export default function Page() {
               );
             })}
           </div>
-          {hasNextPage && (
+          {!searchResults && hasNextPage && (
             <div className="w-full flex items-center justify-center mt-10 mb-10">
               <button
                 onClick={() => fetchNextPage()}

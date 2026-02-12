@@ -25,7 +25,7 @@ export async function POST(req: Request) {
     const signedUrl = await getSignedUrl(
       s3Client,
       new PutObjectCommand({
-        Bucket: "ukibc",
+        Bucket: "ukibc-storage",
         Key: `${key}`,
       }),
       {

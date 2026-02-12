@@ -234,7 +234,7 @@ export default function page() {
                 referrerPolicy="no-referrer-when-downgrade"
                 className="rounded-4xl"
               ></iframe>
-              <h3 className="text-lg font-bold my-2">New Delhi</h3>
+              <h3 className="text-lg font-bold my-2">Delhi/NCR</h3>
               <div className="flex flex-col gap-2 mb-3">
                 <div className="flex items-center gap-2">
                   <svg

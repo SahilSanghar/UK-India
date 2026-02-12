@@ -430,7 +430,7 @@ export default function Intelligence() {
         <div className="w-full h-fit flex flex-col md:flex-row justify-center items-center gap-10 pb-20 bg-black/5">
           <InfoCard
             animation="left"
-            title1="Case Studies"
+            title1="Reports"
             des="Our intelligence comes to life through rigorous reports grounded in market research and policy insight"
             image="/annual.jpg"
             buttonText="Reports"

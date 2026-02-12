@@ -196,7 +196,10 @@ export default function Page() {
                   title1={item.title}
                   date={item.date}
                   landscape={true}
-                  image={item.image || "/home-1.png"}
+                  image={
+                    item.image.replace("ukibc", "ukibc-storage") ||
+                    "/home-1.png"
+                  }
                   link={"/business-solution-projects/" + item.slug}
                   animation="center"
                   key={index}

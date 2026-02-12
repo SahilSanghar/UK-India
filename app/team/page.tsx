@@ -213,7 +213,7 @@ export default function Team() {
                     name={item.title}
                     image={
                       item.image
-                        ? `${item.image}${
+                        ? `${item.image.replace("ukibc", "ukibc-storage")}${
                             item.image.includes("?") ? "&" : "?"
                           }v=${Math.floor(new Date().getTime() / 60000)}`
                         : "/person.jpg"

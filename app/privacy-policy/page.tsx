@@ -79,7 +79,11 @@ export default function page() {
         </p>
       </section>
 
-      <Connect title="Connect with us:" description="To connect with one of our India Experts simply email us or send us a message via our contact page. We look forward to connecting with you." image="/home/eyes/influence-1.png" />
+      <Connect
+        title="Connect with us:"
+        description="To connect with one of our India Experts simply email us or send us a message via our contact page. We look forward to connecting with you."
+        image="/home/eyes/influence-1.png"
+      />
     </>
   );
 }

@@ -17,7 +17,7 @@ export default function TeamCard({
       <div className="w-full h-fit flex flex-row justify-center items-center leading-tight">
         <div className="w-full max-w-6xl mx-auto flex flex-col items-center justify-center text-center">
           <Image
-            src={image}
+            src={image.replace("ukibc", "ukibc-storage")}
             alt={name}
             width={100}
             height={100}

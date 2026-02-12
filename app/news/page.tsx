@@ -155,7 +155,7 @@ export default function Page() {
                 <InfoCard
                   title1={item.title}
                   date={item.date}
-                  image={item.image || "/home-1.png"}
+                  image={item.image ? item.image.replace("ukibc", "ukibc-storage") : "/home-1.png"}
                   link={"/news/" + item.slug}
                   animation="center"
                   key={index}

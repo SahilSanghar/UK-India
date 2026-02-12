@@ -113,7 +113,7 @@ export default function Interaction() {
     //   image: "/3-eyes/interaction/smart-cities.svg",
     // },
     {
-      name: "Education",
+      name: "Higher Education",
       image: "/3-eyes/interaction/education.svg",
     },
     {

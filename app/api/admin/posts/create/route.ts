@@ -50,7 +50,7 @@ export async function POST(req: Request) {
       signedUrl = await getSignedUrl(
         s3Client,
         new PutObjectCommand({
-          Bucket: "ukibc",
+          Bucket: "ukibc-storage",
           Key: `posts/${id}`,
         }),
         { expiresIn: 60 * 60 },
