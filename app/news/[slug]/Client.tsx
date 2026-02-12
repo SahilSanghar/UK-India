@@ -40,9 +40,7 @@ export default function Client({ post }: { post: PostProps }) {
         transition={{ duration: 0.5, delay: 0.2 }}
         className="w-full max-w-7xl mx-auto px-4 py-10 mt-10"
       >
-        <h1 className="text-4xl font-bold text-navy">
-          {post?.title?.rendered ?? "Untitled"}
-        </h1>
+        <h1 className="text-4xl font-bold text-navy" dangerouslySetInnerHTML={{ __html: post?.title?.rendered ?? "Untitled" }} />
         <p className="text-md font-medium text-gray-500">
           {post?.date
             ? (() => {
