@@ -352,12 +352,13 @@ export default function Page() {
               </div>
 
               {newMember.edit && (
+
                 <div
-                  className="w-full px-20 py-10 bg-white/90 flex flex-col md:flex-row justify-center items-center rounded-2xl shadow-lg p-6 gap-8 border border-navy/10 transition-all duration-150 overflow-hidden"
+                  className=" w-full px-20 py-10 bg-white/90 flex flex-col md:flex-row justify-center items-center rounded-2xl shadow-lg p-6 gap-8 border border-navy/10 transition-all duration-150 overflow-hidden"
                   key={"edit-new-member"}
                 >
                   <div
-                    className={`w-56 h-56 mb-auto rounded-2xl border-2 border-dashed flex flex-col items-center justify-center cursor-pointer transition-colors ${
+                    className={`w-56 bg-red-200 h-56 mb-auto rounded-2xl border-2 border-dashed flex flex-col items-center justify-center cursor-pointer transition-colors ${
                       isImageDragOver
                         ? "border-navy bg-navy/5"
                         : "border-navy/30 bg-white"
