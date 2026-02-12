@@ -81,6 +81,7 @@ export default function Page() {
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [isImageDragOver, setIsImageDragOver] = useState(false);
   const editFileInputRef = useRef<HTMLInputElement | null>(null);
+  const [editHasNewImage, setEditHasNewImage] = useState(false);
 
   const handleNewMemberImageFile = (file: File | undefined | null) => {
     if (!file) return;
@@ -95,6 +96,7 @@ export default function Page() {
 
     const objectUrl = URL.createObjectURL(file);
     setPreviewImage(objectUrl);
+    setEditHasNewImage(true);
 
     const signedUrl = await axios.post("/api/admin/team/image/signed", {
       key: `projects/${id}`,
@@ -170,7 +172,16 @@ export default function Page() {
       title: string;
       content: string;
       date: string;
-    }) => axios.post("/api/admin/projects/edit", data),
+      image: boolean;
+    }) =>
+      axios.post("/api/admin/projects/edit", {
+        id: data.id,
+        title: data.title,
+        content: data.content,
+        date: data.date,
+        // send whether a new image was selected (via drag/drop or file input)
+        image: data.image,
+      }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["projects"] });
       setEdit({ ...edit, edit: false });
@@ -186,6 +197,8 @@ export default function Page() {
       title: edit.title,
       content: edit.content,
       date: edit.date,
+      // backend needs true when a new image was chosen
+      image: editHasNewImage,
     });
   };
   useEffect(() => {
@@ -391,9 +404,7 @@ export default function Page() {
                           <Image
                             src={
                               member.image
-                                ? `${member.image.replace("ukibc", "ukibc-storage")}${
-                                    member.image.includes("?") ? "&" : "?"
-                                  }v=${new Date().getTime()}`
+                                ? member.image + `?v=${new Date().getTime()}`
                                 : "/person.jpg"
                             }
                             alt={member.title || "No title"}
@@ -418,7 +429,10 @@ export default function Page() {
                             </p>
                             <button
                               onClick={() =>
-                                window.open(`/business-solution-projects/${member.slug}`, "_blank")
+                                window.open(
+                                  `/business-solution-projects/${member.slug}`,
+                                  "_blank",
+                                )
                               }
                               className="bg-navy w-fit mt-auto flex text-white px-4 py-2 rounded-full shadow hover:bg-navy/90 transition-all duration-150 cursor-pointer"
                             >
@@ -472,11 +486,11 @@ export default function Page() {
                           >
                             <Image
                               src={
-                                previewImage || edit.image
-                                  ? `${edit.image.replace("ukibc", "ukibc-storage")}${
-                                      edit.image.includes("?") ? "&" : "?"
-                                    }v=${new Date().getTime()}`
-                                  : "/person.jpg"
+                                previewImage
+                                  ? previewImage
+                                  : edit.image
+                                    ? edit.image + `?v=${new Date().getTime()}`
+                                    : "/person.jpg"
                               }
                               alt={edit.title || "No title"}
                               width={0}

@@ -39,7 +39,7 @@ export async function POST(req: Request) {
           date: { S: date },
           title: { S: title },
           image: {
-            S: `https://ukibc.s3.ap-south-1.amazonaws.com/projects/${id}`,
+            S: `https://ukibc-storage.s3.ap-south-1.amazonaws.com/projects/${id}`,
           },
           content: { S: content },
           slug: { S: slugify(title, { lower: true }) },

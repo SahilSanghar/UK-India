@@ -199,7 +199,7 @@ export default function Page() {
                     landscape={true}
                     image={
                       item.image
-                        ? item.image.replace("ukibc", "ukibc-storage")
+                        ? item.image
                         : "/home-1.png"
                     }
                     link={"/business-solution-projects/" + item.slug}

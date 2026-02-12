@@ -11,7 +11,7 @@ const dynamoClient = new DynamoDBClient({
 });
 export async function POST(req: Request) {
   try {
-    const { id, title, content, date } = await req.json();
+    const { id, title, content, date, image } = await req.json();
 
     const session = await getSession();
     if (!session) {
@@ -26,15 +26,17 @@ export async function POST(req: Request) {
           date: { S: date },
         },
         ConditionExpression: "id = :id",
-        UpdateExpression: "SET #t = :t, #c = :c",
+        UpdateExpression: "SET #t = :t, #c = :c, #i = :i",
         ExpressionAttributeNames: {
           "#t": "title",
           "#c": "content",
+          "#i": "image",
         },
         ExpressionAttributeValues: {
           ":id": { S: id },
           ":t": { S: title },
           ":c": { S: content },
+          ":i": { S: image ? `https://ukibc-storage.s3.ap-south-1.amazonaws.com/projects/${id}` : "" },
         },
       }),
     );
