@@ -1,7 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import Link from "next/link";
 
 interface LandscapeCardProps {
   title1: string;
@@ -10,17 +9,14 @@ interface LandscapeCardProps {
   image: string;
   link: string;
   animation: "left" | "center" | "right";
-  key?: React.Key;
 }
 
 export default function LandscapeCard({
   title1,
   date,
-  landscape,
   image,
   link,
   animation,
-  key,
 }: LandscapeCardProps) {
   const betterDate = date
     ? new Date(date).toLocaleDateString("en-US", {
