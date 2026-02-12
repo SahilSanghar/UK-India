@@ -23,7 +23,7 @@ const s3Client = new S3Client({
 
 export async function POST(req: Request) {
   try {
-    const { title, image, job_title, content, date, sort } = await req.json();
+    const { title, image, job_title, content, date, sort, address } = await req.json();
     const session = await getSession();
     if (!session) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
@@ -39,6 +39,7 @@ export async function POST(req: Request) {
           date: { S: date },
           sort: { S: sort },
           title: { S: title },
+          address: { S: address },
           image: {
             S: `https://ukibc.s3.ap-south-1.amazonaws.com/group-board/${id}`,
           },

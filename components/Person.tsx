@@ -66,23 +66,25 @@ export default function Person({
             className="w-full h-full rounded-full object-cover select-none"
           ></Image>
         </div>
-        <p className="md:text-xl md:h-fit min-h-[30px] h-fit text-lg font-bold text-center leading-5 mt-2">
-          {name}
-        </p>
-        <p className="md:text-base text-sm font-medium opacity-80 text-center leading-5 xl:mt-0 mt-2">
-          {role2 ? (
-            <>
-              {role} <br /> {role2}
-            </>
-          ) : (
-            role
-          )}
-        </p>
-        {location !== "Location" && (
-          <p className="md:text-base text-sm leading-4 h-fit font-medium opacity-80 text-center">
-            {location}
+        <div className="flex flex-col items-center justify-center gap-1">
+          <p className="md:text-xl md:h-fit  h-fit text-lg font-bold text-center leading-5 mt-2">
+            {name}
           </p>
-        )}
+          <p className="md:text-base text-sm font-medium opacity-80 text-center leading-5">
+            {role2 ? (
+              <>
+                {role} <br /> {role2}
+              </>
+            ) : (
+              role
+            )}
+          </p>
+          {location !== "Location" && (
+            <p className="md:text-sm text-sm leading-4 h-fit font-medium opacity-50 text-center line-clamp-1">
+              {location}
+            </p>
+          )}
+        </div>
       </motion.div>
 
       <AnimatePresence>

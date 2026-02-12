@@ -21,7 +21,7 @@ interface PostProps {
   content: string;
   slug: string;
   job_title: string;
-  location: string;
+  address: string;
   email: string;
   phone: string;
   website: string;
@@ -66,6 +66,7 @@ export default function Page() {
     image: false,
     job_title: "",
     content: "",
+    address: "",
     loading: false,
   });
   const [newMemberFile, setNewMemberFile] = useState<File | null>(null);
@@ -79,6 +80,7 @@ export default function Page() {
     image: "",
     job_title: "",
     content: "",
+    address: "",
     date: "",
   });
   const [previewImage, setPreviewImage] = useState<string | null>(null);
@@ -133,10 +135,11 @@ export default function Page() {
         image: Boolean(newMemberFile),
         job_title: newMember.job_title,
         content: newMember.content,
+        address: newMember.address,
         date: new Date().toISOString(),
         sort: generateKeyBetween(
           sortedTeam[sortedTeam.length - 1]?.sort ?? null,
-          null
+          null,
         ),
       });
 
@@ -156,6 +159,7 @@ export default function Page() {
           job_title: "",
           content: "",
           loading: false,
+          address: "",
         });
         setNewMemberFile(null);
         setNewMemberPreview(null);
@@ -176,6 +180,7 @@ export default function Page() {
       job_title: string;
       content: string;
       date: string;
+      address: string;
     }) => axios.post("/api/admin/team/edit", data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["team"] });
@@ -193,6 +198,7 @@ export default function Page() {
       job_title: edit.job_title,
       content: edit.content,
       date: edit.date,
+      address: edit.address,
     });
   };
   useEffect(() => {
@@ -216,7 +222,7 @@ export default function Page() {
     left: string,
     right: string,
     id: string,
-    date: string
+    date: string,
   ) => {
     try {
       await axios.post("/api/admin/team/sort", { left, right, id, date });
@@ -234,7 +240,7 @@ export default function Page() {
 
   const handleDragOver = (
     event: React.DragEvent<HTMLDivElement>,
-    index: number
+    index: number,
   ) => {
     event.preventDefault();
 
@@ -276,7 +282,7 @@ export default function Page() {
         leftSort,
         rightSort,
         updated[index].id.toString(),
-        updated[index].date.toString()
+        updated[index].date.toString(),
       );
 
       return updated;
@@ -289,7 +295,7 @@ export default function Page() {
   const handleDelete = async (id: string, date: string) => {
     if (
       !confirm(
-        "Are you sure you want to delete this team member? \nThis action cannot be undone!"
+        "Are you sure you want to delete this team member? \nThis action cannot be undone!",
       )
     ) {
       return;
@@ -435,6 +441,26 @@ export default function Page() {
                         className="text-base font-medium text-black border border-navy/30 focus:border-navy outline-none w-full px-4 py-2 rounded-lg transition-all placeholder:text-navy/40"
                       />
                     </div>
+                    <div className="flex flex-col">
+                      <label
+                        htmlFor="job_title"
+                        className="text-sm md:text-base text-navy font-bold mb-1"
+                      >
+                        Location
+                      </label>
+                      <input
+                        type="text"
+                        value={newMember.address}
+                        onChange={(e) =>
+                          setNewMember({
+                            ...newMember,
+                            address: e.target.value,
+                          })
+                        }
+                        placeholder="E.g. New Delhi, India"
+                        className="text-base font-medium text-black border border-navy/30 focus:border-navy outline-none w-full px-4 py-2 rounded-lg transition-all placeholder:text-navy/40"
+                      />
+                    </div>
 
                     <div className="flex flex-col">
                       <label
@@ -532,7 +558,7 @@ export default function Page() {
                               {member.job_title}
                             </p>
                             <p className="text-sm text-black">
-                              {member.location}
+                              {member.address}
                             </p>
                             {/* <p className="text-sm text-black">{member.content}</p> */}
                             {/* <p className="text-sm text-black">{member.email}</p>
@@ -555,6 +581,7 @@ export default function Page() {
                                 image: member.image,
                                 job_title: member.job_title,
                                 content: member.content,
+                                address: member.address,
                                 date: member.date,
                               });
                             }}
@@ -658,6 +685,26 @@ export default function Page() {
                                 className="text-base font-medium text-black border border-navy/30 focus:border-navy outline-none w-full px-4 py-2 rounded-lg transition-all placeholder:text-navy/40"
                               />
                             </div>
+                            <div className="flex flex-col">
+                              <label
+                                htmlFor="job_title"
+                                className="text-sm md:text-base text-navy font-bold mb-1"
+                              >
+                                Location
+                              </label>
+                              <input
+                                type="text"
+                                value={edit.address}
+                                onChange={(e) =>
+                                  setEdit({
+                                    ...edit,
+                                    address: e.target.value,
+                                  })
+                                }
+                                placeholder="E.g. New Delhi, India"
+                                className="text-base font-medium text-black border border-navy/30 focus:border-navy outline-none w-full px-4 py-2 rounded-lg transition-all placeholder:text-navy/40"
+                              />
+                            </div>
 
                             <div className="flex flex-col">
                               <label
@@ -704,7 +751,7 @@ export default function Page() {
                                 onClick={() =>
                                   handleDelete(
                                     member.id.toString(),
-                                    member.date.toString()
+                                    member.date.toString(),
                                   )
                                 }
                                 className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-full shadow hover:bg-navy/5 transition-colors duration-150 cursor-pointer"

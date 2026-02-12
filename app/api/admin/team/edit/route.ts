@@ -11,7 +11,7 @@ const dynamoClient = new DynamoDBClient({
 });
 export async function POST(req: Request) {
   try {
-    const { id, title, job_title, content, date } = await req.json();
+    const { id, title, job_title, content, date, address } = await req.json();
 
     const session = await getSession();
     if (!session) {
@@ -26,17 +26,19 @@ export async function POST(req: Request) {
           date: { S: date },
         },
         ConditionExpression: "id = :id",
-        UpdateExpression: "SET #t = :t, #j = :j, #c = :c",
+        UpdateExpression: "SET #t = :t, #j = :j, #c = :c, #a = :a",
         ExpressionAttributeNames: {
           "#t": "title",
           "#j": "job_title",
           "#c": "content",
+          "#a": "address",
         },
         ExpressionAttributeValues: {
           ":id": { S: id },
           ":t": { S: title },
           ":j": { S: job_title },
           ":c": { S: content },
+          ":a": { S: address },
         },
       })
     );

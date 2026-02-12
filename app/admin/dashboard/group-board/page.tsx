@@ -22,6 +22,7 @@ interface PostProps {
   slug: string;
   job_title: string;
   location: string;
+  address: string;
   email: string;
   phone: string;
   website: string;
@@ -66,6 +67,7 @@ export default function Page() {
     image: false,
     job_title: "",
     content: "",
+    address: "",
     loading: false,
   });
   const [newMemberFile, setNewMemberFile] = useState<File | null>(null);
@@ -79,6 +81,7 @@ export default function Page() {
     image: "",
     job_title: "",
     content: "",
+    address: "",
     date: "",
   });
   const [previewImage, setPreviewImage] = useState<string | null>(null);
@@ -138,6 +141,7 @@ export default function Page() {
           sortedTeam[sortedTeam.length - 1]?.sort ?? null,
           null,
         ),
+        address: newMember.address,
       });
 
       if (response.status === 200) {
@@ -155,6 +159,7 @@ export default function Page() {
           image: false,
           job_title: "",
           content: "",
+          address: "",
           loading: false,
         });
         setNewMemberFile(null);
@@ -176,6 +181,7 @@ export default function Page() {
       job_title: string;
       content: string;
       date: string;
+      address: string;
     }) => axios.post("/api/admin/group_board/edit", data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["group-board"] });
@@ -193,6 +199,7 @@ export default function Page() {
       job_title: edit.job_title,
       content: edit.content,
       date: edit.date,
+      address: edit.address,
     });
   };
   useEffect(() => {
@@ -440,6 +447,26 @@ export default function Page() {
                         className="text-base font-medium text-black border border-navy/30 focus:border-navy outline-none w-full px-4 py-2 rounded-lg transition-all placeholder:text-navy/40"
                       />
                     </div>
+                    <div className="flex flex-col">
+                      <label
+                        htmlFor="job_title"
+                        className="text-sm md:text-base text-navy font-bold mb-1"
+                      >
+                        Location
+                      </label>
+                      <input
+                        type="text"
+                        value={newMember.address}
+                        onChange={(e) =>
+                          setNewMember({
+                            ...newMember,
+                            address: e.target.value,
+                          })
+                        }
+                        placeholder="E.g. New Delhi, India"
+                        className="text-base font-medium text-black border border-navy/30 focus:border-navy outline-none w-full px-4 py-2 rounded-lg transition-all placeholder:text-navy/40"
+                      />
+                    </div>
 
                     <div className="flex flex-col">
                       <label
@@ -537,7 +564,7 @@ export default function Page() {
                               {member.job_title}
                             </p>
                             <p className="text-sm text-black">
-                              {member.location}
+                              {member.address}
                             </p>
                             {/* <p className="text-sm text-black">{member.content}</p> */}
                             {/* <p className="text-sm text-black">{member.email}</p>
@@ -561,6 +588,7 @@ export default function Page() {
                                 job_title: member.job_title,
                                 content: member.content,
                                 date: member.date,
+                                address: member.address,
                               });
                             }}
                           >
@@ -660,6 +688,26 @@ export default function Page() {
                                   })
                                 }
                                 placeholder="E.g. Director, Project Manager"
+                                className="text-base font-medium text-black border border-navy/30 focus:border-navy outline-none w-full px-4 py-2 rounded-lg transition-all placeholder:text-navy/40"
+                              />
+                            </div>
+                            <div className="flex flex-col">
+                              <label
+                                htmlFor="job_title"
+                                className="text-sm md:text-base text-navy font-bold mb-1"
+                              >
+                                Location
+                              </label>
+                              <input
+                                type="text"
+                                value={edit.address}
+                                onChange={(e) =>
+                                  setEdit({
+                                    ...edit,
+                                    address: e.target.value,
+                                  })
+                                }
+                                placeholder="E.g. New Delhi, India"
                                 className="text-base font-medium text-black border border-navy/30 focus:border-navy outline-none w-full px-4 py-2 rounded-lg transition-all placeholder:text-navy/40"
                               />
                             </div>

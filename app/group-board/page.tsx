@@ -13,6 +13,7 @@ interface GroupBoardProps {
   image: string;
   sort: string;
   content: string;
+  address: string;
 }
 
 export default function Page() {
@@ -130,6 +131,7 @@ export default function Page() {
                     : "/person.jpg"
                 }
                 des1={item.content}
+                location={item.address}
                 key={index}
               />
             ))}

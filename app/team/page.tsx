@@ -27,6 +27,7 @@ interface TeamMemberProps {
   content: string;
   location: string;
   job_title: string;
+  address: string;
   sort?: string; // sort key from DB
 }
 
@@ -220,7 +221,7 @@ export default function Team() {
                     }
                     role={item.job_title || ""}
                     des1={item.content}
-                    location={item.location || ""}
+                    location={item.address || ""}
                     theme="dark"
                     key={index}
                   />

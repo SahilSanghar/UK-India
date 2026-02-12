@@ -23,7 +23,7 @@ const s3Client = new S3Client({
 
 export async function POST(req: Request) {
   try {
-    const { title, image, job_title, content, date, sort } = await req.json();
+    const { title, image, job_title, content, date, sort, address } = await req.json();
     const session = await getSession();
     if (!session) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
@@ -42,6 +42,7 @@ export async function POST(req: Request) {
           image: { S: `https://ukibc.s3.ap-south-1.amazonaws.com/team/${id}`},
           job_title: { S: job_title },
           content: { S: content },
+          address: { S: address },
           slug: { S: slugify(title, { lower: true }) },
         },
       })
