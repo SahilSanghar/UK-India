@@ -93,14 +93,14 @@ export default function page() {
         fourthColor="139, 187, 254"
         fifthColor="139, 187, 254"
         interactive={false}
-        containerClassName="w-full min-h-screen  h-[200vh]  flex  justify-center items-center bg-navy relative"
+        containerClassName="w-full min-h-[1200px] md:min-h-screen  h-[200vh]  flex  justify-center items-center bg-navy relative"
       >
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
           viewport={{ once: false }}
-          className="z-10 absolute top-0 left-0 mx-auto w-full min-h-screen h-full flex flex-col justify-center items-center text-center py-16 px-4 sm:px-6 gap-10 sm:gap-16"
+          className="z-10 absolute top-0 left-0 mx-auto w-full min-h-screen h-full flex flex-col justify-center items-center text-center py-16 px-4 sm:px-6 gap-10 sm:gap-16 "
         >
           <motion.h1
             initial={{ opacity: 0, scale: 0.97, y: 30 }}
@@ -159,7 +159,7 @@ export default function page() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.05 }}
             viewport={{ once: false }}
-            className="text-base sm:text-base md:text-base font-medium text-white whitespace-pre-line text-center w-[80%] sm:w-4/5 md:w-2/3 lg:w-1/2 xl:w-2/5 mx-auto"
+            className="text-base sm:text-base md:text-base font-medium text-white whitespace-pre-line text-center w-[80%] sm:w-4/5 md:w-2/3 lg:w-1/2 xl:w-[50%] mx-auto"
           >
             Success in India isn’t just about having a plan—it’s about having
             the right people on your side. We combine insight, influence, and
@@ -172,42 +172,45 @@ export default function page() {
             to make sure you have the clarity, access, and backing you need to
             succeed. <br />
             <br /> As a UKIBC member, you benefit from:
+            <br />
+            <br />
+            <motion.ul
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.1 }}
+              viewport={{ once: false }}
+              className=" text-base sm:text-base md:text-base font-medium text-white whitespace-pre-line w-full md:w-screen mx-auto list-disc list-inside text-left"
+            >
+              <motion.li
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.18 }}
+                viewport={{ once: false }}
+              >
+                <b>Influence -</b> A stronger voice with government through our
+                targeted advocacy work
+              </motion.li>
+              <motion.li
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.28 }}
+                viewport={{ once: false }}
+              >
+                <b>Intelligence - </b> Insights as advice, with ability to build
+                brand on UKIBC social media.
+              </motion.li>
+              <motion.li
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.38 }}
+                viewport={{ once: false }}
+              >
+                <b>Interaction - </b> Access to senior political and business
+                leaders at exclusive events
+              </motion.li>
+            </motion.ul>
           </motion.p>
-          <motion.ul
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1 }}
-            viewport={{ once: false }}
-            className="text-base sm:text-base md:text-base font-medium text-white whitespace-pre-line w-[80%] mx-auto list-disc list-inside"
-          >
-            <motion.li
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.18 }}
-              viewport={{ once: false }}
-            >
-              <b>Influence</b> A stronger voice with government through our
-              targeted advocacy work
-            </motion.li>
-            <motion.li
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.28 }}
-              viewport={{ once: false }}
-            >
-              <b>Intelligence</b> Insights as advice, with ability to build
-              brand on UKIBC social media.
-            </motion.li>
-            <motion.li
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.38 }}
-              viewport={{ once: false }}
-            >
-              <b>Interaction</b> Access to senior political and business leaders
-              at exclusive events
-            </motion.li>
-          </motion.ul>
+
           {/* <LiquidButton text="Membership" link="/membership" /> */}
         </motion.div>
       </BackgroundGradientAnimation>
@@ -224,7 +227,7 @@ export default function page() {
             {
               quote:
                 "UKIBC is now at the forefront of their dialogue for sustainability and how energy transition is advancing and the technology benefits that can happen between the two countries.",
-              name: "Nandita- Sahgal Tully",
+              name: "Nandita Sahgal-Tully",
               role: "Group Board Member UKIBC",
               image: "/home/testimonial/nandita.webp",
             },

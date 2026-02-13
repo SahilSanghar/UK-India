@@ -5,6 +5,7 @@ import React, { useEffect, useState, useMemo } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 import InfoCard from "@/components/InfoCard";
+import LandscapeCard from "@/components/LandscapeCard";
 
 const ITEMS_PER_PAGE = 25;
 
@@ -152,7 +153,7 @@ export default function Page() {
           <div className="w-fit mx-auto mt-10 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4  gap-10  items-center justify-items-center justify-center">
             {filteredPosts.map((item: PostProps, index: number) => {
               return (
-                <InfoCard
+                <LandscapeCard
                   title1={item.title}
                   date={item.date}
                   image={item.image ? item.image.replace("ukibc", "ukibc-storage") : "/home-1.png"}

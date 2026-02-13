@@ -61,34 +61,16 @@ export default function Team() {
 
   // Build filter chips dynamically from team member filters
   const filterOptions = useMemo(() => {
-    if (!data) {
-      return [{ name: "All", value: "all" }];
-    }
-
-    const filterSet = new Set<string>();
-    (data as TeamMemberProps[]).forEach((member) => {
-      member.filters?.forEach((f) => {
-        // Exclude "all" from dynamic filters since we always have a hardcoded "All" option
-        if (f && f.toLowerCase() !== "all") {
-          filterSet.add(f);
-        }
-      });
-    });
-
-    const sortedFilterValues = Array.from(filterSet).sort((a, b) =>
-      a.localeCompare(b),
-    );
-
-    return [
-      { name: "All", value: "all" },
-      ...sortedFilterValues.map((value) => ({
-        name: value
-          .replace(/[-_]+/g, " ")
-          .replace(/\b\w/g, (c) => c.toUpperCase()),
-        value,
-      })),
+    // The only filters to use
+    const finalFilters = [
+      { name: "Executive Leadership", value: "executive-leadership-team" },
+      { name: "Business Solutions", value: "business-solutions" },
+      { name: "Business Operations", value: "business-operations" },
+      { name: "Membership and Advocacy", value: "membership-and-advocacy" },
     ];
-  }, [data]);
+
+    return [{ name: "All", value: "all" }, ...finalFilters];
+  }, []);
 
   useEffect(() => {
     if (intelligenceInView) {
@@ -140,20 +122,20 @@ export default function Team() {
 
           {/* Filters toggle */}
           <div className="w-[90%] xl:w-[70%] flex flex-col items-center gap-3">
-            <button
+            {/* <button
               type="button"
               onClick={() => setShowFilters((prev) => !prev)}
               className={`px-4 py-2 text-sm md:text-base font-semibold rounded-full border border-navy text-navy  hover:bg-navy hover:text-white transition-colors duration-200 cursor-pointer ${showFilters ? "bg-navy text-white" : "bg-white text-black"}`}
             >
               {showFilters ? "Hide filters" : "Show filters"}
-            </button>
+            </button> */}
 
-            {showFilters && (
+            {!showFilters && (
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.2 }}
-                className="w-full flex flex-col items-center bg-navy/10 xl:rounded-full rounded-xl py-10 px-5"
+                className="w-full flex flex-col items-center "
               >
                 <div className="flex w-full justify-end">
                   {/* <button

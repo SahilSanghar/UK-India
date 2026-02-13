@@ -13,7 +13,7 @@ export default function page() {
           {
             title: "Projects",
             title2:
-              "At UKIBC, our projects drive meaningful impact, helping businesses across sectors capitalize on the dynamic UK-India relationship.",
+              "At UKIBC, our projects drive meaningful impact, helping businesses across sectors capitalise on the dynamic UK-India relationship.",
             des: "Through targeted case studies, we showcase how our expertise supports companies to overcome challenges, navigate new markets, and accelerate growth.",
           },
         ]}

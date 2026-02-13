@@ -97,7 +97,7 @@ export default function Lander({
 
   return (
     <div
-      className={`max-w-screen overflow-hidden md:h-screen h-[90vh] flex flex-col lg:flex-row ${
+      className={`max-w-screen overflow-hidden md:h-screen h-[80vh] min-h-[600px] flex flex-col lg:flex-row ${
         flip ? "lg:flex-row-reverse" : "lg:flex-row"
       } justify-center bg-white`}
       ref={ref as unknown as React.RefObject<HTMLDivElement>}
@@ -112,7 +112,7 @@ export default function Lander({
           } justify-center  z-10 `}
       >
           <div
-            className={`w-full mt-10  xl:mt-0 h-full xl:h-fit flex flex-col justify-center px-6 md:px-10 lg:ml-5 gap-4 md:gap-5 lg:gap-6 lg:py-0  ${
+            className={`w-full mt-10  xl:mt-0 h-full xl:h-fit flex flex-col justify-center pl-6 md:pl-10 lg:ml-5 gap-4 md:gap-5 lg:gap-6 lg:py-0  ${
               flip ? "lg:w-[80%]" : "lg:w-[90%]"
             }`}
           >
@@ -162,9 +162,9 @@ export default function Lander({
                 ) : (
                   <motion.div
                     key={currentTitle}
-                    className="absolute inset-0 flex flex-row gap-2 lg:w-full w-full "
+                    className="absolute inset-0 flex flex-row gap-2 lg:w-full w-full"
                   >
-                    <h1 className="text-navy text-2xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-4xl  2xl:text-5xl font-black leading-tight md:leading-10 xl:leading-10 2xl:leading-14 tracking-tight justify-center items-center flex ">
+                    <h1 className="text-navy text-2xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-4xl 2xl:text-[3rem] font-black leading-tight md:leading-10 xl:leading-10 2xl:leading-12 tracking-tight justify-center items-center flex ">
                       <motion.p
                         key={currentTitle}
                         className="flex flex-wrap gap-x-2 md:gap-x-3"
@@ -305,7 +305,7 @@ export default function Lander({
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -20 }}
                       transition={{ duration: 0.5, delay: 0.2 }}
-                      className="absolute top-0 left-0 text-black/90 text-[12px] sm:text-sm font-medium w-[90%] flex flex-wrap gap-x-1 leading-[1.3] sm:leading-[1.4]"
+                      className="absolute top-0 left-0 text-black/90 text-[12px] sm:text-sm md:text-base font-medium w-[90%] flex flex-wrap gap-x-1 leading-[1.3] sm:leading-[1.4]"
                     >
                       {title_data[currentTitle].des
                         ?.split(" ")
@@ -457,7 +457,7 @@ export default function Lander({
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
-        className="hidden lg:flex relative w-full lg:w-1/2 h-1/2 sm:h-[60vh] lg:h-screen flex-col items-center justify-center overflow-hidden"
+        className="hidden lg:flex relative w-full lg:w-1/2 h-1/2 sm:h-[60vh] lg:h-screen min-h-[600px] flex-col items-center justify-center overflow-hidden"
       >
         <ImageSlider images={images} />
       </motion.div>
