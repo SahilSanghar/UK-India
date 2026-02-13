@@ -125,7 +125,7 @@ export default function Home() {
           services.
         </motion.p>
 
-        <div className="w-full lg:flex-row flex-col mt-20 grid md:grid-cols-3 grid-cols-2 overflow-x-hidden max-w-full">
+        <div className="w-full lg:flex-row flex-col mt-20 grid md:grid-cols-3 grid-cols-1 overflow-x-hidden max-w-full">
           {" "}
           <FullCard
             title1="Interaction"
@@ -159,7 +159,23 @@ export default function Home() {
               // { image: "/home/eyes/influence-4.jpg", position: "bottom-right" },
             ]}
           />
-          <div className="col-span-2 md:col-span-1">
+           <FullCard
+              title1="Intelligence"
+              image="/home-card3.jpg"
+              des="We offer a range of solutions helping you enter, expand and grow in the Indian market"
+              animation="right"
+              large={true}
+              idiot={false}
+              link="/intelligence"
+              time={5000}
+              images={[
+                { image: "/home/eyes/intel-1.png", position: "50%_100%" },
+                { image: "/home/eyes/intel-2.png", position: "50%_50%" },
+                { image: "/home/eyes/intel-3.png", position: "50%_50%" },
+                { image: "/home/eyes/intel-4.png", position: "50%_50%" },
+              ]}
+            />
+          {/* <div className="col-span-2 md:col-span-1">
             <FullCard
               title1="Intelligence"
               image="/home-card3.jpg"
@@ -176,7 +192,7 @@ export default function Home() {
                 { image: "/home/eyes/intel-4.png", position: "50%_50%" },
               ]}
             />
-          </div>
+          </div> */}
         </div>
       </div>
 
