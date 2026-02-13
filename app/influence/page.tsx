@@ -70,6 +70,8 @@ export default function Influence() {
             des: "We work to create a level playing field where industries can grow with confidence, clarity, and fairness. This is achieved through sustained advocacy with government and regulatory bodies, and by facilitating high-impact engagements including policy dialogues, roundtables, forums, receptions, delegations, and direct industry-government interactions.",
           },
         ]}
+        buttonTxt="See more"
+        buttonLink="/news"
         flip={true}
         currency={false}
         images={[

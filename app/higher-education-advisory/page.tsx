@@ -29,8 +29,8 @@ export default function page() {
           <br><br> <b> PRESENCE– </b> A dedicated in-country team offers last-mile connectivity with predictable costs you control. Our specialists exclusively represent you, supported by experts who understand India’s education ecosystem, government linkages and industry–academia trends. This builds trust and positions your institution as a future-focused partner.
 <br> <b> DELIVERY– </b> Strategy and execution seamlessly integrated for faster results. Mature Market Access, 85% of Indian students pursue postgraduate study, and manage and grow agent networks with targeted outreach recruitment campaigns.
 <br> <b> INSIGHT– </b> Unlock undergraduate potential through our Direct2Student campaign, connecting you with top schools and counsellors nationwide. These channels help institutions thrive through stronger ideas, networks and on-ground impact.`}
-        buttonText="Meet our student recruitment experts"
-        buttonLink="/team?filter=business_solutions"
+        // buttonText="Meet our student recruitment experts"
+        // buttonLink="/team?filter=business_solutions"
         className="mt-20"
         images={[
           { image: "/hea-result.webp", position: "50%_50%" },
@@ -62,8 +62,8 @@ export default function page() {
 <br> <b> SPEED  - </b> Be the first to offer — and first to convert. 46% of Indian students pay deposits to the first university that makes an offer. Our rapid response model accelerates processing and boosts enrolments.
 <br> <b> INTEGRITY  – </b>  Quality control, insight, and fraudulent application protection. Daily reporting, ground-level insights, and early fraud detection help you stay compliant, informed, and ahead of the curve.
  `}
-        buttonText="Meet our admission support experts"
-        buttonLink="/team?filter=business_solutions"
+        // buttonText="Meet our admission support experts"
+        // buttonLink="/team?filter=business_solutions"
         className="mb-20"
         images={[
           { image: "/hea-agile.webp", position: "50%_50%" },

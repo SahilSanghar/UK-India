@@ -145,7 +145,7 @@ export default function Carousel({ data }: CarouselProps) {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.5 }}
-                    key={newData[index].quote}
+           
                   >
                     {newData[index].quote}
                   </motion.p>
@@ -156,26 +156,26 @@ export default function Carousel({ data }: CarouselProps) {
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.5 }}
-                      key={newData[index].quote}
+         
                       dangerouslySetInnerHTML={{
                         __html: normalizeRichTextHtml(newData[index].des || ""),
                       }}
                     ></motion.div>
                   )}
                   {newData[index].link && (
-                    <motion.p
+                    <motion.div
                       className="text-xs sm:text-sm text-gray-600 font-medium w-full mt-auto"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.5 }}
-                      key={newData[index].link}
+          
                     >
                       <LiquidButton
                         text="Read More"
                         link={newData[index].link || ""}
                       />
-                    </motion.p>
+                    </motion.div>
                   )}
                   <div className="flex flex-col gap-2 mt-auto">
                     <motion.p
@@ -184,7 +184,7 @@ export default function Carousel({ data }: CarouselProps) {
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.5, delay: 0.1 }}
-                      key={newData[index].name}
+              
                     >
                       {newData[index].name}
                     </motion.p>
@@ -194,7 +194,7 @@ export default function Carousel({ data }: CarouselProps) {
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.5, delay: 0.15 }}
-                      key={newData[index].role}
+          
                     >
                       {newData[index].role}
                     </motion.p>

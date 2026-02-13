@@ -159,6 +159,8 @@ export default function Intelligence() {
         ]}
         flip={true}
         currency={false}
+        buttonTxt="Explore our Reports"
+        buttonLink="/reports"
         images={[
           { image: "/home/eyes/intel-1.png", position: "50%_100%" },
           { image: "/home/eyes/intel-2.png", position: "50%_50%" },

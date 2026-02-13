@@ -161,6 +161,8 @@ export default function Interaction() {
             des: "Deeply embedded across government, industry, and academia, we connect insight to engagement through high-level dialogues, roundtables, delegations, and curated receptions, dinners, and forums. These platforms help you build partnerships that stand out, scale sustainably, and deliver long-term impact across the UK–India corridor.",
           },
         ]}
+        buttonTxt="Explore our Events"
+        buttonLink="/events"
         flip={true}
         currency={false}
         images={[{ image: "/meeting1.webp", position: "50%_100%" }]}

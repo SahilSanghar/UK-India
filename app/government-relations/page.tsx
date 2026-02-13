@@ -70,7 +70,7 @@ export default function page() {
 <li> We organise high-level roundtables and closed-door meetings with senior officials to ensure your business concerns are heard </li> <li> Our events and conferences spotlight industry expertise and convert member insights into actionable policy recommendations </li> `}
         flip={true}
         className="mb-10 mt-10"
-        images={[{ image: "/bank.jpg", position: "50%_50%" }]}
+        images={[{ image: "/home/eyes/influence-3.png", position: "50%_50%" }]}
       />
       <BoxImageText
         title="Trusted and Endorsed by Government"
@@ -208,7 +208,7 @@ export default function page() {
               at exclusive events
             </motion.li>
           </motion.ul>
-          <LiquidButton text="Membership" link="/membership" />
+          {/* <LiquidButton text="Membership" link="/membership" /> */}
         </motion.div>
       </BackgroundGradientAnimation>
 

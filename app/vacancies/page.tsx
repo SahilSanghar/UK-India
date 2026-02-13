@@ -15,7 +15,7 @@ export default function page() {
         ]}
         flip={true}
         button={true}
-        buttonLink="#more"
+        buttonLink="/contact"
         buttonTxt="Apply Now"
         images={[{ image: "/vacancies.jpg", position: "50%_50%" }]}
       />
