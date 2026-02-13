@@ -37,44 +37,43 @@ export default function page() {
         </div>
 
         <p className="text-sm md:text-xl font-medium text-left text-black  xl:w-[60%] w-[90%] mx-auto my-20">
-          This is to inform the general public that fraudsters in the guise of
-          offering services in the name of the UK India Business Council
-          (“UKIBC”) are extracting monetary benefits from the general public. We
-          would like to inform you that UKIBC does not contact the public via
-          unsolicited calls or emails asking for money or any other type of
-          personal information. UKIBC is not connected, associated, or
-          affiliated in any manner whatsoever with such fraudsters &
-          impersonators. All members of the public and stakeholders are
-          requested to accordingly take note, exercise due diligence and not
-          fall prey to frauds or swindles perpetrated by individuals who
-          impersonate to be employees of the UKIBC.
+          This is to inform the general public that fraudsters, posing as
+          representatives of the UK India Business Council India Pvt. Ltd.
+          (UKIBC), are extracting financial benefits from the public. We want to
+          inform you that UKIBC does not contact the public via unsolicited
+          calls or emails requesting money or any other personal information.
+          UKIBC is not connected to, associated with, or affiliated with any
+          manner whatsoever with such fraudsters & impersonators. All members of
+          the public and stakeholders are requested to take note, exercise due
+          diligence, and not fall prey to fraud or swindling perpetrated by
+          individuals who impersonate themselves as employees of the UKIBC.
           <br />
           <br />
-          The fraudsters send attractive fictitious offers to the public through
-          letters and e-mails using false imitations of the letterhead of the
-          UKIBC and purportedly signed by individuals impersonating to be
-          executives/senior officials of the UKIBC. The victims are thereafter
-          persuaded by the fraudsters to deposit money in fraudulent bank
-          accounts towards membership registration with the assurance that they
-          will receive certain assured monetary benefit, inter alia, in the form
-          of investments from companies situated outside of India. We reiterate
-          that our organisation neither collects money from the general public
-          towards membership nor promises any kind of such monetary benefit.
+          The fraudsters send attractive, fictitious offers to the public via
+          letters and emails, using false imitations of UKIBC letterhead and
+          purportedly signed by individuals impersonating UKIBC
+          executives/senior officials. The fraudsters thereafter persuade the
+          victims to deposit money into fraudulent bank accounts for membership
+          registration, with the assurance that they will receive a monetary
+          benefit, inter alia, in the form of investments from companies outside
+          India. We reiterate that our organisation neither collects money from
+          the general public for membership nor promises any such monetary
+          benefit.
           <br />
           <br />
-          The members of the public are suggested to seek legal advice and/or
-          approach the local law enforcement agencies.
+          Members of the public are advised to seek legal advice and/or approach
+          local law enforcement agencies.
           <br />
           <br />
-          The information on our company, products and business activities is
-          available on our official website{" "}
+          Information about our company, products, and business activities is
+          available on our official website:
           <a
             href="https://www.ukibc.com/"
             className="text-blue-500 hover:underline"
           >
             https://www.ukibc.com/
           </a>
-          .
+          
         </p>
       </section>
 

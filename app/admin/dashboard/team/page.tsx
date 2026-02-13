@@ -213,7 +213,9 @@ export default function Page() {
       content: edit.content,
       date: edit.date,
       address: edit.address,
-      filters: edit.filters.map((f) => f.toLowerCase()),
+      filters: Array.isArray(edit.filters)
+        ? edit.filters.map((f) => (typeof f === "string" ? f.toLowerCase() : f))
+        : [],
     });
   };
   useEffect(() => {

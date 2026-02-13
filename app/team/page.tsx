@@ -49,6 +49,7 @@ export default function Team() {
   });
 
   const [activeFilterValue, setActiveFilterValue] = useState<string>("all");
+  const [showFilters, setShowFilters] = useState<boolean>(false);
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["team"],
@@ -136,27 +137,66 @@ export default function Team() {
           <p className="md:text-4xl text-2xl font-bold text-navy">
             Our Team Members
           </p>
-          <div className="w-full h-fit flex flex-wrap gap-2 md:gap-4 items-center justify-center">
-            {filterOptions.map((item) => {
-              const isActive = activeFilterValue === item.value;
-              return (
-                <div
-                  key={item.value}
-                  className="flex flex-row items-center justify-center cursor-pointer w-auto h-full"
-                  onClick={() => setActiveFilterValue(item.value)}
-                >
-                  <p
-                    className={`text-xs md:text-sm font-bold px-3 py-1.5 md:px-4 md:py-2 rounded-full cursor-pointer duration-300 ${
-                      isActive
-                        ? "bg-navy border-2 border-navy text-white"
-                        : "text-navy bg-white border-2 border-navy"
-                    }`}
+
+          {/* Filters toggle */}
+          <div className="w-[90%] xl:w-[70%] flex flex-col items-center gap-3">
+            <button
+              type="button"
+              onClick={() => setShowFilters((prev) => !prev)}
+              className={`px-4 py-2 text-sm md:text-base font-semibold rounded-full border border-navy text-navy  hover:bg-navy hover:text-white transition-colors duration-200 cursor-pointer ${showFilters ? "bg-navy text-white" : "bg-white text-black"}`}
+            >
+              {showFilters ? "Hide filters" : "Show filters"}
+            </button>
+
+            {showFilters && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.2 }}
+                className="w-full flex flex-col items-center bg-navy/10 xl:rounded-full rounded-xl py-10 px-5"
+              >
+                <div className="flex w-full justify-end">
+                  {/* <button
+                    type="button"
+                    onClick={() => setShowFilters(false)}
+                    className="text-xs md:text-sm text-navy/70 hover:text-navy underline cursor-pointer"
                   >
-                    {item.name}
-                  </p>
+                    Close
+                  </button> */}
                 </div>
-              );
-            })}
+                <div className="w-full h-fit flex flex-wrap gap-2 md:gap-4 items-center justify-center">
+                  {filterOptions.map((item, index) => {
+                    const isActive = activeFilterValue === item.value;
+                    return (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{
+                          duration: 0.5,
+                          delay: index * 0.05,
+                          type: "spring",
+                          damping: 10,
+                          stiffness: 100,
+                        }}
+                        key={item.value}
+                        className="flex flex-row items-center justify-center cursor-pointer w-auto h-full"
+                        onClick={() => setActiveFilterValue(item.value)}
+                      >
+                        <p
+                          className={`text-xs md:text-sm font-bold px-3 py-1.5 md:px-4 md:py-2 rounded-full cursor-pointer duration-300 ${
+                            isActive
+                              ? "bg-navy border-2 border-navy text-white"
+                              : "text-navy bg-white border-2 border-navy"
+                          }`}
+                        >
+                          {item.name == "Ict" ? "ICT" : item.name}
+                        </p>
+                      </motion.div>
+                    );
+                  })}
+                </div>
+              </motion.div>
+            )}
           </div>
           {isLoading && (
             <div className="w-full h-full flex items-center justify-center mx-auto mt-10">
