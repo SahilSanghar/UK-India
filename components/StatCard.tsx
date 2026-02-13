@@ -10,6 +10,7 @@ export default function StatCard({
   number,
   valueAfter,
   valueBefore,
+  disclaimer,
   description,
   color,
   link,
@@ -20,6 +21,7 @@ export default function StatCard({
   color?: "black" | "white";
   valueBefore?: string;
   description: string;
+  disclaimer?: string;
   link?: string;
   animation: "left" | "center" | "right";
 }) {
@@ -111,12 +113,17 @@ export default function StatCard({
         {valueAfter}
       </span>
       <p
+        dangerouslySetInnerHTML={{ __html: disclaimer || "" }}
+        className={`text-sm sm:text-base md:text-base font-bold leading-tight ${
+          color == "white" ? "text-white/80" : "text-black/80"
+        } `}
+      ></p>
+      <p
+        dangerouslySetInnerHTML={{ __html: description }}
         className={`text-sm sm:text-base md:text-base font-bold leading-tight ${
           color == "white" ? "text-white" : "text-black"
         } `}
-      >
-        {description}
-      </p>
+      ></p>
       {link && (
         <>
           <hr className="w-1/2 mx-auto h-2 my-2 sm:my-3 border-black" />

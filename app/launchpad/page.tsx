@@ -247,6 +247,8 @@ export default function Influence() {
             des: "Build High Value Relationships To Last",
           },
         ]}
+        buttonTxt="Launchpad Services"
+        buttonLink="/launchpad#services"
         flip={true}
         currency={false}
         images={[
@@ -289,118 +291,121 @@ export default function Influence() {
           flip={false}
         />
 
-        <BackgroundGradientAnimation
-          gradientBackgroundStart="rgb(1 45 107)"
-          gradientBackgroundEnd="rgb(0 11 25)"
-          firstColor="3, 107, 252"
-          secondColor="2, 87, 207"
-          thirdColor="1, 30, 71"
-          fourthColor="139, 187, 254"
-          fifthColor="139, 187, 254"
-          interactive={false}
-          containerClassName="w-full min-h-screen md:h-screen h-[150vh]  flex  justify-center items-center bg-navy relative"
-        >
-          <div
-            className=" z-10 absolute top-0 left-0 mx-auto w-full md:h-screen h-[150vh] flex flex-col justify-center items-center text-center gap-20 py-30 "
-            ref={intelligenceRef as unknown as React.RefObject<HTMLDivElement>}
+        <section id="services">
+          <BackgroundGradientAnimation
+            gradientBackgroundStart="rgb(1 45 107)"
+            gradientBackgroundEnd="rgb(0 11 25)"
+            firstColor="3, 107, 252"
+            secondColor="2, 87, 207"
+            thirdColor="1, 30, 71"
+            fourthColor="139, 187, 254"
+            fifthColor="139, 187, 254"
+            interactive={false}
+            containerClassName="w-full min-h-screen md:h-screen h-[150vh]  flex  justify-center items-center bg-navy relative"
           >
-            <h1 className="md:text-5xl text-3xl font-bold text-white flex  md:w-[40%] w-fit ">
-              Using Launchpad® Applications
-            </h1>
-            <ul className="gap-3 grid grid-cols-1 md:grid-cols-3 justify-items-center items-center place-items-center w-full">
-              <div className="hidden md:flex col-span-1 md:col-span-3 w-fit justify-center">
-                {apps.slice(0, 3).map((app, index) => (
-                  <motion.div
-                    initial={{
-                      y: 10,
-                      opacity: 0,
-                      scale: 1,
-                    }}
-                    whileInView={{
-                      y: 0,
-                      opacity: 1,
-                      transition: { duration: 0.5 },
-                    }}
-                    whileTap={{
-                      scale: 1.1,
-                      transition: { duration: 0.1 },
-                    }}
-                    transition={{ duration: 0.1 }}
-                    key={index}
-                    className="flex flex-col gap-2 items-center justify-center text-center mx-6"
-                  >
-                    <div className="px-7 py-7 bg-tiger rounded-full flex items-center justify-center mx-auto">
-                      {app.svg}
-                    </div>
-                    <li className="md:text-xl text-base font-bold text-white text-center list-none md:w-[60%] w-full">
-                      {app.name}
-                    </li>
-                  </motion.div>
-                ))}
-              </div>
-              <div className="hidden md:flex col-span-1 md:col-span-3 w-full justify-center mt-5">
-                {apps.slice(3).map((app, index) => (
-                  <motion.div
-                    initial={{
-                      y: 10,
-                      opacity: 0,
-                      scale: 1,
-                    }}
-                    whileInView={{
-                      y: 0,
-                      opacity: 1,
-                      transition: { duration: 0.5 },
-                    }}
-                    whileTap={{
-                      scale: 1.1,
-                      transition: { duration: 0.1 },
-                    }}
-                    transition={{ duration: 0.1 }}
-                    key={index + 3}
-                    className="flex flex-col gap-2 items-center justify-center text-center mx-6"
-                  >
-                    <div className="px-7 py-7 bg-tiger rounded-full flex items-center justify-center mx-auto">
-                      {app.svg}
-                    </div>
-                    <li className="md:text-xl text-base font-bold text-white text-center list-none md:w-[60%] w-full">
-                      {app.name}
-                    </li>
-                  </motion.div>
-                ))}
-              </div>
-              {/* mobile view */}
-              <div className="cols-span-1 md:col-span-3 w-full grid grid-cols-2 md:hidden justify-center items-center gap-5">
-                {apps.map((app, index) => (
-                  <motion.div
-                    initial={{
-                      y: 10,
-                      opacity: 0,
-                      scale: 1,
-                    }}
-                    whileInView={{
-                      y: 0,
-                      opacity: 1,
-                      transition: { duration: 0.5 },
-                    }}
-                    whileTap={{
-                      scale: 1.1,
-                      transition: { duration: 0.1 },
-                    }}
-                    transition={{ duration: 0.1 }}
-                    key={index}
-                    className="flex flex-col gap-2 items-center justify-center text-center mx-6"
-                  >
-                    <div className="px-5 py-5 bg-tiger rounded-full flex items-center justify-center mx-auto">
-                      {app.svg}
-                    </div>
-                    <li className="md:text-xl text-base font-bold text-white text-center list-none md:w-[60%] w-full">
-                      {app.name}
-                    </li>
-                  </motion.div>
-                ))}
-              </div>
-            </ul>
-            {/* <div className="w-full  h-fit flex flex-row sm:flex-row gap-6 sm:gap-10 md:gap-15 justify-center text-center ">
+            <div
+              className=" z-10 absolute top-0 left-0 mx-auto w-full md:h-screen h-[150vh] flex flex-col justify-center items-center text-center gap-20 py-30 "
+              ref={
+                intelligenceRef as unknown as React.RefObject<HTMLDivElement>
+              }
+            >
+              <h1 className="md:text-5xl text-3xl font-bold text-white flex  md:w-[40%] w-fit ">
+                Using Launchpad® Applications
+              </h1>
+              <ul className="gap-3 grid grid-cols-1 md:grid-cols-3 justify-items-center items-center place-items-center w-full">
+                <div className="hidden md:flex col-span-1 md:col-span-3 w-fit justify-center">
+                  {apps.slice(0, 3).map((app, index) => (
+                    <motion.div
+                      initial={{
+                        y: 10,
+                        opacity: 0,
+                        scale: 1,
+                      }}
+                      whileInView={{
+                        y: 0,
+                        opacity: 1,
+                        transition: { duration: 0.5 },
+                      }}
+                      whileTap={{
+                        scale: 1.1,
+                        transition: { duration: 0.1 },
+                      }}
+                      transition={{ duration: 0.1 }}
+                      key={index}
+                      className="flex flex-col gap-2 items-center justify-center text-center mx-6"
+                    >
+                      <div className="px-7 py-7 bg-tiger rounded-full flex items-center justify-center mx-auto">
+                        {app.svg}
+                      </div>
+                      <li className="md:text-xl text-base font-bold text-white text-center list-none md:w-[60%] w-full">
+                        {app.name}
+                      </li>
+                    </motion.div>
+                  ))}
+                </div>
+                <div className="hidden md:flex col-span-1 md:col-span-3 w-full justify-center mt-5">
+                  {apps.slice(3).map((app, index) => (
+                    <motion.div
+                      initial={{
+                        y: 10,
+                        opacity: 0,
+                        scale: 1,
+                      }}
+                      whileInView={{
+                        y: 0,
+                        opacity: 1,
+                        transition: { duration: 0.5 },
+                      }}
+                      whileTap={{
+                        scale: 1.1,
+                        transition: { duration: 0.1 },
+                      }}
+                      transition={{ duration: 0.1 }}
+                      key={index + 3}
+                      className="flex flex-col gap-2 items-center justify-center text-center mx-6"
+                    >
+                      <div className="px-7 py-7 bg-tiger rounded-full flex items-center justify-center mx-auto">
+                        {app.svg}
+                      </div>
+                      <li className="md:text-xl text-base font-bold text-white text-center list-none md:w-[60%] w-full">
+                        {app.name}
+                      </li>
+                    </motion.div>
+                  ))}
+                </div>
+                {/* mobile view */}
+                <div className="cols-span-1 md:col-span-3 w-full grid grid-cols-2 md:hidden justify-center items-center gap-5">
+                  {apps.map((app, index) => (
+                    <motion.div
+                      initial={{
+                        y: 10,
+                        opacity: 0,
+                        scale: 1,
+                      }}
+                      whileInView={{
+                        y: 0,
+                        opacity: 1,
+                        transition: { duration: 0.5 },
+                      }}
+                      whileTap={{
+                        scale: 1.1,
+                        transition: { duration: 0.1 },
+                      }}
+                      transition={{ duration: 0.1 }}
+                      key={index}
+                      className="flex flex-col gap-2 items-center justify-center text-center mx-6"
+                    >
+                      <div className="px-5 py-5 bg-tiger rounded-full flex items-center justify-center mx-auto">
+                        {app.svg}
+                      </div>
+                      <li className="md:text-xl text-base font-bold text-white text-center list-none md:w-[60%] w-full">
+                        {app.name}
+                      </li>
+                    </motion.div>
+                  ))}
+                </div>
+              </ul>
+              {/* <div className="w-full  h-fit flex flex-row sm:flex-row gap-6 sm:gap-10 md:gap-15 justify-center text-center ">
               <StatCard
                 animation="left"
                 number={105}
@@ -420,8 +425,9 @@ export default function Influence() {
                 color="white"
               />
             </div> */}
-          </div>
-        </BackgroundGradientAnimation>
+            </div>
+          </BackgroundGradientAnimation>
+        </section>
 
         <BoxImageText
           title="Launchpad® drives your India strategy now and sets you up for what comes next."

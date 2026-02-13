@@ -180,7 +180,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="w-full h-fit pt-10 flex flex-col justify-center items-center pb-30">
+      <div className="w-full h-fit pt-10 flex flex-col justify-center items-center pb-20">
         <div className="w-full h-fit flex flex-col sm:flex-row gap-6 sm:gap-10 md:gap-15 justify-center items-center text-center">
           <StatCard
             title="Over"
@@ -195,6 +195,7 @@ export default function Home() {
             title="Recruited"
             number={46000}
             valueBefore=""
+            disclaimer="(Last 6 years)"
             valueAfter=""
             animation="center"
             description="students from UKIBC Consortium Universities"
@@ -213,8 +214,8 @@ export default function Home() {
 
         {/* <div className="hidden md:flex w-1/2 h-5 mt-10 my-0 md:my-20 border-b-2 border-black" /> */}
         {/* who we are */}
-        <section className="flex h-fit md:w-[75%] md:my-10 md:mt-20 mt-20 justify-center items-center flex-col">
-          <div className=" w-full md:w-full">
+        <section className="flex h-fit  md:w-[75%] md:my-10 md:mt-20 mt-20 justify-center items-center flex-col">
+          <div className=" w-full md:w-full ">
             {/* Heading */}
             <motion.h2
               initial={{ opacity: 0, x: -20 }}

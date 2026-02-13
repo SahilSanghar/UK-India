@@ -70,7 +70,7 @@ export default function Lander({
 
   return (
     <div
-      className={`max-w-screen overflow-hidden md:h-screen h-[100vh] flex flex-col lg:flex-row ${
+      className={`max-w-screen overflow-hidden md:h-screen h-[90vh] flex flex-col lg:flex-row ${
         flip ? "lg:flex-row-reverse" : "lg:flex-row"
       } justify-center bg-white`}
       ref={ref as unknown as React.RefObject<HTMLDivElement>}

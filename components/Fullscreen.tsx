@@ -30,7 +30,7 @@ export default function Fullscreen({ ref, title1, title2, description, image, bu
     >
       {/* <AuroraBackground> */}
       <div
-        className="md:w-[80%] w-[90%] z-10 left-0 right-0 top-0 bottom-0 absolute py-20 flex flex-col md:flex-row items-center gap-10 md:gap-0 justify-center md:justify-normal mx-auto"
+        className="md:w-[80%] w-[90%] z-10 left-0 right-0 top-0 bottom-0 absolute flex flex-col md:flex-row items-center gap-10 md:gap-0 justify-center md:justify-normal mx-auto"
         ref={ref as unknown as React.RefObject<HTMLDivElement>}
       >
         <div className="w-full md:w-1/2  flex flex-col gap-4 justify-center px-4 md:px-12">
