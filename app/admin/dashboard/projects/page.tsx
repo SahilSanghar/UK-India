@@ -119,8 +119,6 @@ export default function Page() {
       alert("Failed to upload image");
       return;
     }
-
-    alert("Image uploaded successfully");
     queryClient.invalidateQueries({ queryKey: ["projects"] });
   };
 
