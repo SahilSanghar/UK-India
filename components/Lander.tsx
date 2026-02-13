@@ -68,6 +68,33 @@ export default function Lander({
       });
   }, []);
 
+  const handleButtonClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (!buttonLink) return;
+
+    // Hash-only link like "#more"
+    if (buttonLink.startsWith("#")) {
+      e.preventDefault();
+      const id = buttonLink.slice(1);
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+      return;
+    }
+
+    // Path with hash like "/disclaimer#more"
+    if (buttonLink.includes("#")) {
+      const [path, hash] = buttonLink.split("#");
+      if (hash && typeof window !== "undefined" && window.location.pathname === path) {
+        e.preventDefault();
+        const el = document.getElementById(hash);
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }
+    }
+  };
+
   return (
     <div
       className={`max-w-screen overflow-hidden md:h-screen h-[90vh] flex flex-col lg:flex-row ${
@@ -310,6 +337,7 @@ export default function Lander({
               >
                 <Link
                   href={buttonLink}
+                  onClick={handleButtonClick}
                   className="group h-fit bg-tiger font-dmsans font-semibold text-white px-4 py-2 sm:px-5 sm:py-2 rounded-full text-base sm:text-lg md:text-xl hover:bg-navy transition-colors duration-300 tracking-tighter flex flex-row items-center gap-2 w-fit"
                 >
                   {buttonTxt}
