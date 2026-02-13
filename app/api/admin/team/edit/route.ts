@@ -11,12 +11,15 @@ const dynamoClient = new DynamoDBClient({
 });
 export async function POST(req: Request) {
   try {
-    const { id, title, job_title, content, date, address } = await req.json();
+    const { id, title, job_title, content, date, address, filters } = await req.json();
 
     const session = await getSession();
     if (!session) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
+
+    const filtersArray = filters || [];
+    const filtersList = filtersArray.map((f: string) => ({ S: f }));
 
     await dynamoClient.send(
       new UpdateItemCommand({
@@ -26,12 +29,13 @@ export async function POST(req: Request) {
           date: { S: date },
         },
         ConditionExpression: "id = :id",
-        UpdateExpression: "SET #t = :t, #j = :j, #c = :c, #a = :a",
+        UpdateExpression: "SET #t = :t, #j = :j, #c = :c, #a = :a, #f = :f",
         ExpressionAttributeNames: {
           "#t": "title",
           "#j": "job_title",
           "#c": "content",
           "#a": "address",
+          "#f": "filters",
         },
         ExpressionAttributeValues: {
           ":id": { S: id },
@@ -39,6 +43,7 @@ export async function POST(req: Request) {
           ":j": { S: job_title },
           ":c": { S: content },
           ":a": { S: address },
+          ":f": { L: filtersList },
         },
       })
     );

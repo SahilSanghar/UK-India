@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import SimpleLander from "@/components/simpleLander";
 import { useInView } from "react-intersection-observer";
 import BoxImageText from "@/components/BoxImageText";
@@ -48,46 +48,7 @@ export default function Team() {
     rootMargin: "0px 0px -89% 0px",
   });
 
-  const [filter, setFilter] = useState<
-    { name: string; team_area: string; active: boolean; sort: number }[]
-  >([
-    {
-      name: "All",
-      team_area: "all",
-      active: true,
-      sort: 5,
-    },
-    {
-      name: "Executive Leadership Team",
-      active: false,
-      team_area: "executive_leadership_team",
-      sort: 0,
-    },
-    {
-      name: "Business Solutions",
-      team_area: "business_solutions",
-      active: false,
-      sort: 1,
-    },
-    {
-      name: "Membership and Advocacy",
-      team_area: "membership_and_advocacy",
-      active: false,
-      sort: 2,
-    },
-    {
-      name: "Business Operations",
-      team_area: "business_operations",
-      active: false,
-      sort: 3,
-    },
-    // {
-    //   name: "Events",
-    //   team_area: "events",
-    //   active: false,
-    //   sort: 4,
-    // },
-  ]);
+  const [activeFilterValue, setActiveFilterValue] = useState<string>("all");
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["team"],
@@ -96,6 +57,37 @@ export default function Team() {
     refetchOnMount: false,
     refetchOnReconnect: false,
   });
+
+  // Build filter chips dynamically from team member filters
+  const filterOptions = useMemo(() => {
+    if (!data) {
+      return [{ name: "All", value: "all" }];
+    }
+
+    const filterSet = new Set<string>();
+    (data as TeamMemberProps[]).forEach((member) => {
+      member.filters?.forEach((f) => {
+        // Exclude "all" from dynamic filters since we always have a hardcoded "All" option
+        if (f && f.toLowerCase() !== "all") {
+          filterSet.add(f);
+        }
+      });
+    });
+
+    const sortedFilterValues = Array.from(filterSet).sort((a, b) =>
+      a.localeCompare(b),
+    );
+
+    return [
+      { name: "All", value: "all" },
+      ...sortedFilterValues.map((value) => ({
+        name: value
+          .replace(/[-_]+/g, " ")
+          .replace(/\b\w/g, (c) => c.toUpperCase()),
+        value,
+      })),
+    ];
+  }, [data]);
 
   useEffect(() => {
     if (intelligenceInView) {
@@ -122,7 +114,6 @@ export default function Team() {
         ]}
         button={false}
         flip={true}
-        
         currency={false}
         images={[
           { image: "/about.webp", position: "bottom-right" },
@@ -146,56 +137,46 @@ export default function Team() {
             Our Team Members
           </p>
           <div className="w-full h-fit flex flex-wrap gap-2 md:gap-4 items-center justify-center">
-            {filter.map((item) => (
-              <div
-                key={item.sort}
-                className="flex flex-row items-center justify-center cursor-pointer w-auto h-full"
-                onClick={() =>
-                  setFilter(
-                    filter.map((i) =>
-                      i.sort === item.sort
-                        ? { ...i, active: true }
-                        : { ...i, active: false }
-                    )
-                  )
-                }
-              >
-                <p
-                  className={`text-xs md:text-sm font-bold px-3 py-1.5 md:px-4 md:py-2 rounded-full cursor-pointer duration-300 ${
-                    item.active
-                      ? "bg-navy border-2 border-navy text-white"
-                      : "text-navy bg-white border-2 border-navy"
-                  }`}
+            {filterOptions.map((item) => {
+              const isActive = activeFilterValue === item.value;
+              return (
+                <div
+                  key={item.value}
+                  className="flex flex-row items-center justify-center cursor-pointer w-auto h-full"
+                  onClick={() => setActiveFilterValue(item.value)}
                 >
-                  {item.name}
-                </p>
-              </div>
-            ))}
+                  <p
+                    className={`text-xs md:text-sm font-bold px-3 py-1.5 md:px-4 md:py-2 rounded-full cursor-pointer duration-300 ${
+                      isActive
+                        ? "bg-navy border-2 border-navy text-white"
+                        : "text-navy bg-white border-2 border-navy"
+                    }`}
+                  >
+                    {item.name}
+                  </p>
+                </div>
+              );
+            })}
           </div>
           {isLoading && (
             <div className="w-full h-full flex items-center justify-center mx-auto mt-10">
               <div className="w-10 h-10 border-5 border-navy border-t-transparent border-r-transparent border-l-transparent rounded-full animate-spin "></div>
             </div>
           )}
-          <div className="w-[80%] mt-10 grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-x-0 gap-y-10  items-start justify-items-start justify-center ">
+          <div className="w-[90%] mt-10 grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-x-0 gap-y-10  items-start justify-items-start justify-center ">
             {data
               ?.filter((item: TeamMemberProps) => {
-                const activeFilter = filter.find((f) => f.active);
+                const activeFilter = activeFilterValue;
                 if (!activeFilter) return true;
 
                 // If filter is "all", show all team members
-                if (activeFilter.team_area === "all") {
+                if (activeFilter === "all") {
                   return true;
                 }
 
-                // Check if team member's class_list contains a matching team_area class
-                // Convert filter.team_area from "business_solutions" to "business-solutions"
-                const teamAreaClass = `${activeFilter.team_area.replace(
-                  /_/g,
-                  "-"
-                )}`;
+                // Check if team member's filters contain the active filter value
                 return item.filters?.some(
-                  (className) => className === teamAreaClass
+                  (className) => className === activeFilter,
                 );
               })
               .sort((a: TeamMemberProps, b: TeamMemberProps) => {

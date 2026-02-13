@@ -24,6 +24,7 @@ interface PostProps {
   address: string;
   email: string;
   phone: string;
+  filters: string[];
   website: string;
   facebook: string;
   twitter: string;
@@ -51,6 +52,7 @@ export default function Page() {
             },
           })
           .then((res) => res.data),
+
       getNextPageParam: (lastPage) => lastPage.lastKey ?? undefined,
       initialPageParam: undefined,
       gcTime: 0,
@@ -71,6 +73,7 @@ export default function Page() {
   });
   const [newMemberFile, setNewMemberFile] = useState<File | null>(null);
   const [newMemberPreview, setNewMemberPreview] = useState<string | null>(null);
+  const [newMemberFilterInput, setNewMemberFilterInput] = useState<string>("");
   const newMemberFileInputRef = useRef<HTMLInputElement | null>(null);
 
   const [edit, setEdit] = useState({
@@ -82,7 +85,9 @@ export default function Page() {
     content: "",
     address: "",
     date: "",
+    filters: [] as string[],
   });
+  const [filterInputString, setFilterInputString] = useState<string>("");
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [isImageDragOver, setIsImageDragOver] = useState(false);
   const editFileInputRef = useRef<HTMLInputElement | null>(null);
@@ -130,12 +135,19 @@ export default function Page() {
   const handleCreate = async () => {
     setNewMember({ ...newMember, loading: true });
     try {
+      const filtersArray = newMemberFilterInput
+        ? newMemberFilterInput
+            .split(",")
+            .map((f) => f.trim())
+            .filter(Boolean)
+        : [];
       const response = await axios.post("/api/admin/team/create", {
         title: newMember.title,
         image: Boolean(newMemberFile),
         job_title: newMember.job_title,
         content: newMember.content,
         address: newMember.address,
+        filters: filtersArray.map((f) => f.toLowerCase()),
         date: new Date().toISOString(),
         sort: generateKeyBetween(
           sortedTeam[sortedTeam.length - 1]?.sort ?? null,
@@ -163,6 +175,7 @@ export default function Page() {
         });
         setNewMemberFile(null);
         setNewMemberPreview(null);
+        setNewMemberFilterInput("");
       } else {
         alert("Failed to create team member");
         setNewMember({ ...newMember, edit: true, loading: false });
@@ -181,6 +194,7 @@ export default function Page() {
       content: string;
       date: string;
       address: string;
+      filters: string[];
     }) => axios.post("/api/admin/team/edit", data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["team"] });
@@ -199,6 +213,7 @@ export default function Page() {
       content: edit.content,
       date: edit.date,
       address: edit.address,
+      filters: edit.filters.map((f) => f.toLowerCase()),
     });
   };
   useEffect(() => {
@@ -335,6 +350,7 @@ export default function Page() {
                 onClick={() => {
                   setNewMemberPreview(null);
                   setNewMemberFile(null);
+                  setNewMemberFilterInput("");
                   setNewMember({ ...newMember, edit: !newMember.edit });
                 }}
               >
@@ -352,7 +368,6 @@ export default function Page() {
               </div>
 
               {newMember.edit && (
-
                 <div
                   className=" w-full px-20 py-10 bg-white/90 flex flex-col md:flex-row justify-center items-center rounded-2xl shadow-lg p-6 gap-8 border border-navy/10 transition-all duration-150 overflow-hidden"
                   key={"edit-new-member"}
@@ -427,7 +442,7 @@ export default function Page() {
                         htmlFor="job_title"
                         className="text-sm md:text-base text-navy font-bold mb-1"
                       >
-                        Job Title
+                        Role
                       </label>
                       <input
                         type="text"
@@ -444,7 +459,7 @@ export default function Page() {
                     </div>
                     <div className="flex flex-col">
                       <label
-                        htmlFor="job_title"
+                        htmlFor="address"
                         className="text-sm md:text-base text-navy font-bold mb-1"
                       >
                         Location
@@ -459,6 +474,25 @@ export default function Page() {
                           })
                         }
                         placeholder="E.g. New Delhi, India"
+                        className="text-base font-medium text-black border border-navy/30 focus:border-navy outline-none w-full px-4 py-2 rounded-lg transition-all placeholder:text-navy/40"
+                      />
+                    </div>
+
+                    <div className="flex flex-col">
+                      <label
+                        htmlFor="filters"
+                        className="text-sm md:text-base text-navy font-bold mb-1"
+                      >
+                        Filters (comma-separated)
+                      </label>
+                      <input
+                        type="text"
+                        id="filters"
+                        value={newMemberFilterInput}
+                        onChange={(e) =>
+                          setNewMemberFilterInput(e.target.value)
+                        }
+                        placeholder="E.g. Director, Manager, India"
                         className="text-base font-medium text-black border border-navy/30 focus:border-navy outline-none w-full px-4 py-2 rounded-lg transition-all placeholder:text-navy/40"
                       />
                     </div>
@@ -497,9 +531,10 @@ export default function Page() {
                         {newMember.loading ? "Creating..." : "Create"}
                       </button>
                       <button
-                        onClick={() =>
-                          setNewMember({ ...newMember, edit: false })
-                        }
+                        onClick={() => {
+                          setNewMember({ ...newMember, edit: false });
+                          setNewMemberFilterInput("");
+                        }}
                         className="bg-white border border-navy text-navy px-6 py-2 rounded-full shadow hover:bg-navy/5 transition-colors duration-150 cursor-pointer"
                       >
                         Cancel
@@ -584,7 +619,11 @@ export default function Page() {
                                 content: member.content,
                                 address: member.address,
                                 date: member.date,
+                                filters: member.filters,
                               });
+                              setFilterInputString(
+                                (member.filters || []).join(", "),
+                              );
                             }}
                           >
                             <p className="text-black font-medium">Edit</p>
@@ -671,7 +710,7 @@ export default function Page() {
                                 htmlFor="job_title"
                                 className="text-sm md:text-base text-navy font-bold mb-1"
                               >
-                                Job Title
+                                Role
                               </label>
                               <input
                                 type="text"
@@ -683,6 +722,34 @@ export default function Page() {
                                   })
                                 }
                                 placeholder="E.g. Director, Project Manager"
+                                className="text-base font-medium text-black border border-navy/30 focus:border-navy outline-none w-full px-4 py-2 rounded-lg transition-all placeholder:text-navy/40"
+                              />
+                            </div>
+                            <div className="flex flex-col">
+                              <label
+                                htmlFor="filters"
+                                className="text-sm md:text-base text-navy font-bold mb-1"
+                              >
+                                Filters (comma-separated)
+                              </label>
+                              <input
+                                type="text"
+                                value={filterInputString}
+                                onChange={(e) => {
+                                  setFilterInputString(e.target.value);
+                                  // Convert to array for saving, but allow empty strings for typing
+                                  const filtersArray = e.target.value
+                                    ? e.target.value
+                                        .split(",")
+                                        .map((f) => f.trim())
+                                        .filter(Boolean)
+                                    : [];
+                                  setEdit({
+                                    ...edit,
+                                    filters: filtersArray,
+                                  });
+                                }}
+                                placeholder="E.g. Director, Manager, India"
                                 className="text-base font-medium text-black border border-navy/30 focus:border-navy outline-none w-full px-4 py-2 rounded-lg transition-all placeholder:text-navy/40"
                               />
                             </div>
@@ -741,9 +808,10 @@ export default function Page() {
                                 {isPending ? "Saving..." : "Save"}
                               </button>
                               <button
-                                onClick={() =>
-                                  setEdit({ ...edit, edit: false })
-                                }
+                                onClick={() => {
+                                  setEdit({ ...edit, edit: false });
+                                  setFilterInputString("");
+                                }}
                                 className="bg-white border border-navy text-navy px-6 py-2 rounded-full shadow hover:bg-navy/5 transition-colors duration-150 cursor-pointer"
                               >
                                 Cancel
@@ -755,7 +823,7 @@ export default function Page() {
                                     member.date.toString(),
                                   )
                                 }
-                                className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-full shadow hover:bg-navy/5 transition-colors duration-150 cursor-pointer"
+                                className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-full shadow transition-colors duration-150 cursor-pointer"
                               >
                                 Delete
                               </button>

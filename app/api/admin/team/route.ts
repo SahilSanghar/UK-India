@@ -52,7 +52,7 @@ export async function GET() {
         // lastKey: result.LastEvaluatedKey ?? null,
         count: countResult.Count ?? 0,
       },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     return NextResponse.json(
@@ -60,7 +60,7 @@ export async function GET() {
         message: "Failed to get team members",
         error: error instanceof Error ? error.message : "Unknown error",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
