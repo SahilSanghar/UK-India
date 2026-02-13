@@ -268,7 +268,7 @@ export default function Interaction() {
               />
               <StatCard
                 animation="center"
-                number={40000}
+                number={46000}
                 title="UKIBC recruited"
                 description="students from UKIBC Consortium universities"
                 color="white"

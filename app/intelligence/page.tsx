@@ -283,7 +283,7 @@ export default function Intelligence() {
               />
               <StatCard
                 animation="center"
-                number={40000}
+                number={46000}
                 title="UKIBC recruited"
                 description="students from UKIBC Consortium Universities"
                 color="white"
