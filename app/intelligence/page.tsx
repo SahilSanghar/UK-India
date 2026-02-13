@@ -245,7 +245,7 @@ export default function Intelligence() {
           <BoxImageText
             title="Incorporation and Compliance"
             description="We provide end-to-end support, from company registration and business setup to legal, regulatory, and accounting guidance. We also connect you with a trusted network of professional service partners to help you build the right ecosystem from day one."
-            buttonText="Business Launchpad"
+            buttonText="Business Launchpad®"
             buttonLink="/launchpad"
             images={[
               { image: "/comp.webp", position: "center" },
