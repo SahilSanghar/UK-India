@@ -45,10 +45,8 @@ export default function page() {
           Data may be shared with third parties as part of our contracted
           services and/or when required by law. “Third parties” may include
           specialist contractors we may include in specific projects for
-          members. We cannot accept any liability
-          <br />
-          <br />
-          for any processing conducted by a third party outside our remit.
+          members. We cannot accept any liability for any processing conducted
+          by a third party outside our remit.
           <br />
           <br />
           As part of our compliance, we have conducted a cookie audit on our
@@ -72,12 +70,9 @@ export default function page() {
           If you are dissatisfied with this policy, have queries about our data
           protection procedures or wish to lodge a complaint, please contact the
           company in the first instance. Thereafter, you have the right to
-          submit a complaint to the Supervisory
-          <br />
-          <br />
-          Authority, the Information Commissioner’s Office (ICO): The
-          Information Commissioner’s Office, Wycliffe House, Water Lane,
-          Wilmslow, Cheshire, SK9 5AF.
+          submit a complaint to the Supervisory Authority, the Information
+          Commissioner’s Office (ICO): The Information Commissioner’s Office,
+          Wycliffe House, Water Lane, Wilmslow, Cheshire, SK9 5AF.
         </p>
       </section>
 
