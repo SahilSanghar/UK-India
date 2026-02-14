@@ -104,14 +104,27 @@ export default function EventCard({
                 ? new Date(
                     `${event_date.substring(0, 4)}-${event_date.substring(
                       4,
-                      6
-                    )}-${event_date.substring(6, 8)}`
+                      6,
+                    )}-${event_date.substring(6, 8)}`,
                   ).toLocaleDateString("en-US", {
                     year: "numeric",
                     month: "long",
                     day: "numeric",
                   })
-                : event_date}
+                : event_date}{" "}
+              -{" "}
+              {event_end_date && event_end_date.length === 8
+                ? new Date(
+                    `${event_end_date.substring(0, 4)}-${event_end_date.substring(
+                      4,
+                      6,
+                    )}-${event_end_date.substring(6, 8)}`,
+                  ).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })
+                : event_end_date}
             </p>
           </div>
         )}

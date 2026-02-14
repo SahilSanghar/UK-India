@@ -188,7 +188,7 @@ export default function Footer() {
                       className="flex items-center gap-2 text-sm md:text-base hover:text-white/80 transition-colors"
                     >
                       <span className="text-white">{" >"}</span>
-                      <span>{link}</span>
+                      <span>{link == "Launchpad" ? "Launchpad®" : link}</span>
                     </Link>
                   </li>
                 ))}
@@ -254,7 +254,9 @@ export default function Footer() {
 
                 {/* Delhi */}
                 <div className="flex flex-col gap-3">
-                  <p className="font-semibold text-sm md:text-base">Delhi NCR</p>
+                  <p className="font-semibold text-sm md:text-base">
+                    Delhi NCR
+                  </p>
                   <div className="flex flex-col gap-2">
                     <div className="flex items-center gap-2">
                       <svg

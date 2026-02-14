@@ -47,6 +47,18 @@ export async function GET(req: NextRequest) {
     });
 
     const result = await dynamoClient.send(command);
+    // Change every image field in the result.Items
+    if (result.Items) {
+      result.Items = result.Items.map((item) => {
+        return {
+          ...item,
+          image: item.image
+            ? "https://ukibc-storage.s3.ap-south-1.amazonaws.com" + item.image
+            : "/default.png",
+        };
+      });
+    }
+
     const countResult = await dynamoClient.send(countCommand);
 
     return NextResponse.json(
@@ -55,7 +67,7 @@ export async function GET(req: NextRequest) {
         lastKey: result.LastEvaluatedKey ?? null,
         count: countResult.Count ?? 0,
       },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     return NextResponse.json(
@@ -63,7 +75,7 @@ export async function GET(req: NextRequest) {
         message: "Failed to get events",
         error: error instanceof Error ? error.message : "Unknown error",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

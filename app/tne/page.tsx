@@ -26,7 +26,7 @@ export default function page() {
       />
       <BoxImageText
         title="Flagship TNE Report: Pathway to Success"
-        description={`A practical 10 step guide to build your tailored, sustainable TNE action plan. Reach out to our expert team to help you create it. <a href="/contact" style="color: #012d6b; text-decoration: underline;"> Click here </a>`}
+        description={`A practical 10 step guide to build your tailored, sustainable TNE action plan. Reach out to our expert team to help you create it. <a href="/TNE-Report-2024-Digital-File-TN-04.06.2024-compressed.pdf" target="_blank" style="color: #012d6b; text-decoration: underline;"> Click here </a>`}
         className="my-20"
         images={[
           { image: "/home/eyes/influence-3.png", position: "50%_50%" },

@@ -138,7 +138,7 @@ export default function About() {
         title_data={[
           {
             title: "About us",
-            des: "The UKIBC is a bilateral trade organisation that amplifies potential opportunities come our partnerships and collaborations, by conveying, communicating and coordinating industries across UK-India. Through last mile insights, connectivity in achieving this success.",
+            des: "The UK India Business Council passionately believes that the UK-India partnership has significant growth potential for both countries, and that UK and Indian businesses have ideas, technology, services, and products that can succeed in India and the UK, respectively. Through our insights, networks, policy advocacy, and market-entry services, we help businesses achieve this success.",
           },
         ]}
         flip={true}

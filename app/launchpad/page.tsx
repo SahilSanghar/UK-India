@@ -579,7 +579,7 @@ export default function Influence() {
           title="Launchpad® drives your India strategy now and sets you up for what comes next."
           description="We help you map the right India model with clarity and confidence, backed by advisors who bring last-mile connectivity and trusted networks across government, industry and academia. It is future-focused, practical, and built for impact."
           className="my-20"
-          buttonText="Meet out Launchpad® Experts"
+          buttonText="Meet our Launchpad® Experts"
           buttonLink="/team?filter=business_solutions"
           images={[
             { image: "/l4.jpg", position: "center" },
@@ -633,11 +633,11 @@ export default function Influence() {
               Beyond in-country representation, UKIBC provides integrated
               consulting and establishment support for organisations and UK SMEs
               looking to formalise and scale their India presence. We help
-              support establishment of the right legal entity structure,
-              including,-
+              support the establishment of the right structures through the
+              following
             </h1>
             <h1 className="md:text-4xl text-xl font-bold text-white flex text-center justify-center items-center  md:w-[60%] w-[90%] ">
-              Legal Set-up in India:
+              Legal Set-up in India
             </h1>
             <ul className="gap-3 grid grid-cols-1 md:grid-cols-3 justify-items-center items-center place-items-center w-full">
               <div className="cols-span-1 md:col-span-3 md:w-[70%] w-[90%] grid md:grid-cols-3  grid-cols-2 justify-center items-center gap-5">
@@ -673,7 +673,7 @@ export default function Influence() {
             </ul>
 
             <h1 className="md:text-4xl text-xl font-bold text-white flex text-center justify-center items-center  md:w-[60%] w-[90%] ">
-              Ongoing Support Services:
+              Ongoing Support Services
             </h1>
             <ul className="gap-3 grid grid-cols-1 md:grid-cols-3 justify-items-center items-center place-items-center w-full">
               <div className="cols-span-1 md:col-span-3 md:w-[70%] w-[90%] grid md:grid-cols-3  grid-cols-2 justify-center items-center gap-5">
