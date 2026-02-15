@@ -41,27 +41,32 @@ export default async function page(props: {
   const params = await props.params;
   // const posts = await getPost(params.slug);
 
-  const command = new QueryCommand({
-    TableName: "ukibc_reports",
-    IndexName: "reports-index",
-    KeyConditionExpression: "#slug = :slug",
-    ExpressionAttributeNames: {
-      "#slug": "slug",
-    },
-    ExpressionAttributeValues: {
-      ":slug": params.slug,
-    },
-    Limit: 1,
-  });
+  try {
+    const command = new QueryCommand({
+      TableName: "ukibc_reports",
+      IndexName: "reports-index",
+      KeyConditionExpression: "#slug = :slug",
+      ExpressionAttributeNames: {
+        "#slug": "slug",
+      },
+      ExpressionAttributeValues: {
+        ":slug": params.slug,
+      },
+      Limit: 1,
+    });
 
-  const result = await docClient.send(command);
-  // console.log(result);
-  const posts = result.Items?.[0] ?? null;
-  console.log(posts);
+    const result = await docClient.send(command);
+    // console.log(result);
+    const posts = result.Items?.[0] ?? null;
+    // console.log(posts);
 
-  if (!posts) {
+    if (!posts) {
+      return notFound();
+    }
+
+    return <Client post={posts as PostProps} />;
+  } catch (error) {
+    console.error("Failed to get report", error);
     return notFound();
   }
-
-  return <Client post={posts as PostProps} />;
 }

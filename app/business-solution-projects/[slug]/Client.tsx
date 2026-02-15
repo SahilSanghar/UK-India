@@ -6,44 +6,42 @@ import { motion } from "framer-motion";
 import { normalizeRichTextHtml } from "../../../lib/normalizeRichTextHtml";
 
 interface PostProps {
-  yoast_head_json: {
-    og_image: { url: string }[];
-  };
-  title: { rendered: string };
+  image: string;
+  title: string;
   date: string;
-  content: { rendered: string };
+  content: string;
 }
 export default function Client({ post }: { post: PostProps }) {
   return (
-    <motion.div className="w-full mx-auto  py-10 ">
-      {/* <motion.div
+    <motion.div className="w-full mx-auto py-10">
+      <motion.div
         initial={{ opacity: 0, y: 10 }}
         whileInView={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -10 }}
         transition={{ duration: 0.5 }}
-        className="w-[80%] md:w-[50%] mx-auto aspect-video relative flex flex-col gap-4 "
+        className="min-w-[500px] w-[90%] md:w-[50%] mx-auto aspect-video relative flex flex-col gap-4 mt-20"
       >
         <Image
-          src={post?.yoast_head_json?.og_image?.[0]?.url ?? ""}
-          alt={post?.title?.rendered ?? "Untitled"}
+          src={post?.image ?? ""}
+          alt={post?.title ?? "Untitled"}
           width={0}
           height={0}
           sizes="100vw"
           priority
-          className="w-full h-full object-cover border-4 border-mix rounded-4xl"
+          className="w-full h-full object-cover rounded-4xl"
         />
-      </motion.div> */}
+      </motion.div>
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         whileInView={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -10 }}
         transition={{ duration: 0.5, delay: 0.2 }}
-        className="w-full max-w-7xl mx-auto px-4 py-10 mt-10"
+        className="w-full max-w-7xl mx-auto px-4 py-10 "
       >
         <h1
           className="text-4xl font-bold text-navy"
           dangerouslySetInnerHTML={{
-            __html: post?.title?.rendered ?? "Untitled",
+            __html: post?.title ?? "Untitled",
           }}
         />
         <p className="text-md font-medium text-gray-500">
@@ -72,7 +70,7 @@ export default function Client({ post }: { post: PostProps }) {
         <div
           className="mt-10 prose prose-p:mb-4 prose-p:last:mb-0 prose-p:leading-relaxed"
           dangerouslySetInnerHTML={{
-            __html: normalizeRichTextHtml(post?.content?.rendered ?? ""),
+            __html: normalizeRichTextHtml(post?.content ?? ""),
           }}
         />
       </motion.div>
