@@ -6,12 +6,10 @@ import { motion } from "framer-motion";
 import { normalizeRichTextHtml } from "../../../lib/normalizeRichTextHtml";
 
 interface PostProps {
-  yoast_head_json: {
-    og_image: { url: string }[];
-  };
-  title: { rendered: string };
+  image: string;
+  title: string;
   date: string;
-  content: { rendered: string };
+  content: string;
 }
 export default function Client({ post }: { post: PostProps }) {
   return (
@@ -24,8 +22,8 @@ export default function Client({ post }: { post: PostProps }) {
         className="w-[80%] md:w-[50%] mx-auto aspect-video relative flex flex-col gap-4 "
       >
         <Image
-          src={post?.yoast_head_json?.og_image?.[0]?.url ?? ""}
-          alt={post?.title?.rendered ?? "Untitled"}
+          src={post?.image ?? ""}
+          alt={post?.title ?? "Untitled"}
           width={0}
           height={0}
           sizes="100vw"
@@ -43,7 +41,7 @@ export default function Client({ post }: { post: PostProps }) {
         <h1
           className="text-4xl font-bold text-navy"
           dangerouslySetInnerHTML={{
-            __html: post?.title?.rendered ?? "Untitled",
+            __html: post?.title ?? "Untitled",
           }}
         />
         <p className="text-md font-medium text-gray-500">
@@ -64,7 +62,7 @@ export default function Client({ post }: { post: PostProps }) {
         <div
           className="mt-10 prose prose-p:mb-4 prose-p:last:mb-0 prose-p:leading-relaxed"
           dangerouslySetInnerHTML={{
-            __html: normalizeRichTextHtml(post?.content?.rendered ?? ""),
+            __html: normalizeRichTextHtml(post?.content ?? ""),
           }}
         />
       </motion.div>

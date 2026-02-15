@@ -43,6 +43,7 @@ export async function GET(req: NextRequest) {
     });
 
     const result = await dynamoClient.send(command);
+    console.log(result);
     return NextResponse.json(result.Items ?? [], { status: 200 });
   } catch (error) {
     console.error(error);
