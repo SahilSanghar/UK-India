@@ -32,12 +32,12 @@ export async function GET(req: NextRequest) {
     const command = new ScanCommand({
       TableName: "ukibc_reports",
       FilterExpression:
-        "(contains(title, :search) OR contains(description, :search)) AND #type = :type",
+        "(contains(slug, :search) OR contains(description, :search)) AND #type = :type",
       ExpressionAttributeNames: {
         "#type": "type",
       },
       ExpressionAttributeValues: {
-        ":search": search,
+        ":search": search.toLowerCase(),
         ":type": "report",
       },
     });
