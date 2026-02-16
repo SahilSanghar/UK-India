@@ -52,6 +52,7 @@ export async function POST(req: Request) {
         Key: `events/${id}.webp`,
       }),
     );
+    
 
     return NextResponse.json({ message: "Event deleted" }, { status: 200 });
   } catch (error) {
