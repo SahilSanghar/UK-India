@@ -44,7 +44,14 @@ export async function POST(req: Request) {
         Bucket: "ukibc-storage",
         Key: `projects/${id}`,
       }),
-    );  
+    );
+
+    await s3Client.send(
+      new DeleteObjectCommand({
+        Bucket: "ukibc-optimized",
+        Key: `projects/${id}.webp`,
+      }),
+    );
 
     return NextResponse.json(
       { message: "Case study deleted" },

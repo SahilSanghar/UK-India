@@ -53,7 +53,7 @@ export async function GET(req: NextRequest) {
         return {
           ...item,
           image: item.image
-            ? "https://ukibc-storage.s3.ap-south-1.amazonaws.com" + item.image
+            ? "https://d2paj8ptqa22jg.cloudfront.net/events/" + item.id + ".webp"
             : "/default.png",
         };
       });

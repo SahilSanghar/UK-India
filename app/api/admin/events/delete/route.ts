@@ -44,12 +44,16 @@ export async function POST(req: Request) {
         Bucket: "ukibc-storage",
         Key: `events/${id}`,
       }),
-    );  
-
-    return NextResponse.json(
-      { message: "Event deleted" },
-      { status: 200 },
     );
+
+    await s3Client.send(
+      new DeleteObjectCommand({
+        Bucket: "ukibc-optimized",
+        Key: `events/${id}.webp`,
+      }),
+    );
+
+    return NextResponse.json({ message: "Event deleted" }, { status: 200 });
   } catch (error) {
     console.error("Failed to delete case study", error);
     return NextResponse.json(

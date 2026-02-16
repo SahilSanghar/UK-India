@@ -43,7 +43,16 @@ export async function GET(req: NextRequest) {
     });
 
     const result = await dynamoClient.send(command);
-    console.log(result);
+    if (result.Items) {
+      result.Items = result.Items.map((item) => {
+        return {
+          ...item,
+          image: item.image
+            ? "https://d2paj8ptqa22jg.cloudfront.net/reports/" + item.id + ".webp"
+            : "/default.png",
+        };
+      });
+    }
     return NextResponse.json(result.Items ?? [], { status: 200 });
   } catch (error) {
     console.error(error);

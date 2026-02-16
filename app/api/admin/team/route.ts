@@ -46,6 +46,18 @@ export async function GET() {
     const result = await dynamoClient.send(command);
     const countResult = await dynamoClient.send(countCommand);
 
+    if (result.Items) {
+      result.Items = result.Items.map((item) => {
+        return {
+          ...item,
+          image: item.image
+            ? "https://d2paj8ptqa22jg.cloudfront.net/team/" + item.id + ".webp"
+            : "/default.png",
+        };
+      });
+    }
+
+
     return NextResponse.json(
       {
         team: result.Items ?? [],

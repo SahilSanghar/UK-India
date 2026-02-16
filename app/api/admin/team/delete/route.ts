@@ -36,25 +36,32 @@ export async function POST(req: Request) {
         ExpressionAttributeValues: {
           ":id": { S: id },
         },
-      })
+      }),
     );
 
     await s3Client.send(
       new DeleteObjectCommand({
         Bucket: "ukibc-storage",
         Key: `team/${id}`,
-      })
+      }),
+    );
+
+    await s3Client.send(
+      new DeleteObjectCommand({
+        Bucket: "ukibc-optimized",
+        Key: `team/${id}.webp`,
+      }),
     );
 
     return NextResponse.json(
       { message: "Team member deleted" },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     console.error("Failed to delete team member", error);
     return NextResponse.json(
       { message: "Failed to delete team member" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

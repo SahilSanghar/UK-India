@@ -46,6 +46,13 @@ export async function POST(req: Request) {
       })
     );
 
+    await s3Client.send(
+      new DeleteObjectCommand({
+        Bucket: "ukibc-optimized",
+        Key: `group-board/${id}.webp`,
+      }),
+    );
+
     return NextResponse.json(
       { message: "Group board member deleted" },
       { status: 200 }

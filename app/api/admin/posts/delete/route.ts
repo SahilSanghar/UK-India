@@ -46,6 +46,13 @@ export async function POST(req: Request) {
       })
     );
 
+    await s3Client.send(
+      new DeleteObjectCommand({
+        Bucket: "ukibc-optimized",
+        Key: `posts/${id}.webp`,
+      }),
+    );
+
     return NextResponse.json(
       { message: "Post deleted" },
       { status: 200 }

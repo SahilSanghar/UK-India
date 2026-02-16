@@ -46,13 +46,26 @@ export async function GET() {
     const result = await dynamoClient.send(command);
     const countResult = await dynamoClient.send(countCommand);
 
+    if (result.Items) {
+      result.Items = result.Items.map((item) => {
+        return {
+          ...item,
+          image: item.image
+            ? "https://d2paj8ptqa22jg.cloudfront.net/group-board/" +
+              item.id +
+              ".webp"
+            : "/default.png",
+        };
+      });
+    }
+
     return NextResponse.json(
       {
         groupBoard: result.Items ?? [],
         // lastKey: result.LastEvaluatedKey ?? null,
         count: countResult.Count ?? 0,
       },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     return NextResponse.json(
@@ -60,7 +73,7 @@ export async function GET() {
         message: "Failed to get group board members",
         error: error instanceof Error ? error.message : "Unknown error",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
