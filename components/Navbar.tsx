@@ -320,15 +320,15 @@ export default function Navbar() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.2 }}
               exit={{ opacity: 0, y: -10 }}
-              className="absolute top-12 pt-10 md:pt-0 md:top-20 h-screen left-0 w-full bg-white shadow-lg px-10 py-2 border border-gray-100 z-10"
+              className="absolute top-10 pt-10 md:pt-0 md:top-20 h-screen left-0 w-full bg-white shadow-lg  py-2 border border-gray-100 z-10 justify-center items-center"
             >
               {links.map((link) => {
                 const expanded = openDropdown === link.label;
                 return (
-                  <li key={link.label} className="w-full cursor-pointer">
+                  <li key={link.label} className="w-full cursor-pointer ">
                     {link.sublinks ? (
                       <button
-                        className="w-full text-left px-4 py-2 hover:bg-gray-50 transition-colors duration-200 text-md flex flex-row justify-between items-center gap-2 font-medium cursor-pointer"
+                        className="w-full text-left py-2 px-10 hover:bg-gray-50 transition-colors duration-200 text-md flex flex-row justify-between items-center gap-2 font-medium cursor-pointer"
                         onClick={() =>
                           setOpenDropdown(expanded ? null : link.label)
                         }
@@ -355,18 +355,24 @@ export default function Navbar() {
                     ) : (
                       <Link
                         href={link.href || "#"}
-                        className="w-full text-left px-4 py-2 hover:bg-gray-50 transition-colors duration-200 text-md flex flex-row justify-between items-center gap-2 font-medium cursor-pointer"
+                        className="w-full text-left px-10 py-2 hover:bg-gray-50 transition-colors duration-200 text-md flex flex-row justify-between items-center gap-2 font-medium cursor-pointer"
                         onClick={() => setMobileMenu(false)}
                       >
                         <span>{link.label}</span>
                       </Link>
                     )}
                     {link.sublinks && expanded && (
-                      <ul className="w-full bg-gray-50 border-t border-gray-100">
+                      <motion.ul
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.2 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        className="w-full bg-gray-50 border-t border-gray-100"
+                      >
                         {link.sublinks.map((sublink) => (
                           <li key={sublink.label}>
                             <Link
-                              className="block px-8 py-2 hover:bg-gray-100 transition-colors duration-200 text-sm"
+                              className="block px-15 py-2 hover:bg-gray-100 transition-colors duration-200 text-sm"
                               href={sublink.href || "#"}
                               onClick={() => setMobileMenu(false)}
                             >
@@ -374,7 +380,7 @@ export default function Navbar() {
                             </Link>
                           </li>
                         ))}
-                      </ul>
+                      </motion.ul>
                     )}
                   </li>
                 );

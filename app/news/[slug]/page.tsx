@@ -57,9 +57,22 @@ export default async function page(props: {
 
     const result = await docClient.send(command);
     // console.log(result);
+
+    if (result.Items) {
+      result.Items = result.Items.map((item) => {
+        return {
+          ...item,
+          image: item.image
+            ? "https://d2paj8ptqa22jg.cloudfront.net/posts/" +
+              item.id +
+              ".webp"
+            : "/default.png",
+        };
+      });
+    }
+
     const posts = result.Items?.[0] ?? null;
 
-    
     // console.log(/posts);
 
     if (!posts) {

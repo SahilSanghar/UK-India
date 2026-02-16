@@ -71,7 +71,7 @@ export default function page() {
             several submissions and dialogues. <br />
             <br />
             <a
-              href="https://www.ukibc.com/ukibc-submit-recommendations-to-government-of-india-to-support-business-in-relation-to-covid-19/"
+              href="/news/ukibc-submit-recommendations-to-government-of-india-to-support-business-in-relation-to-covid-19/"
               target="_blank"
               className="text-blue-500 underline"
             >
@@ -103,7 +103,7 @@ export default function page() {
                 <li>Embracing online courses</li>
                 <li>Integrating vocational training into mainstream education</li>
                 <li>Greater international collaboration</li> <br> While the new policy was being drafted by the Kasturirangan Committee in 2018, UKIBC submitted these recommendations in two reports to the MHRD - <a href="/reports/indiaeducationpolicyreport/" style="color: #012d6b; text-decoration: underline;">‘India’s New Education Policy</a> and <a href="/reports/beyondthetop200/" style="color: #012d6b; text-decoration: underline;"> ‘Beyond the Top 200 – Effective International Collaboration for Indian Higher Education’</a> with these recommendations. <br>In addition, the policy aims to make all universities and colleges multidisciplinary by 2040, with a focus on holistic education, soft skills, and vocational training. UKIBC believes that to fulfil its growth potential and deliver employment outcomes, India's new education policy should be centred on the four key tenets of excellence, equal access, expansion, and employability.`,
-                link: "/news/ukibc-submission-on-indias-new-national-education-policy/ ",
+                link: "/news/ukibc-submission-on-india's-new-national-education-policy ",
                 image: "/reports/2.jpg",
               },
               {
@@ -126,7 +126,7 @@ The change appears to align with the newly proposed ‘Buy Global (Manufacture i
                 quote:
                   "UKIBC submit recommendations to GOI on behalf of British industry amidst COVID-19 (March 2020)",
                 des: `Given the unprecedented nature of COVID-19, practical issues were required to be addressed to ensure essential goods and services continue to be delivered. Against this backdrop, the UKIBC, in consultation with its members and clients, identified a range of regulatory and practical issues being faced by business and which have been presented to the Government of India and to DIT India through several submissions and dialogues.<br/><br/>
-<a href="https://www.ukibc.com/ukibc-submit-recommendations-to-government-of-india-to-support-business-in-relation-to-covid-19/" style="color: #012d6b; text-decoration: underline;" target="_blank">ukibc submit recommendations to government of india to support business in relation to covid-19 </a>
+<a href="/news/ukibc-submit-recommendations-to-government-of-india-to-support-business-in-relation-to-covid-19/" style="color: #012d6b; text-decoration: underline;" target="_blank">ukibc submit recommendations to government of india to support business in relation to covid-19 </a>
 `,
                 image: "/reports/5.webp",
                 link: "/news/ukibc-submit-recommendations-to-goi-on-behalf-of-british-industry/",
@@ -136,12 +136,13 @@ The change appears to align with the newly proposed ‘Buy Global (Manufacture i
                 des: `Following UKIBC’s repeated representations to the Food Safety and Standards Authority of India (FSSAI) on their stringent labelling requirements, the FSSAI have confirmed the inclusion of the rectifiable labelling requirement.<br/><br/>The FSSAI, to facilitate trade, permits rectification of labelling by affixing a single non-detachable sticker or by any other non-detachable method next to the principal display panel, without altering or masking the original label information in any manner.
 <br/><br/>UKIBC has engaged with neutral allies and the FSSAI to secure this win for UK businesses exporting to India.`,
                 image: "/reports/6.webp",
-                link: "/news/ukibc-food-and-drink-advocacy-win-rectifiable-labelling/",
+                link: "/news/ukibc-food-and-drink-advocacy-win-rectifiable-labelling-09c55c23",
               },
+              // i am here
               {
                 quote: "Drug pricing rise (December 2019)",
                 des: `In December 2019, the National Pharmaceutical Pricing Authority (NPPA), India’s drug pricing regulator, increased the ceiling prices of 21 formulations by 50%<br/><br/>
-This is a point for which the UKIBC has been advocating for since the launch of our report <a href="reports/drug-pricing-in-india-regulations-to-foster-innovation-accessibility-and-affordability/" style="color: #012d6b; text-decoration: underline;">‘Drug Pricing in India: Regulation to foster innovation, accessibility and affordability‘</a>.<br/><br/>
+This is a point for which the UKIBC has been advocating for since the launch of our report <a href="/reports/drug-pricing-in-india-regulations-to-foster-innovation-accessibility-and-affordability/" style="color: #012d6b; text-decoration: underline;">‘Drug Pricing in India: Regulation to foster innovation, accessibility and affordability‘</a>.<br/><br/>
 The UKIBC has long made the point that drug pricing requires a careful balancing act. If the price is too low, innovation will be discouraged, and the availability of important medicines will be reduced. This announcement by the NPPA is a step in the right direction and will benefit the Indian healthcare system and those who depend on it.<br/><br/>
 `,
                 image: "/reports/7.webp",
