@@ -10,15 +10,17 @@ const dynamoClient = new DynamoDBClient({
   },
 });
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
-    // const { searchParams } = new URL(req.url);
+    const { searchParams } = new URL(req.url);
 
     // const limit = Number(searchParams.get("limit")) || 10;
     // const lastKey = searchParams.get("lastKey")
     //   ? JSON.parse(searchParams.get("lastKey")!)
     //   : undefined;
-
+    // const { admin } = await req.json();
+    const admin = searchParams.get("admin") === "true";
+    console.log(admin);
     const command = new QueryCommand({
       TableName: "ukibc_team",
       KeyConditionExpression: "#t = :t",
@@ -51,12 +53,16 @@ export async function GET() {
         return {
           ...item,
           image: item.image
-            ? "https://d2paj8ptqa22jg.cloudfront.net/team/" + item.id + ".webp"
+            ? admin
+              ? "https://ukibc-optimized.s3.ap-south-1.amazonaws.com/team/" +
+                item.id + ".webp"
+              : "https://d2paj8ptqa22jg.cloudfront.net/team/" +
+                item.id +
+                ".webp"
             : "/default.png",
         };
       });
     }
-
 
     return NextResponse.json(
       {
