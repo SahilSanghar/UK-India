@@ -56,7 +56,7 @@ export default function BoxImageText({
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         viewport={{ once: false }}
-        className="w-full xl:w-1/2 flex items-center bg-black/5 justify-center relative rounded-2xl sm:rounded-3xl md:rounded-4xl p-4 sm:p-6 md:p-8 lg:p-10 h-auto"
+        className="w-full xl:w-1/2 flex bg-black/5 justify-center rounded-2xl sm:rounded-3xl md:rounded-4xl p-4 sm:p-6 md:p-8 lg:p-10 h-auto min-h-[280px] sm:min-h-[320px] md:min-h-0 relative overflow-hidden"
       >
         <ImageSlider rounded={true} animation="up" images={images} />
       </motion.div>

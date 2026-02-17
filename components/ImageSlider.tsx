@@ -21,13 +21,13 @@ export default function ImageSlider({
       () => {
         setCurrentImageState((prev) => (prev + 1) % images.length);
       },
-      time ? time : 5000
+      time ? time : 5000,
     );
     return () => clearInterval(interval);
   }, [images, currentImageState]);
   return (
     <div
-      className={`w-full h-full  flex items-center justify-center overflow-hidden ${
+      className={`absolute inset-0 flex items-center justify-center overflow-hidden ${
         rounded ? "rounded-4xl" : ""
       }`}
     >
@@ -40,30 +40,29 @@ export default function ImageSlider({
             animation === "zoom"
               ? { scale: 1.1, opacity: 1 }
               : animation === "up"
-              ? { y: -10, opacity: 1 }
-              : {}
+                ? { y: -10, opacity: 1 }
+                : {}
           }
           transition={
             animation === "zoom"
               ? { duration: 10, opacity: { duration: 0.5, ease: "easeInOut" } }
               : animation === "up"
-              ? {
-                  duration: 10,
-                  y: { duration: 0.5, ease: "easeInOut" },
-                  opacity: { duration: 0.5, ease: "easeInOut" },
-                }
-              : {}
+                ? {
+                    duration: 10,
+                    y: { duration: 0.5, ease: "easeInOut" },
+                    opacity: { duration: 0.5, ease: "easeInOut" },
+                  }
+                : {}
           }
           className="w-full h-full"
         >
-          <div className="w-full h-full relative ">
+          <div className="relative w-full h-full">
             <Image
               src={images![currentImageState].image}
               alt="logo"
-              width={0}
-              height={0}
+              fill
               sizes="100vw"
-              className={`w-full h-full object-cover scale-110 ${
+              className={`object-cover scale-110 ${
                 rounded ? "rounded-4xl" : ""
               } object-[${images![currentImageState].position}]`}
               priority
