@@ -135,10 +135,10 @@ export default function Home() {
             large={true}
             time={8000}
             images={[
-              { image: "/home/eyes/interact-1.png", position: "50%_100%" },
-              { image: "/home/eyes/interact-2.png", position: "50%_50%" },
-              { image: "/home/eyes/interact-3.png", position: "50%_50%" },
-              { image: "/home/eyes/interact-4.png", position: "50%_50%" },
+              { image: "/home/eyes/interact-1.webp", position: "50%_100%" },
+              { image: "/home/eyes/interact-2.webp", position: "50%_50%" },
+              { image: "/home/eyes/interact-3.webp", position: "50%_50%" },
+              { image: "/home/eyes/interact-4.webp", position: "50%_50%" },
             ]}
             idiot={false}
             link="/interaction"
@@ -153,9 +153,9 @@ export default function Home() {
             link="/influence"
             time={5000}
             images={[
-              { image: "/inf1.jpg", position: "50%_50%" },
-              { image: "/inf2.jpg", position: "50%_50%" },
-              { image: "/home/eyes/influence-3.png", position: "50%_50%" },
+              { image: "/inf1.webp", position: "50%_50%" },
+              { image: "/inf2.webp", position: "50%_50%" },
+              { image: "/home/eyes/influence-3.webp", position: "50%_50%" },
               // { image: "/home/eyes/influence-4.jpg", position: "bottom-right" },
             ]}
           />
@@ -169,10 +169,10 @@ export default function Home() {
               link="/intelligence"
               time={5000}
               images={[
-                { image: "/home/eyes/intel-1.png", position: "50%_100%" },
-                { image: "/home/eyes/intel-2.png", position: "50%_50%" },
-                { image: "/home/eyes/intel-3.png", position: "50%_50%" },
-                { image: "/home/eyes/intel-4.png", position: "50%_50%" },
+                { image: "/home/eyes/intel-1.webp", position: "50%_100%" },
+                { image: "/home/eyes/intel-2.webp", position: "50%_50%" },
+                { image: "/home/eyes/intel-3.webp", position: "50%_50%" },
+                { image: "/home/eyes/intel-4.webp", position: "50%_50%" },
               ]}
             />
           {/* <div className="col-span-2 md:col-span-1">
