@@ -58,7 +58,7 @@ export default async function page(props: {
     const result = await docClient.send(command);
     // console.log(result);
     const posts = result.Items?.[0] ?? null;
-    // console.log(posts);
+    console.log(posts);
 
     if (!posts) {
       return notFound();
