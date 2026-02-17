@@ -20,7 +20,7 @@ export async function GET(req: NextRequest) {
     //   : undefined;
     // const { admin } = await req.json();
     const admin = searchParams.get("admin") === "true";
-    console.log(admin);
+    // console.log(admin);
     const command = new QueryCommand({
       TableName: "ukibc_team",
       KeyConditionExpression: "#t = :t",
