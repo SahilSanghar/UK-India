@@ -552,89 +552,89 @@ export default function Page() {
                   const isDragOver = dragOverIndex === index;
 
                   return (
-                    <>
+                    <React.Fragment key={member.id.toString()}>
                       {!edit.edit ? (
-                        <motion.div
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: 10 }}
-                          transition={{ duration: 0.3 }}
-                          key={member.id.toString()}
-                          className={`w-full bg-black/10 h-fit flex items-center rounded-lg p-4 gap-5 cursor-move transition-all duration-150 ${
-                            isDragged ? "opacity-60 scale-[0.99]" : ""
-                          } ${
-                            isDragOver && !isDragged
-                              ? "ring-2 ring-navy/60 shadow-lg"
-                              : ""
-                          }`}
-                          draggable
-                          onDragStart={() => handleDragStart(index)}
-                          onDragOver={(e) => handleDragOver(e, index)}
-                          onDrop={() => handleDrop(index)}
-                          onDragEnd={handleDragEnd}
-                        >
-                          <Image
-                            src={
-                              member.image
-                                ? `${member.image}${
-                                    member.image.includes("?") ? "&" : "?"
-                                  }v=${new Date().getTime()}`
-                                : "/person.jpg"
-                            }
-                            alt={member.title || "No title"}
-                            width={0}
-                            height={0}
-                            sizes="100vw"
-                            className="rounded-full w-24 h-24 object-cover"
-                            unoptimized
-                          />
-                          <div className="flex flex-col gap-1">
-                            <p className="text-lg font-bold text-navy">
-                              {member.title}
-                            </p>
-                            <p className="text-sm text-black font-bold">
-                              {member.job_title}
-                            </p>
-                            <p className="text-sm text-black">
-                              {member.address}
-                            </p>
-                            {/* <p className="text-sm text-black">{member.content}</p> */}
-                            {/* <p className="text-sm text-black">{member.email}</p>
+                        <div className="w-full">
+                          <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: 10 }}
+                            transition={{ duration: 0.3 }}
+                            className={`w-full bg-black/10 h-fit flex items-center rounded-lg p-4 gap-5 cursor-move transition-all duration-150 ${
+                              isDragged ? "opacity-60 scale-[0.99]" : ""
+                            } ${
+                              isDragOver && !isDragged
+                                ? "ring-2 ring-navy/60 shadow-lg"
+                                : ""
+                            }`}
+                            draggable
+                            onDragStart={() => handleDragStart(index)}
+                            onDragOver={(e) => handleDragOver(e, index)}
+                            onDrop={() => handleDrop(index)}
+                            onDragEnd={handleDragEnd}
+                          >
+                            <Image
+                              src={
+                                member.image
+                                  ? `${member.image}${
+                                      member.image.includes("?") ? "&" : "?"
+                                    }v=${new Date().getTime()}`
+                                  : "/person.jpg"
+                              }
+                              alt={member.title || "No title"}
+                              width={0}
+                              height={0}
+                              sizes="100vw"
+                              className="rounded-full w-24 h-24 object-cover"
+                              unoptimized
+                            />
+                            <div className="flex flex-col gap-1">
+                              <p className="text-lg font-bold text-navy">
+                                {member.title}
+                              </p>
+                              <p className="text-sm text-black font-bold">
+                                {member.job_title}
+                              </p>
+                              <p className="text-sm text-black">
+                                {member.address}
+                              </p>
+                              {/* <p className="text-sm text-black">{member.content}</p> */}
+                              {/* <p className="text-sm text-black">{member.email}</p>
   <p className="text-sm text-black">{member.phone}</p>
   <p className="text-sm text-black">{member.website}</p>
   <p className="text-sm text-black">{member.facebook}</p>
   <p className="text-sm text-black">{member.twitter}</p>
   <p className="text-sm text-black">{member.instagram}</p>
   <p className="text-sm text-black">{member.linkedin}</p> */}
-                          </div>
+                            </div>
 
-                          <div
-                            className="ml-auto mr-5 underline cursor-pointer"
-                            onClick={() => {
-                              setPreviewImage(null);
-                              setEdit({
-                                edit: true,
-                                id: member.id.toString(),
-                                title: member.title,
-                                image: member.image,
-                                job_title: member.job_title,
-                                content: member.content,
-                                address: member.address,
-                                date: member.date,
-                                filters: member.filters,
-                              });
-                              setFilterInputString(
-                                (member.filters || []).join(", "),
-                              );
-                            }}
-                          >
-                            <p className="text-black font-medium">Edit</p>
-                          </div>
-                        </motion.div>
+                            <div
+                              className="ml-auto mr-5 underline cursor-pointer"
+                              onClick={() => {
+                                setPreviewImage(null);
+                                setEdit({
+                                  edit: true,
+                                  id: member.id.toString(),
+                                  title: member.title,
+                                  image: member.image,
+                                  job_title: member.job_title,
+                                  content: member.content,
+                                  address: member.address,
+                                  date: member.date,
+                                  filters: member.filters,
+                                });
+                                setFilterInputString(
+                                  (member.filters || []).join(", "),
+                                );
+                              }}
+                            >
+                              <p className="text-black font-medium">Edit</p>
+                            </div>
+                          </motion.div>
+                        </div>
                       ) : edit.id === member.id.toString() ? (
                         <div
                           className="w-full px-20 py-10 bg-white/90 flex flex-col md:flex-row justify-center items-center rounded-2xl shadow-lg p-6 gap-8 border border-navy/10 transition-all duration-150 overflow-hidden"
-                          key={edit.id}
                         >
                           <div
                             className={`w-56 h-56 mb-auto rounded-2xl border-2 border-dashed flex flex-col items-center justify-center cursor-pointer transition-colors ${
@@ -833,7 +833,7 @@ export default function Page() {
                           </div>
                         </div>
                       ) : null}
-                    </>
+                    </React.Fragment>
                   );
                 })}
             </>

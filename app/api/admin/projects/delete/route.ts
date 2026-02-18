@@ -28,30 +28,69 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
+    // Validate required parameters
+    if (!id || typeof id !== "string" || id.trim() === "") {
+      return NextResponse.json(
+        { message: "Invalid project ID" },
+        { status: 400 },
+      );
+    }
+
+    if (!date || typeof date !== "string" || date.trim() === "") {
+      return NextResponse.json(
+        { message: "Invalid date parameter" },
+        { status: 400 },
+      );
+    }
+
+    // Validate ID format (should be a UUID)
+    const uuidRegex =
+      /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if (!uuidRegex.test(id.trim())) {
+      return NextResponse.json(
+        { message: "Invalid project ID format" },
+        { status: 400 },
+      );
+    }
+
+    const trimmedId = id.trim();
+
+    // Delete from DynamoDB first
     await dynamoClient.send(
       new DeleteItemCommand({
         TableName: "ukibc_projects",
         Key: { type: { S: "case-study" }, date: { S: date } },
         ConditionExpression: "id = :id",
         ExpressionAttributeValues: {
-          ":id": { S: id },
+          ":id": { S: trimmedId },
         },
       }),
     );
 
-    await s3Client.send(
-      new DeleteObjectCommand({
-        Bucket: "ukibc-storage",
-        Key: `projects/${id}`,
-      }),
-    );
+    // Only delete S3 objects if they exist (use try-catch for each to prevent partial failures)
+    try {
+      await s3Client.send(
+        new DeleteObjectCommand({
+          Bucket: "ukibc-storage",
+          Key: `projects/${trimmedId}`,
+        }),
+      );
+    } catch (s3Error) {
+      console.error("Failed to delete image from ukibc-storage:", s3Error);
+      // Continue even if S3 delete fails - DynamoDB item is already deleted
+    }
 
-    await s3Client.send(
-      new DeleteObjectCommand({
-        Bucket: "ukibc-optimized",
-        Key: `projects/${id}.webp`,
-      }),
-    );
+    try {
+      await s3Client.send(
+        new DeleteObjectCommand({
+          Bucket: "ukibc-optimized",
+          Key: `projects/${trimmedId}.webp`,
+        }),
+      );
+    } catch (s3Error) {
+      console.error("Failed to delete optimized image from ukibc-optimized:", s3Error);
+      // Continue even if S3 delete fails - DynamoDB item is already deleted
+    }
 
     return NextResponse.json(
       { message: "Case study deleted" },
