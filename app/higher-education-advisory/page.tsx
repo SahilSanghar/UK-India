@@ -84,7 +84,7 @@ export default function page() {
               quote:
                 "UKIBC play a key role in supporting increasing bilateral trade between the UK and India in all sectors, including education.",
               name: "Caroline Baylon",
-              role: "Director - International, University of Bristol",
+              role: "Pro-Vice-Chancellor (International), University of Reading",
               image: "/home/testimonial/carol.webp",
             },
             {
