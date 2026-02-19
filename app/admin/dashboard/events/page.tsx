@@ -538,7 +538,7 @@ export default function Page() {
                   // Drag and drop code and state removed
 
                   return (
-                    <>
+                    <React.Fragment key={member.id.toString()}>
                       {!edit.edit ? (
                         <motion.div
                           initial={{ opacity: 0, y: 10 }}
@@ -696,8 +696,9 @@ export default function Page() {
                               <input
                                 type="date"
                                 value={
-                                  edit.start_date && edit.start_date.length === 8
-                                    ? `${edit.start_date.substring(0,4)}-${edit.start_date.substring(4,6)}-${edit.start_date.substring(6,8)}`
+                                  edit.start_date &&
+                                  edit.start_date.length === 8
+                                    ? `${edit.start_date.substring(0, 4)}-${edit.start_date.substring(4, 6)}-${edit.start_date.substring(6, 8)}`
                                     : edit.start_date
                                 }
                                 onChange={(e) =>
@@ -721,7 +722,7 @@ export default function Page() {
                                 type="date"
                                 value={
                                   edit.end_date && edit.end_date.length === 8
-                                    ? `${edit.end_date.substring(0,4)}-${edit.end_date.substring(4,6)}-${edit.end_date.substring(6,8)}`
+                                    ? `${edit.end_date.substring(0, 4)}-${edit.end_date.substring(4, 6)}-${edit.end_date.substring(6, 8)}`
                                     : edit.end_date
                                 }
                                 onChange={(e) =>
@@ -862,7 +863,7 @@ export default function Page() {
                           </div>
                         </div>
                       ) : null}
-                    </>
+                    </React.Fragment>
                   );
                 })}
             </>
