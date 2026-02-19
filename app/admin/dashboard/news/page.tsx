@@ -65,6 +65,8 @@ export default function Page() {
     image: false,
     content: "",
     loading: false,
+    date: new Date().toISOString().slice(0, 10),
+    time: new Date().toTimeString().slice(0, 8),
   });
   const [newMemberFile, setNewMemberFile] = useState<File | null>(null);
   const [newMemberPreview, setNewMemberPreview] = useState<string | null>(null);
@@ -76,7 +78,9 @@ export default function Page() {
     title: "",
     image: "",
     content: "",
+    oldDate: "",
     date: "",
+    time: "",
   });
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [isImageDragOver, setIsImageDragOver] = useState(false);
@@ -129,7 +133,7 @@ export default function Page() {
         title: newMember.title,
         image: Boolean(newMemberFile),
         content: newMember.content,
-        date: new Date().toISOString(),
+        date: `${newMember.date}T${newMember.time}`,
         sort: generateKeyBetween(
           sortedTeam[sortedTeam.length - 1]?.sort ?? null,
           null,
@@ -151,6 +155,8 @@ export default function Page() {
           image: false,
           content: "",
           loading: false,
+          date: new Date().toISOString().slice(0, 10),
+          time: new Date().toTimeString().slice(0, 8),
         });
         setNewMemberFile(null);
         setNewMemberPreview(null);
@@ -169,8 +175,16 @@ export default function Page() {
       id: string;
       title: string;
       content: string;
-      date: string;
-    }) => axios.post("/api/admin/posts/edit", data),
+      oldDate: string;
+      newDate: string;
+    }) =>
+      axios.post("/api/admin/posts/edit", {
+        id: data.id,
+        title: data.title,
+        content: data.content,
+        oldDate: data.oldDate,
+        newDate: data.newDate,
+      }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["news"] });
       setEdit({ ...edit, edit: false });
@@ -181,11 +195,16 @@ export default function Page() {
   });
 
   const handleEdit = () => {
+    const safeTime = edit.time?.trim() ? edit.time : "00:00:00";
+    const newDate = `${edit.date}T${safeTime}`;
+    const oldDate = edit.oldDate;
+
     editTeam({
       id: edit.id,
       title: edit.title,
       content: edit.content,
-      date: edit.date,
+      oldDate,
+      newDate,
     });
   };
   useEffect(() => {
@@ -352,6 +371,23 @@ export default function Page() {
                       />
                     </div>
 
+                    <div className="flex flex-col">
+                      <label
+                        htmlFor="date"
+                        className="text-sm md:text-base text-navy font-bold mb-1"
+                      >
+                        Date
+                      </label>
+                      <input
+                        type="date"
+                        value={newMember.date}
+                        onChange={(e) =>
+                          setNewMember({ ...newMember, date: e.target.value })
+                        }
+                        className="text-base font-medium text-black border border-navy/30 focus:border-navy outline-none w-full px-4 py-2 rounded-lg transition-all  placeholder:text-navy/40"
+                      />
+                    </div>
+
                     <div className="flex flex-row gap-3 mt-4 items-center">
                       <button
                         onClick={() => void handleCreate()}
@@ -374,7 +410,7 @@ export default function Page() {
               )}
 
               {!newMember.edit &&
-                sortedTeam?.map((member: PostProps, index: number) => {
+                sortedTeam?.map((member: PostProps) => {
                   // Drag and drop code and state removed
 
                   return (
@@ -437,7 +473,15 @@ export default function Page() {
                                   title: member.title,
                                   image: member.image,
                                   content: member.content,
-                                  date: member.date,
+                                  oldDate: member.date,
+                                  date:
+                                    new Date(member.date)
+                                      .toISOString()
+                                      .slice(0, 10) || "",
+                                  time:
+                                    new Date(member.date)
+                                      .toTimeString()
+                                      .slice(0, 8) || "",
                                 });
                               }}
                             >
@@ -519,6 +563,23 @@ export default function Page() {
                                     setEdit({ ...edit, title: e.target.value })
                                   }
                                   placeholder="Full name"
+                                  className="text-base font-medium text-black border border-navy/30 focus:border-navy outline-none w-full px-4 py-2 rounded-lg transition-all  placeholder:text-navy/40"
+                                />
+                              </div>
+
+                              <div className="flex flex-col">
+                                <label
+                                  htmlFor="date"
+                                  className="text-sm md:text-base text-navy font-bold mb-1"
+                                >
+                                  Date
+                                </label>
+                                <input
+                                  type="date"
+                                  value={edit.date}
+                                  onChange={(e) =>
+                                    setEdit({ ...edit, date: e.target.value })
+                                  }
                                   className="text-base font-medium text-black border border-navy/30 focus:border-navy outline-none w-full px-4 py-2 rounded-lg transition-all  placeholder:text-navy/40"
                                 />
                               </div>

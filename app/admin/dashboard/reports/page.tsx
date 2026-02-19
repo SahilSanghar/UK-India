@@ -12,7 +12,6 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import TextEditor from "@/components/TextEditor";
 import { PlusIcon, XIcon } from "lucide-react";
-import { generateKeyBetween } from "@/lib/sort";
 
 interface PostProps {
   id: number;
@@ -75,7 +74,9 @@ export default function Page() {
     title: "",
     image: "",
     content: "",
+    oldDate: "",
     date: "",
+    time: "",
   });
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [isImageDragOver, setIsImageDragOver] = useState(false);
@@ -98,7 +99,7 @@ export default function Page() {
     setEditHasNewImage(true);
 
     const signedUrl = await axios.post("/api/admin/team/image/signed", {
-      key: `events/${id}`,
+      key: `reports/${id}`,
     });
 
     if (!signedUrl) {
@@ -118,7 +119,7 @@ export default function Page() {
       alert("Failed to upload image");
       return;
     }
-    queryClient.invalidateQueries({ queryKey: ["events"] });
+    queryClient.invalidateQueries({ queryKey: ["reports"] });
   };
 
   const handleCreate = async () => {
@@ -128,7 +129,7 @@ export default function Page() {
         title: newMember.title,
         image: Boolean(newMemberFile),
         content: newMember.content,
-        date: new Date().toISOString(),
+        date: `${newMember.date}T${newMember.time}`,
       });
 
       if (response.status === 200) {
@@ -146,8 +147,8 @@ export default function Page() {
           image: false,
           content: "",
           loading: false,
-          date: "",
-          time: "",
+          date: new Date().toISOString().slice(0, 10),
+          time: new Date().toTimeString().slice(0, 8),
         });
         setNewMemberFile(null);
         setNewMemberPreview(null);
@@ -166,14 +167,16 @@ export default function Page() {
       id: string;
       title: string;
       content: string;
-      date: string;
+      oldDate: string;
+      newDate: string;
       image: boolean;
     }) =>
       axios.post("/api/admin/reports/edit", {
         id: data.id,
         title: data.title,
         content: data.content,
-        date: data.date,
+        oldDate: data.oldDate,
+        newDate: data.newDate,
         // send whether a new image was selected (via drag/drop or file input)
         image: data.image,
       }),
@@ -187,11 +190,16 @@ export default function Page() {
   });
 
   const handleEdit = () => {
+    const safeTime = edit.time?.trim() ? edit.time : "00:00:00";
+    const newDate = `${edit.date}T${safeTime}`;
+    const oldDate = edit.oldDate;
+
     editTeam({
       id: edit.id,
       title: edit.title,
       content: edit.content,
-      date: edit.date,
+      oldDate,
+      newDate,
       // backend needs true when a new image was chosen
       image: editHasNewImage,
     });
@@ -224,12 +232,12 @@ export default function Page() {
       return;
     }
     try {
-      await axios.post("/api/admin/events/delete", { id, date });
-      queryClient.invalidateQueries({ queryKey: ["events"] });
+      await axios.post("/api/admin/reports/delete", { id, date });
+      queryClient.invalidateQueries({ queryKey: ["reports"] });
       setEdit({ ...edit, edit: false });
     } catch (error) {
-      console.error("Failed to delete event", error);
-      alert("Failed to delete event");
+      console.error("Failed to delete report", error);
+      alert("Failed to delete report");
     }
   };
 
@@ -237,10 +245,10 @@ export default function Page() {
     <>
       <div className="w-full h-full flex flex-col pb-10 pt-25 px-10 z-20">
         <h1 className="text-4xl font-bold flex items-center justify-center pt-10 pb-5 text-navy">
-          Events
+          Reports
         </h1>
         <p className="text-sm text-center flex items-center justify-center mb-5 bg-navy w-fit mx-auto rounded-full px-4 py-2 text-white ">
-          Total events: {data?.pages[0].count ?? 0}
+          Total reports: {data?.pages[0].count ?? 0}
         </p>
 
         {/* <p className="text-sm text-black text-center mb-10">
@@ -270,14 +278,14 @@ export default function Page() {
                   )}
                 </button>
                 <p className="text-sm text-navy font-bold">
-                  {newMember.edit ? "Close" : "Add new event"}
+                  {newMember.edit ? "Close" : "Add new report"}
                 </p>
               </div>
 
               {newMember.edit && (
                 <div
                   className="w-full px-20 py-10 bg-white/90 flex flex-col md:flex-row justify-center items-center rounded-2xl shadow-lg p-6 gap-8 border border-navy/10 transition-all duration-150 overflow-hidden"
-                  key={"edit-new-post"}
+                  key={"edit-new-report"}
                 >
                   <div
                     className={`w-56 h-56 mb-auto rounded-2xl border-2 border-dashed flex flex-col items-center justify-center cursor-pointer transition-colors ${
@@ -426,7 +434,7 @@ export default function Page() {
               )}
 
               {!newMember.edit &&
-                sortedTeam?.map((member: PostProps, index: number) => {
+                sortedTeam?.map((member: PostProps) => {
                   // Drag and drop code and state removed
 
                   return (
@@ -488,7 +496,15 @@ export default function Page() {
                                 title: member.title,
                                 image: member.image,
                                 content: member.content,
-                                date: member.date,
+                                oldDate: member.date,
+                                date:
+                                  new Date(member.date)
+                                    .toISOString()
+                                    .slice(0, 10) || "",
+                                time:
+                                  new Date(member.date)
+                                    .toTimeString()
+                                    .slice(0, 8) || "",
                               });
                             }}
                           >
