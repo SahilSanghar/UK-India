@@ -378,195 +378,200 @@ export default function Page() {
                   // Drag and drop code and state removed
 
                   return (
-                    <>
-                      {!edit.edit ? (
-                        <motion.div
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: 10 }}
-                          transition={{ duration: 0.3 }}
-                          key={member.id.toString()}
-                          className={`w-full bg-black/10 h-fit flex items-center rounded-lg p-4 gap-5 transition-all duration-150`}
-                        >
-                          <Image
-                            src={
-                              member.image
-                                ? `${member.image.replace("ukibc", "ukibc-storage")}${
-                                    member.image.includes("?") ? "&" : "?"
-                                  }v=${new Date().getTime()}`
-                                : "/person.jpg"
-                            }
-                            alt={member.title || "No title"}
-                            width={0}
-                            height={0}
-                            sizes="100vw"
-                            className="rounded-md w-56 h-56 object-cover"
-                            unoptimized
-                          />
-                          <div className="flex flex-col gap-1 h-full">
-                            <p className="text-lg font-bold text-navy mt-5">
-                              {member.title}
-                            </p>
-                            <p className="text-sm text-black font-bold">
-                              {(() => {
-                                const d = new Date(member.date);
-                                const month = d.toLocaleString("en-US", {
-                                  month: "long",
-                                });
-                                return `${d.getDate()} ${month} ${d.getFullYear()}`;
-                              })()}
-                            </p>
-                            <button
-                              onClick={() =>
-                                window.open(`/news/${member.slug}`, "_blank")
-                              }
-                              className="bg-navy w-fit mt-auto flex text-white px-4 py-2 rounded-full shadow hover:bg-navy/90 transition-all duration-150 cursor-pointer"
-                            >
-                              view page
-                            </button>
-                          </div>
-
-                          <div
-                            className="ml-auto mr-5 underline cursor-pointer"
-                            onClick={() => {
-                              setPreviewImage(null);
-                              setEdit({
-                                edit: true,
-                                id: member.id.toString(),
-                                title: member.title,
-                                image: member.image,
-                                content: member.content,
-                                date: member.date,
-                              });
-                            }}
-                          >
-                            <p className="text-black font-medium">Edit</p>
-                          </div>
-                        </motion.div>
-                      ) : edit.id === member.id.toString() ? (
-                        <div
-                          className="w-full px-20 py-10 bg-white/90 flex flex-col md:flex-row justify-center items-center rounded-2xl shadow-lg p-6 gap-8 border border-navy/10 transition-all duration-150 overflow-hidden"
-                          key={edit.id}
-                        >
-                          <div
-                            className={`w-56 h-56 mb-auto rounded-2xl border-2 border-dashed flex flex-col items-center justify-center cursor-pointer transition-colors ${
-                              isImageDragOver
-                                ? "border-navy bg-navy/5"
-                                : "border-navy/30 bg-white"
-                            }`}
-                            onDragOver={(e) => {
-                              e.preventDefault();
-                              setIsImageDragOver(true);
-                            }}
-                            onDragLeave={(e) => {
-                              e.preventDefault();
-                              setIsImageDragOver(false);
-                            }}
-                            onDrop={(e) => {
-                              e.preventDefault();
-                              setIsImageDragOver(false);
-                              const file = e.dataTransfer.files?.[0];
-                              void handleImageFile(file, edit.id.toString());
-                            }}
-                            onClick={() => editFileInputRef.current?.click()}
+                    <React.Fragment key={member.id.toString()}>
+                      <>
+                        {!edit.edit ? (
+                          <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: 10 }}
+                            transition={{ duration: 0.3 }}
+                            key={member.id.toString()}
+                            className={`w-full bg-black/10 h-fit flex items-center rounded-lg p-4 gap-5 transition-all duration-150`}
                           >
                             <Image
                               src={
-                                previewImage || edit.image
-                                  ? `${edit.image.replace("ukibc", "ukibc-storage")}${
-                                      edit.image.includes("?") ? "&" : "?"
+                                member.image
+                                  ? `${member.image.replace("ukibc", "ukibc-storage")}${
+                                      member.image.includes("?") ? "&" : "?"
                                     }v=${new Date().getTime()}`
                                   : "/person.jpg"
                               }
-                              alt={edit.title || "No title"}
+                              alt={member.title || "No title"}
                               width={0}
                               height={0}
                               sizes="100vw"
-                              className="rounded-2xl w-52 h-52 object-cover border border-navy/20 shadow-sm"
+                              className="rounded-md w-56 h-56 object-cover"
+                              unoptimized
                             />
-                            <p className="mt-2 text-xs text-center text-navy/80 px-2">
-                              Drag & drop or click to upload a new photo
-                            </p>
-                            <input
-                              ref={editFileInputRef}
-                              type="file"
-                              accept="image/*"
-                              className="hidden"
-                              onChange={(e) => {
-                                const file = e.target.files?.[0];
-                                void handleImageFile(file, edit.id.toString());
-                                e.target.value = "";
+                            <div className="flex flex-col gap-1 h-full">
+                              <p className="text-lg font-bold text-navy mt-5">
+                                {member.title}
+                              </p>
+                              <p className="text-sm text-black font-bold">
+                                {(() => {
+                                  const d = new Date(member.date);
+                                  const month = d.toLocaleString("en-US", {
+                                    month: "long",
+                                  });
+                                  return `${d.getDate()} ${month} ${d.getFullYear()}`;
+                                })()}
+                              </p>
+                              <button
+                                onClick={() =>
+                                  window.open(`/news/${member.slug}`, "_blank")
+                                }
+                                className="bg-navy w-fit mt-auto flex text-white px-4 py-2 rounded-full shadow hover:bg-navy/90 transition-all duration-150 cursor-pointer"
+                              >
+                                view page
+                              </button>
+                            </div>
+
+                            <div
+                              className="ml-auto mr-5 underline cursor-pointer"
+                              onClick={() => {
+                                setPreviewImage(null);
+                                setEdit({
+                                  edit: true,
+                                  id: member.id.toString(),
+                                  title: member.title,
+                                  image: member.image,
+                                  content: member.content,
+                                  date: member.date,
+                                });
                               }}
-                            />
-                          </div>
-
-                          <div className="flex flex-col gap-4 w-full ">
-                            <div className="flex flex-col">
-                              <label
-                                htmlFor="title"
-                                className="text-sm md:text-base text-navy font-bold mb-1"
-                              >
-                                Title
-                              </label>
+                            >
+                              <p className="text-black font-medium">Edit</p>
+                            </div>
+                          </motion.div>
+                        ) : edit.id === member.id.toString() ? (
+                          <div
+                            className="w-full px-20 py-10 bg-white/90 flex flex-col md:flex-row justify-center items-center rounded-2xl shadow-lg p-6 gap-8 border border-navy/10 transition-all duration-150 overflow-hidden"
+                            key={edit.id}
+                          >
+                            <div
+                              className={`w-56 h-56 mb-auto rounded-2xl border-2 border-dashed flex flex-col items-center justify-center cursor-pointer transition-colors ${
+                                isImageDragOver
+                                  ? "border-navy bg-navy/5"
+                                  : "border-navy/30 bg-white"
+                              }`}
+                              onDragOver={(e) => {
+                                e.preventDefault();
+                                setIsImageDragOver(true);
+                              }}
+                              onDragLeave={(e) => {
+                                e.preventDefault();
+                                setIsImageDragOver(false);
+                              }}
+                              onDrop={(e) => {
+                                e.preventDefault();
+                                setIsImageDragOver(false);
+                                const file = e.dataTransfer.files?.[0];
+                                void handleImageFile(file, edit.id.toString());
+                              }}
+                              onClick={() => editFileInputRef.current?.click()}
+                            >
+                              <Image
+                                src={
+                                  previewImage || edit.image
+                                    ? `${edit.image.replace("ukibc", "ukibc-storage")}${
+                                        edit.image.includes("?") ? "&" : "?"
+                                      }v=${new Date().getTime()}`
+                                    : "/person.jpg"
+                                }
+                                alt={edit.title || "No title"}
+                                width={0}
+                                height={0}
+                                sizes="100vw"
+                                className="rounded-2xl w-52 h-52 object-cover border border-navy/20 shadow-sm"
+                              />
+                              <p className="mt-2 text-xs text-center text-navy/80 px-2">
+                                Drag & drop or click to upload a new photo
+                              </p>
                               <input
-                                type="text"
-                                value={edit.title}
-                                onChange={(e) =>
-                                  setEdit({ ...edit, title: e.target.value })
-                                }
-                                placeholder="Full name"
-                                className="text-base font-medium text-black border border-navy/30 focus:border-navy outline-none w-full px-4 py-2 rounded-lg transition-all  placeholder:text-navy/40"
+                                ref={editFileInputRef}
+                                type="file"
+                                accept="image/*"
+                                className="hidden"
+                                onChange={(e) => {
+                                  const file = e.target.files?.[0];
+                                  void handleImageFile(
+                                    file,
+                                    edit.id.toString(),
+                                  );
+                                  e.target.value = "";
+                                }}
                               />
                             </div>
 
-                            <div className="flex flex-col">
-                              <label
-                                htmlFor="content"
-                                className="text-sm md:text-base text-navy font-bold mb-1"
-                              >
-                                Content
-                              </label>
+                            <div className="flex flex-col gap-4 w-full ">
+                              <div className="flex flex-col">
+                                <label
+                                  htmlFor="title"
+                                  className="text-sm md:text-base text-navy font-bold mb-1"
+                                >
+                                  Title
+                                </label>
+                                <input
+                                  type="text"
+                                  value={edit.title}
+                                  onChange={(e) =>
+                                    setEdit({ ...edit, title: e.target.value })
+                                  }
+                                  placeholder="Full name"
+                                  className="text-base font-medium text-black border border-navy/30 focus:border-navy outline-none w-full px-4 py-2 rounded-lg transition-all  placeholder:text-navy/40"
+                                />
+                              </div>
 
-                              <TextEditor
-                                content={edit.content || ""}
-                                onChange={(content) =>
-                                  setEdit({ ...edit, content })
-                                }
-                              />
-                            </div>
+                              <div className="flex flex-col">
+                                <label
+                                  htmlFor="content"
+                                  className="text-sm md:text-base text-navy font-bold mb-1"
+                                >
+                                  Content
+                                </label>
 
-                            <div className="flex flex-row gap-3 mt-4 items-center">
-                              <button
-                                onClick={() => handleEdit()}
-                                disabled={isPending}
-                                className="bg-navy hover:bg-navy/90 text-white font-semibold px-6 py-2 rounded-full shadow transition-colors duration-150 cursor-pointer"
-                              >
-                                {isPending ? "Saving..." : "Save"}
-                              </button>
-                              <button
-                                onClick={() =>
-                                  setEdit({ ...edit, edit: false })
-                                }
-                                className="bg-white border border-navy text-navy px-6 py-2 rounded-full shadow hover:bg-navy/5 transition-colors duration-150 cursor-pointer"
-                              >
-                                Cancel
-                              </button>
-                              <button
-                                onClick={() =>
-                                  handleDelete(
-                                    member.id.toString(),
-                                    member.date.toString(),
-                                  )
-                                }
-                                className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-full shadow hover:bg-navy/5 transition-colors duration-150 cursor-pointer"
-                              >
-                                Delete
-                              </button>
+                                <TextEditor
+                                  content={edit.content || ""}
+                                  onChange={(content) =>
+                                    setEdit({ ...edit, content })
+                                  }
+                                />
+                              </div>
+
+                              <div className="flex flex-row gap-3 mt-4 items-center">
+                                <button
+                                  onClick={() => handleEdit()}
+                                  disabled={isPending}
+                                  className="bg-navy hover:bg-navy/90 text-white font-semibold px-6 py-2 rounded-full shadow transition-colors duration-150 cursor-pointer"
+                                >
+                                  {isPending ? "Saving..." : "Save"}
+                                </button>
+                                <button
+                                  onClick={() =>
+                                    setEdit({ ...edit, edit: false })
+                                  }
+                                  className="bg-white border border-navy text-navy px-6 py-2 rounded-full shadow hover:bg-navy/5 transition-colors duration-150 cursor-pointer"
+                                >
+                                  Cancel
+                                </button>
+                                <button
+                                  onClick={() =>
+                                    handleDelete(
+                                      member.id.toString(),
+                                      member.date.toString(),
+                                    )
+                                  }
+                                  className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-full shadow hover:bg-navy/5 transition-colors duration-150 cursor-pointer"
+                                >
+                                  Delete
+                                </button>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      ) : null}
-                    </>
+                        ) : null}
+                      </>
+                    </React.Fragment>
                   );
                 })}
             </>

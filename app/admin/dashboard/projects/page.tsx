@@ -389,7 +389,7 @@ export default function Page() {
                   // Drag and drop code and state removed
 
                   return (
-                    <>
+                    <React.Fragment key={member.id.toString()}>
                       {!edit.edit ? (
                         <motion.div
                           initial={{ opacity: 0, y: 10 }}
@@ -578,7 +578,7 @@ export default function Page() {
                           </div>
                         </div>
                       ) : null}
-                    </>
+                    </React.Fragment>
                   );
                 })}
             </>

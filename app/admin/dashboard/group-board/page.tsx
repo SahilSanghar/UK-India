@@ -520,7 +520,7 @@ export default function Page() {
                   const isDragOver = dragOverIndex === index;
 
                   return (
-                    <>
+                    <React.Fragment key={member.id.toString()}>
                       {!edit.edit ? (
                         <motion.div
                           initial={{ opacity: 0, y: 10 }}
@@ -768,7 +768,7 @@ export default function Page() {
                           </div>
                         </div>
                       ) : null}
-                    </>
+                    </React.Fragment>
                   );
                 })}
             </>

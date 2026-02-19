@@ -633,9 +633,7 @@ export default function Page() {
                           </motion.div>
                         </div>
                       ) : edit.id === member.id.toString() ? (
-                        <div
-                          className="w-full px-20 py-10 bg-white/90 flex flex-col md:flex-row justify-center items-center rounded-2xl shadow-lg p-6 gap-8 border border-navy/10 transition-all duration-150 overflow-hidden"
-                        >
+                        <div className="w-full px-20 py-10 bg-white/90 flex flex-col md:flex-row justify-center items-center rounded-2xl shadow-lg p-6 gap-8 border border-navy/10 transition-all duration-150 overflow-hidden">
                           <div
                             className={`w-56 h-56 mb-auto rounded-2xl border-2 border-dashed flex flex-col items-center justify-center cursor-pointer transition-colors ${
                               isImageDragOver
@@ -773,6 +771,25 @@ export default function Page() {
                                 }
                                 placeholder="E.g. New Delhi, India"
                                 className="text-base font-medium text-black border border-navy/30 focus:border-navy outline-none w-full px-4 py-2 rounded-lg transition-all placeholder:text-navy/40"
+                              />
+                            </div>
+
+                            <div className="flex flex-col">
+                              <label
+                                htmlFor="date"
+                                className="text-sm md:text-base text-navy font-bold mb-1"
+                              >
+                                Created Date
+                              </label>
+                              <input
+                                type="text"
+                                value={
+                                  edit.date
+                                    ? new Date(edit.date).toLocaleString()
+                                    : "N/A"
+                                }
+                                disabled
+                                className="text-base font-medium text-black/60 border border-navy/30 bg-navy/5 outline-none w-full px-4 py-2 rounded-lg transition-all cursor-not-allowed"
                               />
                             </div>
 
