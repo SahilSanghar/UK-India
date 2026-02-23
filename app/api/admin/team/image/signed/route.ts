@@ -14,18 +14,18 @@ const s3Client = new S3Client({
 
 export async function POST(req: Request) {
   try {
-    const { key } = await req.json();
+    const { key, bucket } = await req.json();
     const session = await getSession();
     if (!session) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    console.log(key);
+
 
     const signedUrl = await getSignedUrl(
       s3Client,
       new PutObjectCommand({
-        Bucket: "ukibc-storage",
+        Bucket: bucket || "ukibc-storage",
         Key: `${key}`,
       }),
       {

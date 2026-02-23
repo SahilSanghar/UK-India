@@ -6,10 +6,12 @@ import { motion } from "framer-motion";
 import { normalizeRichTextHtml } from "../../../lib/normalizeRichTextHtml";
 
 interface PostProps {
+  id: string;
   image: string;
   title: string;
   date: string;
   content: string;
+  download: boolean;
 }
 export default function Client({ post }: { post: PostProps }) {
   return (
@@ -65,6 +67,13 @@ export default function Client({ post }: { post: PostProps }) {
             __html: normalizeRichTextHtml(post?.content ?? ""),
           }}
         />
+        {post?.download && (
+          <div className="mt-10">
+            <a href={`https://d2paj8ptqa22jg.cloudfront.net/reports/pdfs/${post.id}.pdf`} target="_blank" rel="noopener noreferrer" className="text-white hover:bg-navy/80 transition-colors duration-300   gap-2 bg-navy px-4 py-3 rounded-lg">
+              Download Report
+            </a>
+          </div>
+        )}
       </motion.div>
     </motion.div>
   );

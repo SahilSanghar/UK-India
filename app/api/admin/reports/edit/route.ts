@@ -28,6 +28,7 @@ export async function POST(req: Request) {
       newDate,
       // legacy payload (back-compat)
       date,
+      download,
       image,
     } = body ?? {};
 
@@ -93,6 +94,7 @@ export async function POST(req: Request) {
                   title: { S: title },
                   content: { S: content },
                   slug: { S: nextSlug },
+                  download: { BOOL: download? true :  false },
                   image: { S: updatedImageValue },
                 },
                 ConditionExpression: "attribute_not_exists(#t) AND attribute_not_exists(#d)",
@@ -120,17 +122,19 @@ export async function POST(req: Request) {
     }
 
     // Otherwise, update in place.
-    const updateExpressionParts = ["#t = :t", "#c = :c", "#s = :s"];
+    const updateExpressionParts = ["#t = :t", "#c = :c", "#s = :s" , "#d = :d"];
     const expressionAttributeNames: Record<string, string> = {
       "#t": "title",
       "#c": "content",
       "#s": "slug",
+      "#d": "download",
     };
-    const expressionAttributeValues: Record<string, { S: string }> = {
+    const expressionAttributeValues: Record<string, { S: string } | { BOOL: boolean }> = {
       ":id": { S: id },
       ":t": { S: title },
       ":c": { S: content },
       ":s": { S: nextSlug },
+      ":d": { BOOL: download || false },
     };
 
     if (image === true) {

@@ -5,12 +5,14 @@ import Client from "./Client";
 import { DynamoDBDocumentClient, QueryCommand } from "@aws-sdk/lib-dynamodb";
 
 interface PostProps {
+  id: string;
   slug: string;
   title: string;
   description: string;
   content: string;
   date: string;
   image: string;
+  download: boolean;
 }
 
 const client = new DynamoDBClient({

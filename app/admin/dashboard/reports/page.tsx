@@ -11,7 +11,7 @@ import axios from "axios";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import TextEditor from "@/components/TextEditor";
-import { PlusIcon, XIcon } from "lucide-react";
+import { PlusIcon, XIcon, FileText, Download, Upload } from "lucide-react";
 
 interface PostProps {
   id: number;
@@ -27,6 +27,7 @@ interface PostProps {
   who_can_attend: string;
   date: string;
   sort: string;
+  download?: boolean;
 }
 
 export default function Page() {
@@ -77,11 +78,14 @@ export default function Page() {
     oldDate: "",
     date: "",
     time: "",
+    download: false,
   });
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [isImageDragOver, setIsImageDragOver] = useState(false);
   const editFileInputRef = useRef<HTMLInputElement | null>(null);
+  const editPdfInputRef = useRef<HTMLInputElement | null>(null);
   const [editHasNewImage, setEditHasNewImage] = useState(false);
+  const [pdfUploading, setPdfUploading] = useState(false);
 
   const handleNewMemberImageFile = (file: File | undefined | null) => {
     if (!file) return;
@@ -170,6 +174,7 @@ export default function Page() {
       oldDate: string;
       newDate: string;
       image: boolean;
+      download: boolean;
     }) =>
       axios.post("/api/admin/reports/edit", {
         id: data.id,
@@ -179,6 +184,7 @@ export default function Page() {
         newDate: data.newDate,
         // send whether a new image was selected (via drag/drop or file input)
         image: data.image,
+        download: data.download,
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["reports"] });
@@ -200,9 +206,44 @@ export default function Page() {
       content: edit.content,
       oldDate,
       newDate,
+      download: edit.download,
       // backend needs true when a new image was chosen
       image: editHasNewImage,
     });
+  };
+
+  const handleDownload = async (file: File, reportId: string, reportDate: string) => {
+    if (!file || file.type !== "application/pdf") return;
+    setPdfUploading(true);
+    try {
+
+      const signedUrl = await axios.post(`/api/admin/team/image/signed`, {
+        key: `reports/pdfs/${reportId}.pdf`,
+        bucket: "ukibc-optimized",
+      });
+
+      if(!signedUrl) {
+        alert("Failed to get signed url");
+        return;
+      }
+
+      const res = await axios.put(signedUrl.data.signedUrl, file, {
+        headers: {
+          "Content-Type": file.type || "application/pdf",
+        },
+      });
+
+      if (res.status === 200) {
+        setEdit((e) => ({ ...e, download: true }));
+        queryClient.invalidateQueries({ queryKey: ["reports"] });
+      }
+    } catch (err) {
+      console.error("Failed to upload PDF", err);
+      alert("Failed to upload PDF");
+    } finally {
+      setPdfUploading(false);
+      editPdfInputRef.current && (editPdfInputRef.current.value = "");
+    }
   };
   useEffect(() => {
     const nextTeam =
@@ -505,6 +546,7 @@ export default function Page() {
                                   new Date(member.date)
                                     .toTimeString()
                                     .slice(0, 8) || "",
+                                download: Boolean(member.download),
                               });
                             }}
                           >
@@ -622,6 +664,71 @@ export default function Page() {
                                   setEdit({ ...edit, content })
                                 }
                               />
+                            </div>
+
+                            <div className="flex flex-col gap-2">
+                              <label className="text-sm md:text-base text-navy font-bold mb-1">
+                                PDF
+                              </label>
+                              {edit.download ? (
+                                <div className="flex flex-col gap-2 p-3 border border-navy/20 rounded-lg bg-navy/5">
+                                  <div className="flex items-center gap-2">
+                                    <FileText className="w-5 h-5 text-navy shrink-0" />
+                                    <a
+                                      href={`https://d2paj8ptqa22jg.cloudfront.net/reports/pdfs/${edit.id}.pdf`}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="text-navy font-medium underline hover:no-underline"
+                                    >
+                                      Download PDF
+                                    </a>
+                                    <Download className="w-4 h-4 text-navy/70" />
+                                  </div>
+                                  <div className="flex items-center gap-2">
+                                    <button
+                                      type="button"
+                                      onClick={() => editPdfInputRef.current?.click()}
+                                      disabled={pdfUploading}
+                                      className="flex items-center gap-2 text-sm bg-white border border-navy/30 text-navy px-3 py-1.5 rounded-lg hover:bg-navy/5 transition-colors cursor-pointer disabled:opacity-50"
+                                    >
+                                      <Upload className="w-4 h-4" />
+                                      {pdfUploading ? "Uploading..." : "Replace PDF"}
+                                    </button>
+                                    <input
+                                      ref={editPdfInputRef}
+                                      type="file"
+                                      accept="application/pdf"
+                                      className="hidden"
+                                      onChange={(e) => {
+                                        const file = e.target.files?.[0];
+                                        if (file) void handleDownload(file, edit.id, member.date);
+                                      }}
+                                    />
+                                  </div>
+                                </div>
+                              ) : (
+                                <div className="flex flex-col gap-2 p-3 border border-dashed border-navy/30 rounded-lg bg-white">
+                                  <button
+                                    type="button"
+                                    onClick={() => editPdfInputRef.current?.click()}
+                                    disabled={pdfUploading}
+                                    className="flex items-center gap-2 text-sm text-navy font-medium hover:bg-navy/5 px-3 py-2 rounded-lg transition-colors cursor-pointer disabled:opacity-50"
+                                  >
+                                    <Upload className="w-4 h-4" />
+                                    {pdfUploading ? "Uploading..." : "Upload PDF"}
+                                  </button>
+                                  <input
+                                    ref={editPdfInputRef}
+                                    type="file"
+                                    accept="application/pdf"
+                                    className="hidden"
+                                    onChange={(e) => {
+                                      const file = e.target.files?.[0];
+                                      if (file) void handleDownload(file, edit.id, member.date);
+                                    }}
+                                  />
+                                </div>
+                              )}
                             </div>
 
                             <div className="flex flex-row gap-3 mt-4 items-center">
