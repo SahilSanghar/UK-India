@@ -15,6 +15,7 @@ interface Props {
   des2?: string;
   link?: string;
   role2?: string;
+  box?: boolean;
 }
 
 export default function Person({
@@ -23,6 +24,7 @@ export default function Person({
   role,
   role2,
   location,
+  box = false,
   blurdata,
   theme,
   position,
@@ -35,7 +37,9 @@ export default function Person({
   // Only open the popup if des1 is NOT empty or null
   const handleClick = () => {
     if (!des1) {
-      window.open(link, "_blank");
+      if (link) {
+        window.open(link, "_blank");
+      }
       return;
     }
     if (des1 && des1.trim() !== "") {
@@ -54,7 +58,44 @@ export default function Person({
           theme == "dark" ? "text-black" : "text-white"
         }`}
       >
-        <div
+        {box ? (
+          <div
+            className="md:w-52 md:h-52 w-28 h-28 flex justify-center items-center rounded-xl border-2 md:p-10 p-5 border-navy/10 group cursor-pointer overflow-hidden"
+            onClick={handleClick}
+          >
+            <div className="w-full h-fit flex group-hover:opacity-50 duration-300 select-none">
+              <Image
+                src={image}
+                width={0}
+                height={0}
+                {...(blurdata
+                  ? { blurDataURL: blurdata, placeholder: "blur" }
+                  : {})}
+                alt={""}
+                sizes="100% 100%"
+                className="w-full h-full object-cover select-none"
+              ></Image>
+            </div>
+          </div>
+        ) : (
+          <div
+            className="md:w-32 md:h-32 w-28 h-28 rounded-full bg-black flex cursor-pointer hover:opacity-50 duration-300 select-none "
+            onClick={handleClick}
+          >
+            <Image
+              src={image}
+              width={0}
+              height={0}
+              {...(blurdata
+                ? { blurDataURL: blurdata, placeholder: "blur" }
+                : {})}
+              alt={""}
+              sizes="100% 100%"
+              className="w-full h-full rounded-full object-cover select-none"
+            ></Image>
+          </div>
+        )}
+        {/* <div
           className="md:w-32 md:h-32 w-28 h-28 rounded-full bg-black flex cursor-pointer hover:opacity-50 duration-300 select-none "
           onClick={handleClick}
         >
@@ -69,7 +110,7 @@ export default function Person({
             sizes="100% 100%"
             className="w-full h-full rounded-full object-cover select-none"
           ></Image>
-        </div>
+        </div> */}
         <div className="flex flex-col items-center justify-center gap-1">
           <p
             className="md:text-xl md:h-fit  h-fit text-lg font-bold text-center leading-5 mt-2 cursor-pointer"
@@ -114,7 +155,7 @@ export default function Person({
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.98 }}
               transition={{ duration: 0.3 }}
-              className={`fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-30 p-5 rounded-4xl bg-black/90 backdrop-blur-sm text-white flex flex-col shadow-2xl overflow-y-auto w-[80%] md:w-[700px] max-h-[80vh] h-fit`}
+              className={`fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50 p-5 rounded-4xl bg-black/90 backdrop-blur-sm text-white flex flex-col shadow-2xl overflow-y-auto w-[80%] md:w-[700px] max-h-[80vh] h-fit`}
               role="dialog"
               aria-modal="true"
             >

@@ -54,9 +54,8 @@ export async function GET(req: NextRequest) {
           ...item,
           image: item.image
             ? admin
-              ? "https://ukibc-optimized.s3.ap-south-1.amazonaws.com/members/" +
-                item.id +
-                ".webp"
+              ? "https://ukibc-storage.s3.ap-south-1.amazonaws.com/members/" +
+                item.id
               : "https://d2paj8ptqa22jg.cloudfront.net/members/" +
                 item.id +
                 ".webp"

@@ -45,7 +45,9 @@ export default function Members() {
   const { data, isLoading, error } = useQuery({
     queryKey: ["members"],
     queryFn: () =>
-      axios.get("/api/admin/members").then((res) => res.data.members),
+      axios
+        .get("/api/admin/members?admin=false")
+        .then((res) => res.data.members),
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     refetchOnReconnect: false,
@@ -58,8 +60,8 @@ export default function Members() {
     // The only filters to use
     const finalFilters = [
       { name: "Strategic Partners", value: "strategic-partners" },
-      { name: "Corporate Plus", value: "sector-policy-groups" },
-      { name: "Corporate", value: "roundtables" },
+      { name: "Corporate Plus", value: "corporate-plus" },
+      { name: "Corporate", value: "corporate" },
     ];
 
     return [{ name: "All", value: "all" }, ...finalFilters];
@@ -85,7 +87,6 @@ export default function Members() {
           {
             title: "Members",
             // title2: "Shaping the Conversations That Shape Policy",
-           
           },
         ]}
         button={false}
@@ -208,14 +209,9 @@ export default function Members() {
                 return (
                   <Person
                     name={item.title}
-                    image={
-                      item.image
-                        ? `${item.image.replace("ukibc", "ukibc-storage")}${
-                            item.image.includes("?") ? "&" : "?"
-                          }v=${Math.floor(new Date().getTime() / 60000)}`
-                        : "/person.jpg"
-                    }
-                    link={item.url ? item.url : "#"}
+                    image={item.image ? item.image : "/person.jpg"}
+                    box={true}
+                    link={item.url ? item.url : undefined}
                     role={item.job_title || ""}
                     des1={item.content}
                     location={item.address || ""}
