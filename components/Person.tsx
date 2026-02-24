@@ -34,6 +34,10 @@ export default function Person({
 
   // Only open the popup if des1 is NOT empty or null
   const handleClick = () => {
+    if (!des1) {
+      window.open(link, "_blank");
+      return;
+    }
     if (des1 && des1.trim() !== "") {
       setClicked(true);
     }
@@ -67,7 +71,10 @@ export default function Person({
           ></Image>
         </div>
         <div className="flex flex-col items-center justify-center gap-1">
-          <p className="md:text-xl md:h-fit  h-fit text-lg font-bold text-center leading-5 mt-2">
+          <p
+            className="md:text-xl md:h-fit  h-fit text-lg font-bold text-center leading-5 mt-2 cursor-pointer"
+            onClick={() => link && window.open(link, "_blank")}
+          >
             {name}
           </p>
           <p className="md:text-base text-sm font-medium opacity-80 text-center leading-5">
@@ -168,6 +175,19 @@ export default function Person({
                       __html: normalizeRichTextHtml(des1),
                     }}
                   />
+                )}
+                {link && (
+                  <div className="text-center text-base md:text-lg font-medium px-4 [&_p]:mb-4 [&_p:last-child]:mb-0 [&_p]:leading-relaxed [&_p:empty]:before:content-['\\00a0']">
+                    <a
+                      href={link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-block font-semibold text-white bg-navy hover:bg-blue-600 hover:text-navy transition-colors duration-200 px-5 py-2 rounded-lg shadow-md focus:outline-none focus:ring-2 mt-4 focus:ring-offset-2"
+                      role="button"
+                    >
+                      Visit Website
+                    </a>
+                  </div>
                 )}
               </div>
             </motion.div>

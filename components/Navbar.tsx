@@ -60,6 +60,10 @@ export default function Navbar() {
           label: "Group Board",
           href: "/group-board",
         },
+        {
+          label: "Our Members",
+          href: "/members",
+        },
       ],
     },
     {
