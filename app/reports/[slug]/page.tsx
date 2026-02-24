@@ -41,9 +41,12 @@ export default async function page(props: {
   params: Promise<{ slug: string }>;
 }) {
   const params = await props.params;
+  // console.log(params);
   // const posts = await getPost(params.slug);
 
   try {
+    // Decode URL-encoded slug before using it in query
+    const decodedSlug = decodeURIComponent(params.slug);
     const command = new QueryCommand({
       TableName: "ukibc_reports",
       IndexName: "reports-index",
@@ -52,15 +55,16 @@ export default async function page(props: {
         "#slug": "slug",
       },
       ExpressionAttributeValues: {
-        ":slug": params.slug,
+        ":slug": decodedSlug,
       },
       Limit: 1,
     });
 
     const result = await docClient.send(command);
+
     // console.log(result);
     const posts = result.Items?.[0] ?? null;
-    console.log(posts);
+    // console.log(posts);
 
     if (!posts) {
       return notFound();

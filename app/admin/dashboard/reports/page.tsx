@@ -39,7 +39,7 @@ export default function Page() {
         axios
           .get("/api/admin/reports", {
             params: {
-              limit: 0,
+              limit: 10,
               lastKey: pageParam ? JSON.stringify(pageParam) : undefined,
             },
             // Disable cache by setting Cache-Control header and add a timestamp param
@@ -212,17 +212,20 @@ export default function Page() {
     });
   };
 
-  const handleDownload = async (file: File, reportId: string, reportDate: string) => {
+  const handleDownload = async (
+    file: File,
+    reportId: string,
+    reportDate: string,
+  ) => {
     if (!file || file.type !== "application/pdf") return;
     setPdfUploading(true);
     try {
-
       const signedUrl = await axios.post(`/api/admin/team/image/signed`, {
         key: `reports/pdfs/${reportId}.pdf`,
         bucket: "ukibc-optimized",
       });
 
-      if(!signedUrl) {
+      if (!signedUrl) {
         alert("Failed to get signed url");
         return;
       }
@@ -290,6 +293,12 @@ export default function Page() {
         </h1>
         <p className="text-sm text-center flex items-center justify-center mb-5 bg-navy w-fit mx-auto rounded-full px-4 py-2 text-white ">
           Total reports: {data?.pages[0].count ?? 0}
+          {/* remove me later */}
+          {/* <br />
+          Reports without files:{" "}
+          {data?.pages[0].count - data?.pages[0].reports.filter(
+            (report: PostProps) => report.download,
+          ).length ?? 0} */}
         </p>
 
         {/* <p className="text-sm text-black text-center mb-10">
@@ -514,17 +523,18 @@ export default function Page() {
                                 return `${month} ${d.getDate()}, ${d.getFullYear()}`;
                               })()}
                             </p>
-                            {/* <button
+                            {/* remove me after */}
+                            {member.download && (
+                              <FileText className="w-5 h-5 text-navy" />
+                            )}
+                            <button
                               onClick={() =>
-                                window.open(
-                                  `/business-solution-projects/${member.slug}`,
-                                  "_blank",
-                                )
+                                window.open(`/reports/${member.slug}`, "_blank")
                               }
                               className="bg-navy w-fit mt-auto flex text-white px-4 py-2 rounded-full shadow hover:bg-navy/90 transition-all duration-150 cursor-pointer"
                             >
                               view page
-                            </button> */}
+                            </button>
                           </div>
 
                           <div
@@ -687,12 +697,16 @@ export default function Page() {
                                   <div className="flex items-center gap-2">
                                     <button
                                       type="button"
-                                      onClick={() => editPdfInputRef.current?.click()}
+                                      onClick={() =>
+                                        editPdfInputRef.current?.click()
+                                      }
                                       disabled={pdfUploading}
                                       className="flex items-center gap-2 text-sm bg-white border border-navy/30 text-navy px-3 py-1.5 rounded-lg hover:bg-navy/5 transition-colors cursor-pointer disabled:opacity-50"
                                     >
                                       <Upload className="w-4 h-4" />
-                                      {pdfUploading ? "Uploading..." : "Replace PDF"}
+                                      {pdfUploading
+                                        ? "Uploading..."
+                                        : "Replace PDF"}
                                     </button>
                                     <input
                                       ref={editPdfInputRef}
@@ -701,7 +715,12 @@ export default function Page() {
                                       className="hidden"
                                       onChange={(e) => {
                                         const file = e.target.files?.[0];
-                                        if (file) void handleDownload(file, edit.id, member.date);
+                                        if (file)
+                                          void handleDownload(
+                                            file,
+                                            edit.id,
+                                            member.date,
+                                          );
                                       }}
                                     />
                                   </div>
@@ -710,12 +729,16 @@ export default function Page() {
                                 <div className="flex flex-col gap-2 p-3 border border-dashed border-navy/30 rounded-lg bg-white">
                                   <button
                                     type="button"
-                                    onClick={() => editPdfInputRef.current?.click()}
+                                    onClick={() =>
+                                      editPdfInputRef.current?.click()
+                                    }
                                     disabled={pdfUploading}
                                     className="flex items-center gap-2 text-sm text-navy font-medium hover:bg-navy/5 px-3 py-2 rounded-lg transition-colors cursor-pointer disabled:opacity-50"
                                   >
                                     <Upload className="w-4 h-4" />
-                                    {pdfUploading ? "Uploading..." : "Upload PDF"}
+                                    {pdfUploading
+                                      ? "Uploading..."
+                                      : "Upload PDF"}
                                   </button>
                                   <input
                                     ref={editPdfInputRef}
@@ -724,7 +747,12 @@ export default function Page() {
                                     className="hidden"
                                     onChange={(e) => {
                                       const file = e.target.files?.[0];
-                                      if (file) void handleDownload(file, edit.id, member.date);
+                                      if (file)
+                                        void handleDownload(
+                                          file,
+                                          edit.id,
+                                          member.date,
+                                        );
                                     }}
                                   />
                                 </div>
