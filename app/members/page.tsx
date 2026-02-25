@@ -93,7 +93,7 @@ export default function Members() {
         flip={true}
         currency={false}
         images={[
-          { image: "/about.webp", position: "bottom-right" },
+          { image: "/members.jpeg", position: "bottom-right" },
           // { image: "/home/lander/1.webp", position: "50%_100%" },
           // { image: "/home/lander/2.webp", position: "50%_50%" },
           // { image: "/home/lander/3.webp", position: "10%_10%" },

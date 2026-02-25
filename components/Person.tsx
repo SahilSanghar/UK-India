@@ -36,12 +36,12 @@ export default function Person({
 
   // Only open the popup if des1 is NOT empty or null
   const handleClick = () => {
-    if (!des1) {
-      if (link) {
-        window.open(link, "_blank");
-      }
-      return;
-    }
+    // if (!des1) {
+    //   if (link) {
+    //     window.open(link, "_blank");
+    //   }
+    //   return;
+    // }
     if (des1 && des1.trim() !== "") {
       setClicked(true);
     }
