@@ -10,7 +10,10 @@ const dynamoClient = new DynamoDBClient({
   },
 });
 
+
 export async function GET(req: NextRequest) {
+  console.log("client", process.env.A_CLIENT);
+  console.log("secret", process.env.A_SECRET);
   try {
     const { searchParams } = new URL(req.url);
 
