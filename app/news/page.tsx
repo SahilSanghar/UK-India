@@ -41,15 +41,20 @@ export default function Page() {
     isFetching,
   } = useInfiniteQuery({
     queryKey: ["news", "posts"],
-    queryFn: ({ pageParam }) =>
-      axios
-        .get("/api/admin/posts", {
+    queryFn: async ({ pageParam }) => {
+      try {
+        const res = await axios.get("/api/admin/posts", {
           params: {
             limit: ITEMS_PER_PAGE,
             lastKey: pageParam ? JSON.stringify(pageParam) : undefined,
           },
-        })
-        .then((res) => res.data),
+        });
+        return res.data;
+      } catch (error) {
+        console.error("Failed to fetch news posts", error);
+        throw error; // Still rethrow so query error boundary can handle
+      }
+    },
     getNextPageParam: (lastPage) => lastPage.lastKey ?? undefined,
     initialPageParam: undefined as Record<string, unknown> | undefined,
   });

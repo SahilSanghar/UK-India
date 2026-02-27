@@ -69,6 +69,8 @@ export async function GET(req: NextRequest) {
       { status: 200 },
     );
   } catch (error) {
+
+    console.error("Failed to get posts", error);
     return NextResponse.json(
       {
         message: "Failed to get posts",
