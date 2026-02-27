@@ -6,16 +6,16 @@ import { S3Client, DeleteObjectCommand } from "@aws-sdk/client-s3";
 const dynamoClient = new DynamoDBClient({
   region: "ap-south-1",
   credentials: {
-    accessKeyId: process.env.AWS_CLIENT!,
-    secretAccessKey: process.env.AWS_SECRET!,
+    accessKeyId: process.env.A_CLIENT!,
+    secretAccessKey: process.env.A_SECRET!,
   },
 });
 
 const s3Client = new S3Client({
   region: "ap-south-1",
   credentials: {
-    accessKeyId: process.env.AWS_CLIENT!,
-    secretAccessKey: process.env.AWS_SECRET!,
+    accessKeyId: process.env.A_CLIENT!,
+    secretAccessKey: process.env.A_SECRET!,
   },
 });
 

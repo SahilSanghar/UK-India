@@ -16,8 +16,8 @@ interface PostProps {
 const client = new DynamoDBClient({
   region: "ap-south-1",
   credentials: {
-    accessKeyId: process.env.AWS_CLIENT!,
-    secretAccessKey: process.env.AWS_SECRET!,
+    accessKeyId: process.env.A_CLIENT!,
+    secretAccessKey: process.env.A_SECRET!,
   },
 });
 

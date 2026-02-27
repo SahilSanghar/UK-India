@@ -5,8 +5,8 @@ import { DynamoDBClient, UpdateItemCommand } from "@aws-sdk/client-dynamodb";
 const dynamoClient = new DynamoDBClient({
   region: "ap-south-1",
   credentials: {
-    accessKeyId: process.env.AWS_CLIENT!,
-    secretAccessKey: process.env.AWS_SECRET!,
+    accessKeyId: process.env.A_CLIENT!,
+    secretAccessKey: process.env.A_SECRET!,
   },
 });
 export async function POST(req: Request) {
