@@ -1,0 +1,24 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - npm ci
+    build:
+      commands:
+        - env | grep -e A_CLIENT >> .env.production
+        - env | grep -e A_SECRET >> .env.production
+        - env | grep -e JWT_SECRET >> .env.production
+        - env | grep -e MUX_TOKEN_ID >> .env.production
+        - env | grep -e MUX_TOKEN_SECRET >> .env.production
+        - env | grep -e NODE_ENV >> .env.production
+        - env | grep -e MAINTENANCE >> .env.production
+        - npm run build
+  artifacts:
+    baseDirectory: .next
+    files:
+      - "**/*"
+  cache:
+    paths:
+      - node_modules/**/*
+      - .next/cache/**/*
