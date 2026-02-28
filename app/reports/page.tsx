@@ -4,6 +4,7 @@ import Lander from "@/components/Lander";
 import React, { useEffect, useState, useMemo } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { getSession } from "@/lib/session";
 import LandscapeCard from "@/components/LandscapeCard";
 
 interface PostProps {

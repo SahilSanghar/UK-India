@@ -45,13 +45,6 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    if (user.Items[0].type !== "admin") {
-      return NextResponse.json(
-        { message: "You are not authorized to access this resource" },
-        { status: 401 },
-      );
-    }
-
     const truePassword = await bcrypt.compare(password, user.Items[0].password);
 
     if (!truePassword) {
@@ -65,7 +58,9 @@ export async function GET(req: NextRequest) {
       username: user.Items[0].username,
       firstname: user.Items[0].firstname,
       lastname: user.Items[0].lastname,
-      organization: user.Items[0].organization || user.Items[0].firstname + " " + user.Items[0].lastname,
+      organization:
+        user.Items[0].organization ||
+        user.Items[0].firstname + " " + user.Items[0].lastname,
       id: user.Items[0].id,
       admin: user.Items[0].type === "admin" ? true : false,
     })

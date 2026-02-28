@@ -10,11 +10,7 @@ const dynamoClient = new DynamoDBClient({
   },
 });
 
-
-
 export async function GET(req: NextRequest) {
-  console.log("client", process.env.A_CLIENT!);
-  console.log("secret", process.env.A_SECRET!);
   try {
     const { searchParams } = new URL(req.url);
 
@@ -73,7 +69,6 @@ export async function GET(req: NextRequest) {
       { status: 200 },
     );
   } catch (error) {
-
     console.error("Failed to get posts", error);
     return NextResponse.json(
       {

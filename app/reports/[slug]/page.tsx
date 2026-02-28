@@ -2,8 +2,16 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import Client from "./Client";
+import { getSession } from "@/lib/session";
 import { DynamoDBDocumentClient, QueryCommand } from "@aws-sdk/lib-dynamodb";
 
+interface SessionProps {
+  type: string;
+  firstname: string;
+  lastname: string;
+  id: string;
+  organization: string;
+}
 interface PostProps {
   id: string;
   slug: string;
@@ -43,6 +51,7 @@ export default async function page(props: {
   const params = await props.params;
   // console.log(params);
   // const posts = await getPost(params.slug);
+  const session = await getSession();
 
   try {
     // Decode URL-encoded slug before using it in query
@@ -70,7 +79,7 @@ export default async function page(props: {
       return notFound();
     }
 
-    return <Client post={posts as PostProps} />;
+    return <Client post={posts as PostProps} session={session as unknown as SessionProps} />;
   } catch (error) {
     console.error("Failed to get report", error);
     return notFound();
