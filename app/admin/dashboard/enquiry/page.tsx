@@ -170,7 +170,7 @@ export default function Page() {
                 {filterType === "report" ? (
                   <p className="text-base text-navy">
                     <span className="font-bold">
-                      {item.organization || "Unknown"}
+                      {item.organization || item.firstname || item.lastname || "Unknown"}
                     </span>{" "}
                     downloaded{" "}
                     <span className="font-bold">
@@ -180,7 +180,7 @@ export default function Page() {
                 ) : (
                   <p className="text-base text-navy">
                     <span className="font-bold">
-                      {item.organization || "Unknown"}
+                      {item.organization || (item.firstname && item.lastname ? item.firstname + " " + item.lastname : "Unknown")}
                     </span>{" "}
                     filled the contact form
                   </p>

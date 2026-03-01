@@ -8,8 +8,9 @@ export default async function Page() {
       <div className="w-full h-screen  flex flex-col gap-3 items-center justify-center">
         <h1 className="text-4xl">
           <b>Welcome,</b>{" "}
-          {(session?.firstname as string)[0].toUpperCase() +
-            (session?.firstname as string).slice(1)}{" "}
+          {typeof session?.firstname === "string"
+            ? session.firstname[0].toUpperCase() + session.firstname.slice(1)
+            : "User"}{" "}
         </h1>
       </div>
     </div>

@@ -88,7 +88,7 @@ export default function ContactPage() {
                 type="text"
                 placeholder="Last Name"
                 name="lastname"
-                required
+                
                 className="w-full p-2 border border-gray-300 rounded-md"
               />
             </div>
@@ -97,6 +97,7 @@ export default function ContactPage() {
               type="text"
               placeholder="Organization"
               name="organization"
+              required
               className="w-full p-2 border border-gray-300 rounded-md"
             />
             <input
@@ -110,6 +111,7 @@ export default function ContactPage() {
               type="text"
               placeholder="Location"
               name="location"
+              required
               className="w-full p-2 border border-gray-300 rounded-md"
             />
             <div className="w-full flex flex-col gap-2 text-left">
@@ -117,6 +119,7 @@ export default function ContactPage() {
               <select
                 name="assistance"
                 id="assistance"
+                required
                 className="w-full p-2 border bg-mix2 border-gray-300 rounded-md focus:outline-none transition duration-150"
               >
                 <option value="none">None</option>
@@ -132,7 +135,7 @@ export default function ContactPage() {
             <textarea
               name="message"
               id="message"
-              placeholder="Optional Message"
+              placeholder="How can we assist you?"
               className="w-full p-2 border border-gray-300 rounded-md"
             ></textarea>
 
