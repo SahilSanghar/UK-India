@@ -1,9 +1,42 @@
 "use client";
 
 import Lander from "@/components/Lander";
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
 
-export default function page() {
+export default function ContactPage() {
+  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setLoading(true);
+    setStatus("idle");
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    const body = {
+      firstname: formData.get("firstname"),
+      lastname: formData.get("lastname"),
+      organization: formData.get("organization"),
+      email: formData.get("email"),
+      location: formData.get("location"),
+      assistance: formData.get("assistance"),
+      message: formData.get("message"),
+    };
+
+    try {
+      const res = await axios.post("/api/enquiry/contact", body);
+      if (res.status !== 200) throw new Error("Failed to submit enquiry");
+      setStatus("success");
+      form.reset();
+    } catch {
+      setStatus("error");
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <>
       <Lander
@@ -36,7 +69,7 @@ export default function page() {
         </div>
 
         <form
-          action=""
+          onSubmit={handleSubmit}
           className="w-[90%] md:w-1/2 bg-mix2/10 border-mix border-2 p-10 rounded-4xl mx-auto flex flex-col gap-8 items-center justify-center text-center my-20"
         >
           <div className="w-full flex flex-col gap-4">
@@ -48,26 +81,29 @@ export default function page() {
                 type="text"
                 placeholder="First Name"
                 name="firstname"
+                required
                 className="w-full p-2 border border-gray-300 rounded-md"
               />
               <input
                 type="text"
-                placeholder="Second Name"
-                name="secondname"
+                placeholder="Last Name"
+                name="lastname"
+                required
                 className="w-full p-2 border border-gray-300 rounded-md"
               />
             </div>
 
             <input
               type="text"
-              placeholder="Company"
-              name="company"
+              placeholder="Organization"
+              name="organization"
               className="w-full p-2 border border-gray-300 rounded-md"
             />
             <input
               type="email"
               placeholder="Email"
               name="email"
+              required
               className="w-full p-2 border border-gray-300 rounded-md"
             />
             <input
@@ -78,7 +114,6 @@ export default function page() {
             />
             <div className="w-full flex flex-col gap-2 text-left">
               <p>How can you assist?</p>
-              {/* dropdown */}
               <select
                 name="assistance"
                 id="assistance"
@@ -100,11 +135,24 @@ export default function page() {
               placeholder="Optional Message"
               className="w-full p-2 border border-gray-300 rounded-md"
             ></textarea>
+
+            {status === "success" && (
+              <p className="text-green-600 font-medium">
+                Your enquiry has been submitted successfully!
+              </p>
+            )}
+            {status === "error" && (
+              <p className="text-red-600 font-medium">
+                Something went wrong. Please try again.
+              </p>
+            )}
+
             <button
               type="submit"
-              className="w-full p-2 bg-navy text-white rounded-md"
+              disabled={loading}
+              className="w-full p-2 bg-navy text-white rounded-md disabled:opacity-50"
             >
-              Submit
+              {loading ? "Submitting..." : "Submit"}
             </button>
           </div>
         </form>
