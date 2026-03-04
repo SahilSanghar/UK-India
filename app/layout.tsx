@@ -23,6 +23,8 @@ export const metadata: Metadata = {
     "The UK India Business Council passionately believes that the UK-India partnership creates jobs and growth in both countries, and that UK and Indian businesses have ideas, technology, services, and products that can succeed in India and the UK, respectively. Through our last-mile insights, networks, future-focused policy advocacy, and market-entry services, we support businesses in achieving this success.",
 };
 
+
+
 export default function RootLayout({
   children,
 }: Readonly<{

@@ -189,6 +189,26 @@ export default function layout({ children }: { children: React.ReactNode }) {
         </svg>
       ),
     },
+    {
+      name: "Pages",
+      href: "/admin/dashboard/pages",
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="size-6"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M16 3v5c0 .552-.448 1-1 1H9c-.552 0-1-.448-1-1V3m11 5.5V19a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V8.5A2.5 2.5 0 0 1 7.5 6h9A2.5 2.5 0 0 1 20 8.5z"
+          />
+        </svg>
+      ),
+    },
 
     // {
     //   name: "Events",
