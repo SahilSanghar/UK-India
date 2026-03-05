@@ -37,7 +37,7 @@ export async function GET(req: NextRequest) {
     const result = await dynamoClient.send(command);
     const marshalled = result.Items?.map((item) => unmarshall(item));
 
-    // console.log(marshalled?.[0]);
+    console.log(marshalled?.[0]);
 
     return NextResponse.json({ page: marshalled?.[0] }, { status: 200 });
   } catch (error) {
