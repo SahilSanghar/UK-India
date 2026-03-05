@@ -2,6 +2,7 @@
 
 import axios from "axios";
 import React, { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 
 interface PageProps {
@@ -11,6 +12,7 @@ interface PageProps {
 }
 
 export default function Page() {
+  const router = useRouter();
   const { data, isLoading, isError } = useQuery({
     queryKey: ["pages"],
     queryFn: async () =>
@@ -32,7 +34,17 @@ export default function Page() {
       ) : (
         <div className="flex flex-col items-center justify-center">
           {data?.pages.map((page: PageProps) => (
-            <div key={page.id}>{page.title}</div>
+            <div
+              key={page.id}
+              className="hover:cursor-pointer hover:scale-105 transition-all duration-150 w-[20rem] h-48 bg-navy/10 flex items-center justify-center border border-gray-300 rounded-md p-2āā"
+              onClick={() => {
+                router.push(
+                  `/admin/dashboard/pages/${page.title.toLowerCase().replace(/ /g, "-")}`,
+                );
+              }}
+            >
+              <p className="text-navy font-bold text-xl capitalize">{page.title}</p>
+            </div>
           ))}
         </div>
       )}

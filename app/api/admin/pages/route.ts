@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { DynamoDBClient, ScanCommand } from "@aws-sdk/client-dynamodb";
+import { DynamoDBClient, GetItemCommand, ScanCommand } from "@aws-sdk/client-dynamodb";
 import { unmarshall } from "@aws-sdk/util-dynamodb";
 
 const dynamoClient = new DynamoDBClient({
