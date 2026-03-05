@@ -67,6 +67,28 @@ export default function Client({ type }: { type: string }) {
         console.error("Failed to edit title", error);
       }
     }
+
+    if (item === "description") {
+      const newDescription = formData.get("description") as string;
+      const updatedDescriptions = [...lander.des, newDescription];
+
+      try {
+        const res = await axios.post("/api/admin/pages/edit", {
+          type,
+          lander: {
+            title: lander.title,
+            des: updatedDescriptions,
+            image: lander.image,
+          },
+        });
+        if (res.status !== 200) throw new Error("Failed to edit description");
+        form.reset();
+        queryClient.invalidateQueries({ queryKey: ["admin-pages", type] });
+      } catch (error) {
+        form.reset();
+        console.error("Failed to edit description", error);
+      }
+    }
   };
 
   const [editing, setEditing] = useState<{
@@ -102,6 +124,26 @@ export default function Client({ type }: { type: string }) {
       }
     }
 
+    if (field === "description") {
+      const updatedDescriptions = lander.des.map((d, i) =>
+        i === index ? newValue : d,
+      );
+      try {
+        const res = await axios.post("/api/admin/pages/edit", {
+          type,
+          lander: {
+            title: lander.title,
+            des: updatedDescriptions,
+            image: lander.image,
+          },
+        });
+        if (res.status !== 200) throw new Error("Failed to edit description");
+        queryClient.invalidateQueries({ queryKey: ["admin-pages", type] });
+      } catch (error) {
+        console.error("Failed to edit description", error);
+      }
+    }
+
     setEditing(null);
   };
 
@@ -125,6 +167,27 @@ export default function Client({ type }: { type: string }) {
         queryClient.invalidateQueries({ queryKey: ["admin-pages", type] });
       } catch (error) {
         console.error("Failed to delete title", error);
+      }
+    }
+    if (item === "description") {
+      const updatedDescriptions = lander.des.filter((_, i) => i !== index);
+      try {
+        const res = await axios.post("/api/admin/pages/edit", {
+          type,
+          lander: {
+            title: lander.title,
+            des: updatedDescriptions,
+            image: lander.image,
+          },
+        });
+
+        if (res.status != 200) {
+          throw new Error("Failed to delete description");
+        }
+
+        queryClient.invalidateQueries({ queryKey: ["admin-pages", type] });
+      } catch (error) {
+        console.error("Failed to delete description", error);
       }
     }
   };
@@ -159,7 +222,7 @@ export default function Client({ type }: { type: string }) {
                   type="text"
                   name="title"
                   placeholder="Title"
-                  className="w-full p-2 border border-gray-300 rounded-md"
+                  className="w-full p-2 border font-normal border-gray-300 rounded-md"
                 />
                 <button
                   type="submit"
@@ -170,7 +233,7 @@ export default function Client({ type }: { type: string }) {
               </form>
               {lander.title.map((title: string, index: number) => (
                 <div
-                  className="text-base font-bold border flex flex-row items-center justify-center px-4 py-2 text-black"
+                  className="text-base font-medium rounded-full bg-navy/10 border flex flex-row items-center justify-center px-4 py-2 text-black"
                   key={`${title}-${index}`}
                 >
                   {editing?.field === "title" && editing.index === index ? (
@@ -249,7 +312,7 @@ export default function Client({ type }: { type: string }) {
                 action=""
                 className="flex flex-row items-center justify-center gap-2"
                 onSubmit={async (e: React.FormEvent<HTMLFormElement>) => {
-                  handleLanderEdit(e, "title");
+                  handleLanderEdit(e, "description");
                 }}
               >
                 <input
@@ -267,15 +330,20 @@ export default function Client({ type }: { type: string }) {
               </form>
               {lander.des.map((des: string, index: number) => (
                 <div
-                  className="text-base font-bold border flex flex-row items-center justify-center px-4 py-2 text-black"
+                  className="text-base font-medium rounded-full bg-navy/10 border flex flex-row items-center justify-center px-4 py-2 text-black"
                   key={`${des}-${index}`}
                 >
-                  {editing?.field === "des" && editing.index === index ? (
+                  {editing?.field === "description" &&
+                  editing.index === index ? (
                     <form
                       className="flex flex-row items-center gap-2 w-full"
                       onSubmit={(e) => {
                         e.preventDefault();
-                        handleLanderItemEdit("des", index, editing.value);
+                        handleLanderItemEdit(
+                          "description",
+                          index,
+                          editing.value,
+                        );
                       }}
                     >
                       <input
@@ -315,7 +383,11 @@ export default function Client({ type }: { type: string }) {
                         <button
                           className="text-blue-500 cursor-pointer ml-2 flex items-center justify-center"
                           onClick={() =>
-                            setEditing({ field: "des", index, value: des })
+                            setEditing({
+                              field: "description",
+                              index,
+                              value: des,
+                            })
                           }
                           title="Edit Description"
                         >
@@ -323,7 +395,9 @@ export default function Client({ type }: { type: string }) {
                         </button>
                         <button
                           className="text-red-500 cursor-pointer ml-2 flex items-center justify-center"
-                          onClick={() => handlelanderDelete("des", index)}
+                          onClick={() =>
+                            handlelanderDelete("description", index)
+                          }
                           title="Delete Description"
                         >
                           <XIcon className="w-4 h-4" />

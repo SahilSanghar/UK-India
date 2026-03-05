@@ -26,6 +26,8 @@ export async function POST(req: Request) {
       );
     }
 
+    console.log(lander);
+
     await dynamoClient.send(
       new UpdateItemCommand({
         TableName: "ukibc_pages",
