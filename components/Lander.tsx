@@ -40,7 +40,31 @@ export default function Lander({
   video = false,
   flip = false,
 }: LanderProps) {
-  const [currentTitle, setCurrentTitle] = useState(0);
+  const [tick, setTick] = useState(0);
+
+  const allDescriptions = title_data
+    .map((t) => t.des)
+    .filter((d): d is string => !!d);
+  const allTitle2s = title_data
+    .map((t) => t.title2)
+    .filter((t): t is string => !!t);
+
+  const currentTitle = title_data.length <= 1 ? 0 : tick % title_data.length;
+  const currentDes =
+    allDescriptions.length === 0
+      ? undefined
+      : allDescriptions.length === 1
+        ? allDescriptions[0]
+        : allDescriptions[tick % allDescriptions.length];
+  const currentTitle2 =
+    allTitle2s.length === 0
+      ? undefined
+      : allTitle2s.length === 1
+        ? allTitle2s[0]
+        : allTitle2s[tick % allTitle2s.length];
+
+  const shouldAnimateDes = allDescriptions.length > 1;
+  const shouldAnimateTitle2 = allTitle2s.length > 1;
 
   const [currency, setCurrency] = useState<{ GBP: number; INR: number }>({
     GBP: 0.0,
@@ -48,11 +72,12 @@ export default function Lander({
   });
 
   useEffect(() => {
+    if (title_data.length <= 1 && allDescriptions.length <= 1 && allTitle2s.length <= 1) return;
     const interval = setInterval(() => {
-      setCurrentTitle((prev) => (prev + 1) % title_data.length);
+      setTick((prev) => prev + 1);
     }, 5000);
     return () => clearInterval(interval);
-  }, [title_data]);
+  }, [title_data, allDescriptions.length, allTitle2s.length]);
 
   useEffect(() => {
     axios
@@ -195,7 +220,7 @@ export default function Lander({
                   </motion.div>
                 )}
               </div>
-              {title_data[currentTitle].title2 && (
+              {currentTitle2 && (
                 <div
                   key={"title2"}
                   className={`${
@@ -206,23 +231,23 @@ export default function Lander({
                 >
                   {flip ? (
                     <motion.p
-                      key={`title2-${currentTitle}`}
-                      initial={{ opacity: 0, y: 20 }}
+                      key={shouldAnimateTitle2 ? `title2-${tick}` : "title2-static"}
+                      initial={shouldAnimateTitle2 ? { opacity: 0, y: 20 } : false}
                       animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -20 }}
+                      exit={shouldAnimateTitle2 ? { opacity: 0, y: -20 } : undefined}
                       transition={{ duration: 0.5, delay: 0.2 }}
                       className="text-navy/90 text-base md:text-xl font-bold w-[90%] flex flex-wrap gap-x-1 leading-[1.3] sm:leading-[1.4]"
                     >
-                      {title_data[currentTitle].title2
-                        ?.split(" ")
+                      {currentTitle2
+                        .split(" ")
                         .map((word, index) => (
                           <motion.span
                             key={(word + index).toString()}
-                            initial={{
+                            initial={shouldAnimateTitle2 ? {
                               opacity: 0,
                               filter: "blur(10px)",
                               y: 20,
-                            }}
+                            } : false}
                             animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
                             transition={{ duration: 0.5, delay: 0.1 * index }}
                             className="inline-block"
@@ -233,23 +258,23 @@ export default function Lander({
                     </motion.p>
                   ) : (
                     <motion.p
-                      key={`title2-${currentTitle}`}
-                      initial={{ opacity: 0, y: 20 }}
+                      key={shouldAnimateTitle2 ? `title2-${tick}` : "title2-static"}
+                      initial={shouldAnimateTitle2 ? { opacity: 0, y: 20 } : false}
                       animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -20 }}
+                      exit={shouldAnimateTitle2 ? { opacity: 0, y: -20 } : undefined}
                       transition={{ duration: 0.5, delay: 0.2 }}
                       className="absolute top-0 left-0 text-navy/90 text-base md:text-xl font-bold w-[90%] flex flex-wrap gap-x-1 leading-[1.3] sm:leading-[1.4]"
                     >
-                      {title_data[currentTitle].title2
-                        ?.split(" ")
+                      {currentTitle2
+                        .split(" ")
                         .map((word, index) => (
                           <motion.span
                             key={(word + index).toString()}
-                            initial={{
+                            initial={shouldAnimateTitle2 ? {
                               opacity: 0,
                               filter: "blur(10px)",
                               y: 20,
-                            }}
+                            } : false}
                             animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
                             transition={{ duration: 0.5, delay: 0.1 * index }}
                             className="inline-block"
@@ -262,7 +287,7 @@ export default function Lander({
                 </div>
               )}
 
-              {title_data[currentTitle].des && (
+              {currentDes && (
                 <div
                   key={"description"}
                   className={`${
@@ -273,23 +298,23 @@ export default function Lander({
                 >
                   {flip ? (
                     <motion.p
-                      key={`desc-${currentTitle}`}
-                      initial={{ opacity: 0, y: 20 }}
+                      key={shouldAnimateDes ? `desc-${tick}` : "desc-static"}
+                      initial={shouldAnimateDes ? { opacity: 0, y: 20 } : false}
                       animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -20 }}
+                      exit={shouldAnimateDes ? { opacity: 0, y: -20 } : undefined}
                       transition={{ duration: 0.5, delay: 0.2 }}
                       className="text-black/90 text-[12px] sm:text-sm font-medium w-[90%] flex flex-wrap gap-x-1 leading-[1.3] sm:leading-[1.4]"
                     >
-                      {title_data[currentTitle].des
-                        ?.split(" ")
+                      {currentDes
+                        .split(" ")
                         .map((word, index) => (
                           <motion.span
                             key={(word + index).toString()}
-                            initial={{
+                            initial={shouldAnimateDes ? {
                               opacity: 0,
                               filter: "blur(10px)",
                               y: 20,
-                            }}
+                            } : false}
                             animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
                             transition={{ duration: 0.5, delay: 0.1 * index }}
                             className="inline-block"
@@ -300,23 +325,23 @@ export default function Lander({
                     </motion.p>
                   ) : (
                     <motion.p
-                      key={`desc-${currentTitle}`}
-                      initial={{ opacity: 0, y: 20 }}
+                      key={shouldAnimateDes ? `desc-${tick}` : "desc-static"}
+                      initial={shouldAnimateDes ? { opacity: 0, y: 20 } : false}
                       animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -20 }}
+                      exit={shouldAnimateDes ? { opacity: 0, y: -20 } : undefined}
                       transition={{ duration: 0.5, delay: 0.2 }}
                       className="absolute top-0 left-0 text-black/90 text-[12px] sm:text-sm md:text-base font-medium w-[90%] flex flex-wrap gap-x-1 leading-[1.3] sm:leading-[1.4]"
                     >
-                      {title_data[currentTitle].des
-                        ?.split(" ")
+                      {currentDes
+                        .split(" ")
                         .map((word, index) => (
                           <motion.span
                             key={(word + index).toString()}
-                            initial={{
+                            initial={shouldAnimateDes ? {
                               opacity: 0,
                               filter: "blur(10px)",
                               y: 20,
-                            }}
+                            } : false}
                             animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
                             transition={{ duration: 0.5, delay: 0.1 * index }}
                             className="inline-block"

@@ -27,10 +27,10 @@ interface PageProps {
   title: string;
   type: string;
   lander: {
-    title: string;
-    des: string;
-    image: string;
-  }[];
+    title: string[];
+    des: string[];
+    image: string[];
+  };
 }
 
 export default function Home({ pages }: { pages: PageProps }) {
@@ -87,19 +87,26 @@ export default function Home({ pages }: { pages: PageProps }) {
   return (
     <>
       <Lander
-        title_data={pages.lander.map((lander) => ({
-          title: lander.title,
-          des: lander.des,
+        title_data={pages.lander.title.map((t, i) => ({
+          title: t,
+          des: pages.lander.des[i] ?? undefined,
         }))}
         button={false}
         currency={true}
         video={true}
-        images={[
-          { image: "/home/lander/4.webp", position: "bottom-right" },
-          { image: "/home/lander/1.webp", position: "50%_100%" },
-          { image: "/home/lander/2.webp", position: "50%_50%" },
-          { image: "/home/lander/3.webp", position: "10%_10%" },
-        ]}
+        images={
+          pages.lander.image && pages.lander.image.length > 0
+            ? pages.lander.image.map((img) => ({
+                image: `https://d2paj8ptqa22jg.cloudfront.net/pages/${pages.type}/${img}.webp`,
+                position: "50%_50%",
+              }))
+            : [
+                {
+                  image: "/person.jpg",
+                  position: "50%_50%",
+                },
+              ]
+        }
       />
 
       <div className="w-full h-fit flex flex-col gap-2 justify-center items-center py-20 overflow-x-hidden max-w-full">

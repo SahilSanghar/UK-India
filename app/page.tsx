@@ -6,10 +6,10 @@ interface PageProps {
   title: string;
   type: string;
   lander: {
-    title: string;
-    des: string;
-    image: string;
-  }[];
+    title: string[];
+    des: string[];
+    image: string[];
+  };
 }
 
 const getPages = async () => {

@@ -3,7 +3,15 @@
 import React, { useState, useEffect } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { CheckIcon, PencilIcon, XIcon } from "lucide-react";
+import {
+  CheckIcon,
+  PencilIcon,
+  Trash2Icon,
+  UploadCloudIcon,
+  XIcon,
+} from "lucide-react";
+import Image from "next/image";
+import { v4 as uuidv4 } from "uuid";
 
 export default function Client({ type }: { type: string }) {
   const queryClient = useQueryClient();
@@ -88,6 +96,75 @@ export default function Client({ type }: { type: string }) {
         form.reset();
         console.error("Failed to edit description", error);
       }
+    }
+  };
+
+  const [isDragging, setIsDragging] = useState(false);
+
+  const handleImageUpload = async (file: File) => {
+    const uuid = uuidv4();
+    const imageKey = `pages/${type}/${uuid}`;
+
+    try {
+      const signedRes = await axios.post("/api/admin/team/image/signed", {
+        key: imageKey,
+      });
+
+      if (!signedRes.data?.signedUrl) {
+        alert("Failed to get signed url");
+        return;
+      }
+
+      const uploadRes = await axios.put(signedRes.data.signedUrl, file, {
+        headers: { "Content-Type": file.type },
+      });
+
+      if (uploadRes.status !== 200) {
+        alert("Failed to upload image");
+        return;
+      }
+
+      const updatedImages = [...lander.image, uuid];
+
+      await axios.post("/api/admin/pages/edit", {
+        type,
+        lander: {
+          title: lander.title,
+          des: lander.des,
+          image: updatedImages,
+        },
+      });
+
+      queryClient.invalidateQueries({ queryKey: ["admin-pages", type] });
+    } catch (error) {
+      alert("Failed to upload image: " + error);
+    }
+  };
+
+  const handleImageDelete = async (imageKey: string, index: number) => {
+    // confirm with alaert
+    if (!confirm("Are you sure you want to delete this image?")) {
+      return;
+    }
+    try {
+      await axios.post("/api/admin/pages/image/delete", {
+        key: `pages/${type}/${imageKey}`,
+      });
+
+      const updatedImages = lander.image.filter((_, i) => i !== index);
+
+      await axios.post("/api/admin/pages/edit", {
+        type,
+        lander: {
+          title: lander.title,
+          des: lander.des,
+          image: updatedImages,
+        },
+      });
+
+      queryClient.invalidateQueries({ queryKey: ["admin-pages", type] });
+    } catch (error) {
+      alert("Failed to delete image: " + error);
     }
   };
 
@@ -193,7 +270,7 @@ export default function Client({ type }: { type: string }) {
   };
 
   return (
-    <div className="w-full h-screen flex flex-col items-center justify-center pb-10 pt-25 px-10 z-20">
+    <div className="w-full h-full flex flex-col items-center justify-center pb-10 pt-25 px-10 z-20">
       <h1 className="text-4xl font-bold flex items-center justify-center pt-10 mb-2 text-navy capitalize">
         Edit {type.replace(/-/g, " ")}
       </h1>
@@ -407,6 +484,77 @@ export default function Client({ type }: { type: string }) {
                   )}
                 </div>
               ))}
+
+              <h2 className="text-lg font-bold">Images</h2>
+              <label
+                className={`flex flex-col items-center justify-center w-full h-40 border-2 border-dashed rounded-lg cursor-pointer transition-colors ${
+                  isDragging
+                    ? "border-navy bg-navy/10"
+                    : "border-gray-300 hover:border-navy/50 hover:bg-gray-50"
+                }`}
+                onDragOver={(e) => {
+                  e.preventDefault();
+                  setIsDragging(true);
+                }}
+                onDragLeave={() => setIsDragging(false)}
+                onDrop={(e) => {
+                  e.preventDefault();
+                  setIsDragging(false);
+                  const file = e.dataTransfer.files?.[0];
+                  if (file && file.type.startsWith("image/")) {
+                    handleImageUpload(file);
+                  }
+                }}
+              >
+                <div className="flex h-28 flex-col items-center justify-center gap-2 pointer-events-none">
+                  <UploadCloudIcon className="w-8 h-8 text-gray-400" />
+                  <p className="text-sm text-gray-500">
+                    <span className="font-semibold text-navy">
+                      Click to upload
+                    </span>{" "}
+                    or drag and drop
+                  </p>
+                </div>
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) handleImageUpload(file);
+                    e.target.value = "";
+                  }}
+                />
+              </label>
+              {lander.image.length === 0 && (
+                <span className="text-gray-400">No images added yet.</span>
+              )}
+              {lander.image.length > 0 && (
+                <div className="w-full h-full flex flex-wrap items-center justify-center gap-2">
+                  {lander.image.map((image: string, index: number) => (
+                    <div
+                      key={`${image}-${index}`}
+                      className="relative group w-100 h-auto aspect-square p-2 border border-dashed border-gray-300 rounded-md"
+                    >
+                      <Image
+                        src={`https://ukibc-storage.s3.ap-south-1.amazonaws.com/pages/${type}/${image}`}
+                        alt="Image"
+                        width={0}
+                        height={0}
+                        sizes="100vh"
+                        className="w-full h-full object-cover rounded-md"
+                      />
+                      <button
+                        onClick={() => handleImageDelete(image, index)}
+                        className="absolute top-4 right-4 bg-red-500 hover:bg-red-600 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer shadow-lg"
+                        title="Delete Image"
+                      >
+                        <Trash2Icon className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         )}
