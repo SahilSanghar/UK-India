@@ -3,7 +3,10 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Lander from "./components/Lander";
+import What from "./components/What";
 import { useState } from "react";
+
+type Section = "lander" | "what" | "";
 
 export default function Client({ type }: { type: string }) {
   const { data, isLoading, isError } = useQuery({
@@ -16,7 +19,10 @@ export default function Client({ type }: { type: string }) {
     staleTime: 0,
   });
 
-  const [show, setShow] = useState<"lander" | "">("");
+  const [show, setShow] = useState<Section>("");
+
+  const toggle = (section: Section) =>
+    setShow((prev) => (prev === section ? "" : section));
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center pb-10 pt-25 px-5 z-20">
@@ -30,10 +36,13 @@ export default function Client({ type }: { type: string }) {
 
         {data?.page?.lander && (
           <div className="flex flex-col gap-0 bg-navy/10 w-full rounded-xl px-5 py-5 mt-5">
-            <div className="w-full cursor-pointer" onClick={() => setShow(show === "lander" ? "" : "lander")}>
-              <h1 className="text-2xl font-bold flex items-center justify-left   text-navy capitalize">
+            <div
+              className="w-full cursor-pointer"
+              onClick={() => toggle("lander")}
+            >
+              <h1 className="text-2xl font-bold flex items-center justify-left text-navy capitalize">
                 Lander
-              </h1>{" "}
+              </h1>
             </div>
 
             {show === "lander" && (
@@ -43,6 +52,23 @@ export default function Client({ type }: { type: string }) {
                 rawButton={data.page.lander?.button}
                 rawFlip={data.page.lander?.flip}
               />
+            )}
+          </div>
+        )}
+
+        {data?.page?.what && (
+          <div className="flex flex-col gap-0 bg-navy/10 w-full rounded-xl px-5 py-5 mt-5">
+            <div
+              className="w-full cursor-pointer"
+              onClick={() => toggle("what")}
+            >
+              <h1 className="text-2xl font-bold flex items-center justify-left text-navy capitalize">
+                What We Do
+              </h1>
+            </div>
+
+            {show === "what" && (
+              <What type={type} rawWhat={data.page.what} />
             )}
           </div>
         )}
