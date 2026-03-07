@@ -15,6 +15,15 @@ interface PageProps {
       link: string;
     };
   };
+  what: {
+    title: string;
+    des: string;
+    cards: {
+      title: string;
+      des: string;
+      images: string[];
+    }[];
+  };
 }
 
 const getPages = async () => {

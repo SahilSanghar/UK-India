@@ -36,6 +36,15 @@ interface PageProps {
       link: string;
     };
   };
+  what: {
+    title: string;
+    des: string;
+    cards: {
+      title: string;
+      des: string;
+      images: string[];
+    }[];
+  };
 }
 
 export default function Home({ pages }: { pages: PageProps }) {
@@ -96,9 +105,9 @@ export default function Home({ pages }: { pages: PageProps }) {
           title: t,
           des: pages.lander.des[i] ?? undefined,
         }))}
-        button={pages.lander.button.enable}
-        buttonTxt={pages.lander.button.text}
-        buttonLink={pages.lander.button.link}
+        button={pages.lander.button?.enable || false}
+        buttonTxt={pages.lander.button?.text || ""}
+        buttonLink={pages.lander.button?.link || ""}
         currency={true}
         video={true}
         images={
@@ -127,7 +136,7 @@ export default function Home({ pages }: { pages: PageProps }) {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="text-navy md:text-5xl text-3xl font-bold text-center flex mt-20"
         >
-          What we do
+          {pages.what?.title || "Unknown Title"}
         </motion.h1>
         <motion.p
           initial={{ opacity: 0, y: 20 }}
@@ -136,13 +145,28 @@ export default function Home({ pages }: { pages: PageProps }) {
           viewport={{ once: false }}
           className="text-gray-900 text-center md:text-xl text-md font-medium lg:w-full w-[80%]"
         >
-          For those seeking practical advice, our team offers the following
-          services.
+          {pages.what?.des || "Unknown Description"}
         </motion.p>
 
         <div className="w-full lg:flex-row flex-col mt-20 grid md:grid-cols-3 grid-cols-1 overflow-x-hidden max-w-full">
           {" "}
-          <FullCard
+          {pages.what?.cards.map((card: { title: string; des: string; images: string[]; link?: string }) => (
+            <FullCard
+              key={card.title}
+              title1={card.title}
+              image={card.images[0]}
+              des={card.des}
+              animation="center"
+              large={true}
+              images={card.images.map((image) => ({
+                image: `https://d2paj8ptqa22jg.cloudfront.net/pages/${pages.type}/${image}.webp`,
+                position: "50%_50%",
+              }))}
+              idiot={false}
+              link={card.link || ""}
+            />
+          ))}
+          {/* <FullCard
             title1="Interaction"
             image="/home-card2.jpeg"
             des="We put you in the room with decision-makers through high-level convening across the UK-India corridor."
@@ -189,7 +213,7 @@ export default function Home({ pages }: { pages: PageProps }) {
               { image: "/home/eyes/intel-3.webp", position: "50%_50%" },
               { image: "/home/eyes/intel-4.webp", position: "50%_50%" },
             ]}
-          />
+          /> */}
           {/* <div className="col-span-2 md:col-span-1">
             <FullCard
               title1="Intelligence"
