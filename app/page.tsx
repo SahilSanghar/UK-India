@@ -9,16 +9,18 @@ interface PageProps {
     title: string[];
     des: string[];
     image: string[];
+    button: {
+      enable: boolean;
+      text: string;
+      link: string;
+    };
   };
 }
 
 const getPages = async () => {
-  const res = await fetch(
-    process.env.PUBLIC_URL + "/api/admin/pages",
-    {
-      cache: "no-store",
-    },
-  );
+  const res = await fetch(process.env.PUBLIC_URL + "/api/admin/pages", {
+    cache: "no-store",
+  });
   if (!res.ok) {
     throw new Error("Failed to fetch pages");
   }

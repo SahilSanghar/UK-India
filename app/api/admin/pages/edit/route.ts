@@ -26,7 +26,54 @@ export async function POST(req: Request) {
       );
     }
 
-    console.log(lander);
+    if (lander.button) {
+      const enable =
+        lander.button.enable === "on" || lander.button.enable === true;
+
+      await dynamoClient.send(
+        new UpdateItemCommand({
+          TableName: "ukibc_pages",
+          Key: {
+            type: { S: type },
+          },
+          UpdateExpression: "SET #l.#b = :b",
+          ExpressionAttributeNames: {
+            "#l": "lander",
+            "#b": "button",
+          },
+          ExpressionAttributeValues: {
+            ":b": {
+              M: {
+                enable: { BOOL: enable },
+                text: { S: lander.button.text || "" },
+                link: { S: lander.button.link || "" },
+              },
+            },
+          },
+        }),
+      );
+
+      return NextResponse.json({ message: "Button updated" }, { status: 200 });
+    }
+
+    if ("flip" in lander) {
+      await dynamoClient.send(
+        new UpdateItemCommand({
+          TableName: "ukibc_pages",
+          Key: { type: { S: type } },
+          UpdateExpression: "SET #l.#f = :f",
+          ExpressionAttributeNames: {
+            "#l": "lander",
+            "#f": "flip",
+          },
+          ExpressionAttributeValues: {
+            ":f": { BOOL: lander.flip },
+          },
+        }),
+      );
+
+      return NextResponse.json({ message: "Flip updated" }, { status: 200 });
+    }
 
     await dynamoClient.send(
       new UpdateItemCommand({

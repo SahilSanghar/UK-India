@@ -30,6 +30,11 @@ interface PageProps {
     title: string[];
     des: string[];
     image: string[];
+    button: {
+      enable: boolean;
+      text: string;
+      link: string;
+    };
   };
 }
 
@@ -91,7 +96,9 @@ export default function Home({ pages }: { pages: PageProps }) {
           title: t,
           des: pages.lander.des[i] ?? undefined,
         }))}
-        button={false}
+        button={pages.lander.button.enable}
+        buttonTxt={pages.lander.button.text}
+        buttonLink={pages.lander.button.link}
         currency={true}
         video={true}
         images={
