@@ -66,6 +66,14 @@ interface PageProps {
       image: string;
     }[];
   };
+  membership?: {
+    title: string;
+    subtitle: string;
+    des: string;
+    image: string;
+    buttonTxt: string;
+    link: string;
+  };
 }
 
 export default function Home({ pages }: { pages: PageProps }) {
@@ -201,22 +209,29 @@ export default function Home({ pages }: { pages: PageProps }) {
 
         <div className="w-full lg:flex-row flex-col mt-20 grid md:grid-cols-3 grid-cols-1 overflow-x-hidden max-w-full">
           {" "}
-          {pages.what?.cards.map((card: { title: string; des: string; images: string[]; link?: string }) => (
-            <FullCard
-              key={card.title}
-              title1={card.title}
-              image={card.images[0]}
-              des={card.des}
-              animation="center"
-              large={true}
-              images={card.images.map((image) => ({
-                image: `https://d2paj8ptqa22jg.cloudfront.net/pages/${pages.type}/${image}.webp`,
-                position: "50%_50%",
-              }))}
-              idiot={false}
-              link={card.link || ""}
-            />
-          ))}
+          {pages.what?.cards.map(
+            (card: {
+              title: string;
+              des: string;
+              images: string[];
+              link?: string;
+            }) => (
+              <FullCard
+                key={card.title}
+                title1={card.title}
+                image={card.images[0]}
+                des={card.des}
+                animation="center"
+                large={true}
+                images={card.images.map((image) => ({
+                  image: `https://d2paj8ptqa22jg.cloudfront.net/pages/${pages.type}/${image}.webp`,
+                  position: "50%_50%",
+                }))}
+                idiot={false}
+                link={card.link || ""}
+              />
+            ),
+          )}
           {/* <FullCard
             title1="Interaction"
             image="/home-card2.jpeg"
@@ -292,9 +307,12 @@ export default function Home({ pages }: { pages: PageProps }) {
             ? pages.stats.cards
             : defaultStats
           ).map((stat, idx) => {
-            const animations: ("left" | "center" | "right")[] = ["left", "center", "right"];
+            const animations: ("left" | "center" | "right")[] = [
+              "left",
+              "center",
+              "right",
+            ];
             return (
-              
               <StatCard
                 key={idx}
                 title={stat.title}
@@ -431,12 +449,18 @@ export default function Home({ pages }: { pages: PageProps }) {
 
       <Fullscreen
         ref={membershipRef as unknown as React.RefObject<HTMLDivElement>}
-        title1="Membership"
-        title2="Right place, Right people"
-        description="Join a trusted ecosystem where business, government, and academia meet with intent. As a member, you gain access to curated B2G and B2B forums that turn dialogue into insight and insight into opportunity. Our platform connects you with decision-makers, leading institutions, and growth-ready enterprises to build relationships that deliver long-term value."
-        image="/home-membership.jpg"
-        buttonText="JOIN THE NETWORK"
-        buttonLink="/membership"
+        title1={pages?.membership?.title || "Membership"}
+        title2={pages?.membership?.subtitle || "Right place, Right people"}
+        description={
+          pages?.membership?.des ||
+          "Join a trusted ecosystem where business, government, and academia meet with intent. As a member, you gain access to curated B2G and B2B forums that turn dialogue into insight and insight into opportunity. Our platform connects you with decision-makers, leading institutions, and growth-ready enterprises to build relationships that deliver long-term value."
+        }
+        image={
+          `https://d2paj8ptqa22jg.cloudfront.net/pages/${pages.type}/${pages?.membership?.image}.webp` ||
+          "/home-membership.jpg"
+        }
+        buttonText={pages?.membership?.buttonTxt || "JOIN THE NETWORK"}
+        buttonLink={pages?.membership?.link || "/membership"}
       />
       {/* testimonials */}
       <div className="w-full h-fit flex justify-center items-center py-20 bg-mix2">

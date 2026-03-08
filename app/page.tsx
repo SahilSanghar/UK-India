@@ -43,6 +43,14 @@ interface PageProps {
       image: string;
     }[];
   };
+  membership?: {
+    title: string;
+    subtitle: string;
+    des: string;
+    image: string;
+    buttonTxt: string;
+    link: string;
+  };
 }
 
 const getPages = async () => {
