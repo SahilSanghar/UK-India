@@ -24,6 +24,18 @@ interface PageProps {
       images: string[];
     }[];
   };
+  stats?: {
+    title: string;
+    cards: {
+      title: string;
+      valueBefore: string;
+      valueAfter: string;
+      number: number;
+      des: string;
+      disclaimer: string;
+      link: string;
+    }[];
+  };
 }
 
 const getPages = async () => {
@@ -39,6 +51,5 @@ const getPages = async () => {
 
 export default async function Page() {
   const pages = await getPages();
-  console.log(pages[0].lander);
   return <Client pages={pages[0]} />;
 }

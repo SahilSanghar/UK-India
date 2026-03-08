@@ -4,9 +4,10 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Lander from "./components/Lander";
 import What from "./components/What";
+import Stats from "./components/Stats";
 import { useState } from "react";
 
-type Section = "lander" | "what" | "";
+type Section = "lander" | "what" | "stats" | "";
 
 export default function Client({ type }: { type: string }) {
   const { data, isLoading, isError } = useQuery({
@@ -69,6 +70,26 @@ export default function Client({ type }: { type: string }) {
 
             {show === "what" && (
               <What type={type} rawWhat={data.page.what} />
+            )}
+          </div>
+        )}
+
+        {data?.page?.stats && (
+          <div className="flex flex-col gap-0 bg-navy/10 w-full rounded-xl px-5 py-5 mt-5">
+            <div
+              className="w-full cursor-pointer"
+              onClick={() => toggle("stats")}
+            >
+              <h1 className="text-2xl font-bold flex items-center justify-left text-navy capitalize">
+                Stats
+              </h1>
+            </div>
+
+            {show === "stats" && (
+              <Stats
+                type={type}
+                rawStats={data.page.stats as Record<string, unknown>}
+              />
             )}
           </div>
         )}

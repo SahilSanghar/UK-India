@@ -22,6 +22,16 @@ import map from "@/videos/map.mp4";
 import Fullscreen from "@/components/Fullscreen";
 import Ticker from "@/components/Ticker";
 
+interface StatCard {
+  title: string;
+  valueBefore: string;
+  valueAfter: string;
+  number: number;
+  des: string;
+  disclaimer: string;
+  link: string;
+}
+
 interface PageProps {
   id: string;
   title: string;
@@ -44,6 +54,10 @@ interface PageProps {
       des: string;
       images: string[];
     }[];
+  };
+  stats?: {
+    title: string;
+    cards: StatCard[];
   };
 }
 
@@ -97,6 +111,36 @@ export default function Home({ pages }: { pages: PageProps }) {
       setNavbar(mobile ? false : false);
     }
   }, [membershipInView, aboutInView, setNavbar, mobile]);
+
+  const defaultStats: StatCard[] = [
+    {
+      title: "Over",
+      valueBefore: "",
+      valueAfter: "+",
+      number: 825,
+      des: "businesses and universities have used our services",
+      disclaimer: "",
+      link: "/interaction",
+    },
+    {
+      title: "Recruited",
+      valueBefore: "",
+      valueAfter: "",
+      number: 46000,
+      des: "students from UKIBC Consortium Universities",
+      disclaimer: "(Last 6 years)",
+      link: "/launchpad",
+    },
+    {
+      title: "Revenue",
+      valueBefore: "£",
+      valueAfter: " Billion",
+      number: 600,
+      des: "of revenue to the worlds economy",
+      disclaimer: "",
+      link: "/launchpad",
+    },
+  ];
 
   return (
     <>
@@ -237,34 +281,26 @@ export default function Home({ pages }: { pages: PageProps }) {
 
       <div className="w-full h-fit pt-10 flex flex-col justify-center items-center pb-20">
         <div className="w-full h-fit flex flex-col sm:flex-row gap-6 sm:gap-10 md:gap-15 justify-center items-center text-center">
-          <StatCard
-            title="Over"
-            valueBefore=""
-            valueAfter="+"
-            animation="left"
-            number={825}
-            description="businesses and universities have used our services"
-            link="/interaction"
-          />
-          <StatCard
-            title="Recruited"
-            number={46000}
-            valueBefore=""
-            disclaimer="(Last 6 years)"
-            valueAfter=""
-            animation="center"
-            description="students from UKIBC Consortium Universities"
-            link="/launchpad"
-          />
-          <StatCard
-            title="Revenue"
-            valueBefore="£"
-            number={600}
-            valueAfter=" Billion"
-            animation="right"
-            description="of revenue to the worlds economy"
-            link="/launchpad"
-          />
+          {(pages.stats?.cards && pages.stats.cards.length > 0
+            ? pages.stats.cards
+            : defaultStats
+          ).map((stat, idx) => {
+            const animations: ("left" | "center" | "right")[] = ["left", "center", "right"];
+            return (
+              
+              <StatCard
+                key={idx}
+                title={stat.title}
+                valueBefore={stat.valueBefore}
+                valueAfter={stat.valueAfter}
+                animation={animations[idx % 3]}
+                number={stat.number}
+                description={stat.des}
+                disclaimer={stat.disclaimer || undefined}
+                link={stat.link || undefined}
+              />
+            );
+          })}
         </div>
 
         {/* <div className="hidden md:flex w-1/2 h-5 mt-10 my-0 md:my-20 border-b-2 border-black" /> */}
