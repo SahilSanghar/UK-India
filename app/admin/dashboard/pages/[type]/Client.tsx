@@ -5,9 +5,10 @@ import axios from "axios";
 import Lander from "./components/Lander";
 import What from "./components/What";
 import Stats from "./components/Stats";
+import Who from "./components/Who";
 import { useState } from "react";
 
-type Section = "lander" | "what" | "stats" | "";
+type Section = "lander" | "what" | "stats" | "who" | "";
 
 export default function Client({ type }: { type: string }) {
   const { data, isLoading, isError } = useQuery({
@@ -68,9 +69,7 @@ export default function Client({ type }: { type: string }) {
               </h1>
             </div>
 
-            {show === "what" && (
-              <What type={type} rawWhat={data.page.what} />
-            )}
+            {show === "what" && <What type={type} rawWhat={data.page.what} />}
           </div>
         )}
 
@@ -89,6 +88,26 @@ export default function Client({ type }: { type: string }) {
               <Stats
                 type={type}
                 rawStats={data.page.stats as Record<string, unknown>}
+              />
+            )}
+          </div>
+        )}
+
+        {data?.page?.who && (
+          <div className="flex flex-col gap-0 bg-navy/10 w-full rounded-xl px-5 py-5 mt-5">
+            <div
+              className="w-full cursor-pointer"
+              onClick={() => toggle("who")}
+            >
+              <h1 className="text-2xl font-bold flex items-center justify-left text-navy capitalize">
+                Who We Are
+              </h1>
+            </div>
+
+            {show === "who" && (
+              <Who
+                type={type}
+                rawWho={data.page.who as Record<string, unknown>}
               />
             )}
           </div>

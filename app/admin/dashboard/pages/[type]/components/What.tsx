@@ -94,8 +94,18 @@ export default function What({ type, rawWhat }: WhatProps) {
     setWhat((prev) => ({ ...prev, cards: [...prev.cards, emptyCard()] }));
   };
 
-  const removeCard = (index: number) => {
+  const removeCard = async (index: number) => {
     if (!confirm("Are you sure you want to remove this card?")) return;
+    const card = what.cards[index];
+    for (const img of card.images) {
+      try {
+        await axios.post("/api/admin/pages/image/delete", {
+          key: `pages/${type}/${img}`,
+        });
+      } catch {
+        // image may already be deleted
+      }
+    }
     setWhat((prev) => ({
       ...prev,
       cards: prev.cards.filter((_, i) => i !== index),

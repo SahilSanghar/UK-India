@@ -59,6 +59,13 @@ interface PageProps {
     title: string;
     cards: StatCard[];
   };
+  who?: {
+    title: string;
+    cards: {
+      title: string;
+      image: string;
+    }[];
+  };
 }
 
 export default function Home({ pages }: { pages: PageProps }) {
@@ -314,32 +321,40 @@ export default function Home({ pages }: { pages: PageProps }) {
               transition={{ duration: 0.5 }}
               className="mb-10 md:text-5xl  text-3xl font-bold text-navy text-center"
             >
-              Who we are
+              {pages.who?.title || "Who we are"}
             </motion.h2>
 
             {/* List */}
             <div className="relative w-full max-w-full overflow-x-hidden flex h-[450px] justify-center items-center">
               <ZoomCard
-                data={[
-                  {
-                    title:
-                      "The UK India Business Council catalyses bilateral trade and opportunity in both countries.",
-                    image: "/home/who-we-are/1.webp",
-                    link: "",
-                  },
-                  {
-                    title:
-                      "We strengthen last-mile connectivity between government, industry, and academia, creating a trusted pathway for trade, investment, and high-impact collaboration.",
-                    image: "/home/who-we-are/2.webp",
-                    link: "",
-                  },
-                  {
-                    title:
-                      "We help you realise your potential through forward-looking insights, powerful networks, policy advocacy, and hands-on market-entry support.",
-                    image: "/home/who-we-are/3.webp",
-                    link: "",
-                  },
-                ]}
+                data={
+                  pages.who?.cards && pages.who.cards.length > 0
+                    ? pages.who.cards.map((card) => ({
+                        title: card.title,
+                        image: `https://d2paj8ptqa22jg.cloudfront.net/pages/${pages.type}/${card.image}.webp`,
+                        link: "",
+                      }))
+                    : [
+                        {
+                          title:
+                            "The UK India Business Council catalyses bilateral trade and opportunity in both countries.",
+                          image: "/home/who-we-are/1.webp",
+                          link: "",
+                        },
+                        {
+                          title:
+                            "We strengthen last-mile connectivity between government, industry, and academia, creating a trusted pathway for trade, investment, and high-impact collaboration.",
+                          image: "/home/who-we-are/2.webp",
+                          link: "",
+                        },
+                        {
+                          title:
+                            "We help you realise your potential through forward-looking insights, powerful networks, policy advocacy, and hands-on market-entry support.",
+                          image: "/home/who-we-are/3.webp",
+                          link: "",
+                        },
+                      ]
+                }
               />
             </div>
           </div>

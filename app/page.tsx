@@ -36,6 +36,13 @@ interface PageProps {
       link: string;
     }[];
   };
+  who?: {
+    title: string;
+    cards: {
+      title: string;
+      image: string;
+    }[];
+  };
 }
 
 const getPages = async () => {
