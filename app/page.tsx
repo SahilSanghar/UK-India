@@ -51,6 +51,14 @@ interface PageProps {
     buttonTxt: string;
     link: string;
   };
+  testimonials?: {
+    quote: string;
+    des: string;
+    name: string;
+    role: string;
+    image: string;
+    link: string;
+  }[];
 }
 
 const getPages = async () => {

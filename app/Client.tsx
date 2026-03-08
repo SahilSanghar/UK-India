@@ -74,6 +74,14 @@ interface PageProps {
     buttonTxt: string;
     link: string;
   };
+  testimonials?: {
+    quote: string;
+    des: string;
+    name: string;
+    role: string;
+    image: string;
+    link: string;
+  }[];
 }
 
 export default function Home({ pages }: { pages: PageProps }) {
@@ -465,29 +473,19 @@ export default function Home({ pages }: { pages: PageProps }) {
       {/* testimonials */}
       <div className="w-full h-fit flex justify-center items-center py-20 bg-mix2">
         <Carousel
-          data={[
-            {
-              quote:
-                "We have done similar research in other markets. The key is to find a partner who understands our business. We sensed very early on that UKIBC had that ability. We are discovering valuable insights into the market.",
-              name: "Caroline Newbury",
-              role: "Head of International Communications and Business Development, Penguin Random House",
-              image: "/home-person1.jpg",
-            },
-            {
-              quote:
-                "UKIBC is a fantastic partner. I would like to focus on the convening power of the UKIBC; it enables real conversations with people and members. UKIBC has been a platform for many businesses, such as Arup, to connect and build long-term relationships that provide invaluable foundations for collaboration. It has been incredibly valuable for me and my firm in many different ways",
-              name: "Sowmya Parthasarathy",
-              role: "Arup",
-              image: "/home-person2.jpg",
-            },
-            {
-              quote:
-                "UKIBC and their expert staff have been instrumental in ensuring that our expansion in India has had minimal risk, stability and the ingredients for long-term success",
-              name: "Sian Impey",
-              role: "Head of International Development Office, Swansea University",
-              image: "/home-person3.jpg",
-            },
-          ]}
+          data={
+            Array.isArray(pages?.testimonials)
+              ? pages.testimonials.map((testimonial: { quote: string; des: string; name: string; role: string; image: string; link: string }) => ({
+                  quote: testimonial.quote,
+                  des: testimonial.des,
+                  name: testimonial.name,
+                  role: testimonial.role,
+                  image:
+                    `https://d2paj8ptqa22jg.cloudfront.net/pages/${pages.type}/${testimonial.image}.webp`,
+                  link: testimonial.link,
+                }))
+              : []
+          }
         />
       </div>
 
