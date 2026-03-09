@@ -8,6 +8,9 @@ import Stats from "./components/Stats";
 import Who from "./components/Who";
 import Membership from "./components/Membership";
 import Testimonials from "./components/Testimonials";
+import Box from "./components/Box";
+import Sectors from "./components/Sectors";
+import Contact from "./components/Contact";
 import { useState } from "react";
 
 type Section =
@@ -17,6 +20,9 @@ type Section =
   | "who"
   | "membership"
   | "testimonials"
+  | "box"
+  | "sectors"
+  | "contact"
   | "";
 
 export default function Client({ type }: { type: string }) {
@@ -159,6 +165,66 @@ export default function Client({ type }: { type: string }) {
                 rawTestimonials={
                   data.page.testimonials as Record<string, unknown>[]
                 }
+              />
+            )}
+          </div>
+        )}
+
+        {data?.page?.box && (
+          <div className="flex flex-col gap-0 bg-navy/10 w-full rounded-xl px-5 py-5 mt-5">
+            <div
+              className="w-full cursor-pointer"
+              onClick={() => toggle("box")}
+            >
+              <h1 className="text-2xl font-bold flex items-center justify-left text-navy capitalize">
+                Box Text and Image
+              </h1>
+            </div>
+
+            {show === "box" && (
+              <Box
+                type={type}
+                rawBox={data.page.box as Record<string, unknown>[]}
+              />
+            )}
+          </div>
+        )}
+
+        {data?.page?.sectors && (
+          <div className="flex flex-col gap-0 bg-navy/10 w-full rounded-xl px-5 py-5 mt-5">
+            <div
+              className="w-full cursor-pointer"
+              onClick={() => toggle("sectors")}
+            >
+              <h1 className="text-2xl font-bold flex items-center justify-left text-navy capitalize">
+                Sectors
+              </h1>
+            </div>
+
+            {show === "sectors" && (
+              <Sectors
+                type={type}
+                rawSectors={data.page.sectors as Record<string, unknown>[]}
+              />
+            )}
+          </div>
+        )}
+
+        {data?.page?.contact && (
+          <div className="flex flex-col gap-0 bg-navy/10 w-full rounded-xl px-5 py-5 mt-5">
+            <div
+              className="w-full cursor-pointer"
+              onClick={() => toggle("contact")}
+            >
+              <h1 className="text-2xl font-bold flex items-center justify-left text-navy capitalize">
+                Contact
+              </h1>
+            </div>
+
+            {show === "contact" && (
+              <Contact
+                type={type}
+                rawContact={data.page.contact as Record<string, unknown>}
               />
             )}
           </div>

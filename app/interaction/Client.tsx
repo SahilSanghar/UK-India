@@ -60,6 +60,22 @@ interface PageProps {
     image: string;
     link: string;
   }[];
+  box?: {
+    title: string;
+    content: string;
+    buttonText: string;
+    link: string;
+    images: [string];
+  }[];
+  sectors?: {
+    title: string;
+    image: string;
+  }[];
+  contact?: {
+    title: string;
+    content: string;
+    image: string;
+  };
 }
 
 export default function Page({ page }: { page: PageProps }) {
@@ -252,7 +268,7 @@ export default function Page({ page }: { page: PageProps }) {
               UKIBC supports companies across a wide range of sectors
             </p>
             <div className="mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-y-3 gap-x-2 md:gap-y-5 md:gap-x-4 justify-items-center w-[96%] sm:w-[90%] max-w-7xl">
-              {sectors.map((sector, index) => (
+              {page.sectors?.map((sector, index) => (
                 <motion.div
                   initial={{
                     y: 10,
@@ -267,14 +283,14 @@ export default function Page({ page }: { page: PageProps }) {
                   className="flex flex-col hover:scale-105 cursor-pointer text-center bg-navy/5 w-[110px] h-[110px] sm:w-[140px] sm:h-[140px] md:w-[180px] md:h-[180px] rounded-3xl md:rounded-4xl justify-center items-center"
                 >
                   <Image
-                    src={sector.image as string}
-                    alt={sector.name}
+                    src={`https://d2paj8ptqa22jg.cloudfront.net/pages/${page.type}/${sector.image}.webp`}
+                    alt={sector.title}
                     width={56}
                     height={56}
                     className="w-11 h-11 sm:w-14 sm:h-14 md:w-16 md:h-16 mb-1 p-2 md:p-3"
                   />
                   <span className="text-xs sm:text-sm md:text-base font-bold leading-tight p-2">
-                    {sector.name}
+                    {sector.title}
                   </span>
                 </motion.div>
               ))}
@@ -283,10 +299,10 @@ export default function Page({ page }: { page: PageProps }) {
         </section>
 
         <BoxImageText
-          title="The Higher Education Success Blueprint"
-          description="India’s higher education landscape is undergoing a structural shift under NEP 2020, opening new pathways for transnational education and global collaboration. To compete in this evolving environment, universities need policy clarity, local intelligence, and last-mile connectivity. <br/><br/>UKIBC enables institutions to navigate change, identify opportunity, and establish a credible presence across India’s education ecosystem. Our Intelligence Unit delivers forward-looking market research, institutional mapping, and policy insight, translating complexity into actionable strategy."
-          buttonText="Meet the team"
-          buttonLink="/team"
+          title={page.box?.[0]?.title || ""}
+          description={page.box?.[0]?.content || ""}
+          buttonText={page.box?.[0]?.buttonText || ""}
+          buttonLink={page.box?.[0]?.link || ""}
           className="my-20"
           images={[
             // { image: "/noble.jpg", position: "center" },
@@ -476,9 +492,15 @@ export default function Page({ page }: { page: PageProps }) {
         />
 
         <Connect
-          title="Connect with us:"
-          description="To connect with one of our India Experts simply email us or send us a message via our contact page. We look forward to connecting with you."
-          image="/connect.webp"
+          title={page.contact?.title || "Connect with us:"}
+          description={
+            page.contact?.content ||
+            "To connect with one of our India Experts simply email us or send us a message via our contact page. We look forward to connecting with you."
+          }
+          image={
+            `https://d2paj8ptqa22jg.cloudfront.net/pages/${page.type}/${page.contact?.image}.webp` ||
+            "/connect.webp"
+          }
         />
       </section>
     </>
