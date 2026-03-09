@@ -81,18 +81,19 @@ export async function POST(req: Request) {
         Key: {
           type: { S: type },
         },
-        UpdateExpression: "SET #l = :l",
+        UpdateExpression: "SET #l.#t = :t, #l.#t2 = :t2, #l.#d = :d, #l.#i = :i",
         ExpressionAttributeNames: {
           "#l": "lander",
+          "#t": "title",
+          "#t2": "title2",
+          "#d": "des",
+          "#i": "image",
         },
         ExpressionAttributeValues: {
-          ":l": {
-            M: {
-              title: { L: lander.title.map((t: string) => ({ S: t })) },
-              des: { L: lander.des.map((d: string) => ({ S: d })) },
-              image: { L: lander.image.map((i: string) => ({ S: i })) },
-            },
-          },
+          ":t": { L: lander.title.map((t: string) => ({ S: t })) },
+          ":t2": { L: (lander.title2 || []).map((t: string) => ({ S: t })) },
+          ":d": { L: lander.des.map((d: string) => ({ S: d })) },
+          ":i": { L: lander.image.map((i: string) => ({ S: i })) },
         },
       }),
     );

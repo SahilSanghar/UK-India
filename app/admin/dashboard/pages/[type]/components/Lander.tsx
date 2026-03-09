@@ -15,6 +15,7 @@ import { v4 as uuidv4 } from "uuid";
 
 interface LanderData {
   title: string[];
+  title2: string[];
   des: string[];
   image: string[];
   button: { enable: boolean; text: string; link: string };
@@ -38,6 +39,7 @@ export default function Lander({
 
   const [lander, setLander] = useState<LanderData>({
     title: [],
+    title2: [],
     des: [],
     image: [],
     button: { enable: false, text: "", link: "" },
@@ -48,6 +50,9 @@ export default function Lander({
     setLander({
       title: Array.isArray(rawLander?.title)
         ? (rawLander?.title as string[])
+        : [],
+      title2: Array.isArray(rawLander?.title2)
+        ? (rawLander?.title2 as string[])
         : [],
       des: Array.isArray(rawLander?.des) ? (rawLander?.des as string[]) : [],
       image: Array.isArray(rawLander?.image)
@@ -67,6 +72,7 @@ export default function Lander({
 
   const saveLander = async (partial: {
     title: string[];
+    title2: string[];
     des: string[];
     image: string[];
   }) => {
@@ -91,7 +97,7 @@ export default function Lander({
     if (item === "title") {
       const updated = [...lander.title, formData.get("title") as string];
       try {
-        await saveLander({ title: updated, des: lander.des, image: lander.image });
+        await saveLander({ title: updated, title2: lander.title2, des: lander.des, image: lander.image });
         form.reset();
       } catch (error) {
         form.reset();
@@ -99,10 +105,21 @@ export default function Lander({
       }
     }
 
+    if (item === "title2") {
+      const updated = [...lander.title2, formData.get("title2") as string];
+      try {
+        await saveLander({ title: lander.title, title2: updated, des: lander.des, image: lander.image });
+        form.reset();
+      } catch (error) {
+        form.reset();
+        console.error("Failed to edit title2", error);
+      }
+    }
+
     if (item === "description") {
       const updated = [...lander.des, formData.get("description") as string];
       try {
-        await saveLander({ title: lander.title, des: updated, image: lander.image });
+        await saveLander({ title: lander.title, title2: lander.title2, des: updated, image: lander.image });
         form.reset();
       } catch (error) {
         form.reset();
@@ -129,13 +146,19 @@ export default function Lander({
         const updated = lander.title.map((t, i) =>
           i === index ? newValue : t,
         );
-        await saveLander({ title: updated, des: lander.des, image: lander.image });
+        await saveLander({ title: updated, title2: lander.title2, des: lander.des, image: lander.image });
+      }
+      if (field === "title2") {
+        const updated = lander.title2.map((t, i) =>
+          i === index ? newValue : t,
+        );
+        await saveLander({ title: lander.title, title2: updated, des: lander.des, image: lander.image });
       }
       if (field === "description") {
         const updated = lander.des.map((d, i) =>
           i === index ? newValue : d,
         );
-        await saveLander({ title: lander.title, des: updated, image: lander.image });
+        await saveLander({ title: lander.title, title2: lander.title2, des: updated, image: lander.image });
       }
     } catch (error) {
       console.error(`Failed to edit ${field}`, error);
@@ -147,11 +170,15 @@ export default function Lander({
     try {
       if (item === "title") {
         const updated = lander.title.filter((_, i) => i !== index);
-        await saveLander({ title: updated, des: lander.des, image: lander.image });
+        await saveLander({ title: updated, title2: lander.title2, des: lander.des, image: lander.image });
+      }
+      if (item === "title2") {
+        const updated = lander.title2.filter((_, i) => i !== index);
+        await saveLander({ title: lander.title, title2: updated, des: lander.des, image: lander.image });
       }
       if (item === "description") {
         const updated = lander.des.filter((_, i) => i !== index);
-        await saveLander({ title: lander.title, des: updated, image: lander.image });
+        await saveLander({ title: lander.title, title2: lander.title2, des: updated, image: lander.image });
       }
     } catch (error) {
       console.error(`Failed to delete ${item}`, error);
@@ -184,7 +211,7 @@ export default function Lander({
       }
 
       const updatedImages = [...lander.image, uuid];
-      await saveLander({ title: lander.title, des: lander.des, image: updatedImages });
+      await saveLander({ title: lander.title, title2: lander.title2, des: lander.des, image: updatedImages });
     } catch (error) {
       alert("Failed to upload image: " + error);
     }
@@ -197,7 +224,7 @@ export default function Lander({
         key: `pages/${type}/${imageKey}`,
       });
       const updatedImages = lander.image.filter((_, i) => i !== index);
-      await saveLander({ title: lander.title, des: lander.des, image: updatedImages });
+      await saveLander({ title: lander.title, title2: lander.title2, des: lander.des, image: updatedImages });
     } catch (error) {
       alert("Failed to delete image: " + error);
     }
@@ -349,6 +376,40 @@ export default function Lander({
           <div className="flex flex-col gap-2">
             {lander.title.map((title, index) =>
               renderEditableItem("title", title, index, "Title"),
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Titles 2 ── */}
+      <section className="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+        <div className="border-b border-gray-100 bg-gray-50 px-6 py-4">
+          <h2 className="text-lg font-semibold text-navy">Titles 2</h2>
+        </div>
+        <div className="p-6 flex flex-col gap-3">
+          <form
+            className="flex flex-row items-center gap-2"
+            onSubmit={(e) => handleLanderEdit(e, "title2")}
+          >
+            <input
+              type="text"
+              name="title2"
+              placeholder="Add a new title 2..."
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-navy/30 focus:border-navy transition"
+            />
+            <button
+              type="submit"
+              className="bg-navy hover:bg-navy/90 text-white text-sm font-medium px-5 py-2 rounded-lg transition shrink-0"
+            >
+              Add
+            </button>
+          </form>
+          {lander.title2.length === 0 && (
+            <p className="text-sm text-gray-400 italic">No titles 2 added yet.</p>
+          )}
+          <div className="flex flex-col gap-2">
+            {lander.title2.map((title, index) =>
+              renderEditableItem("title2", title, index, "Title 2"),
             )}
           </div>
         </div>

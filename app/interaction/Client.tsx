@@ -22,6 +22,7 @@ interface PageProps {
   type: string;
   lander: {
     title: string[];
+    title2?: string[];
     des: string[];
     image: string[];
     flip: boolean;
@@ -186,20 +187,21 @@ export default function Page({ page }: { page: PageProps }) {
 
   // const [events, setEvents] = useState([]);
 
-  useEffect(() => {
-    axios
-      .get("http://bryanp25.sg-host.com/wp-json/wp/v2/event?_embed")
-      .then((res) => {
-        // setEvents(res.data);
-        console.log(res.data);
-      });
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .get("http://bryanp25.sg-host.com/wp-json/wp/v2/event?_embed")
+  //     .then((res) => {
+  //       // setEvents(res.data);
+  //       console.log(res.data);
+  //     });
+  // }, []);
 
   return (
     <>
       <Lander
         title_data={page.lander.title.map((t, i) => ({
           title: t,
+          title2: page.lander.title2?.[i] ?? undefined,
           des: page.lander.des[i] ?? undefined,
         }))}
         button={page.lander.button?.enable || false}
@@ -310,33 +312,24 @@ export default function Page({ page }: { page: PageProps }) {
             ref={intelligenceRef as unknown as React.RefObject<HTMLDivElement>}
           >
             <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-bold text-white flex w-[80%] md:w-full max-w-xl md:max-w-2xl lg:max-w-3xl mx-auto">
-              Our intelligence network supports your
+              {page.stats?.title}
             </h1>
             <div className="w-full h-fit flex flex-col sm:flex-row gap-8 sm:gap-10 md:gap-15 justify-center text-center px-0">
-              <StatCard
-                animation="left"
-                number={42}
-                valueBefore="£"
-                valueAfter=" billion"
-                title="International Students worth"
-                description="to UK Economy"
-                color="white"
-              />
-              <StatCard
-                animation="center"
-                number={46000}
-                disclaimer="(Last 6 years)"
-                title="UKIBC recruited"
-                description="students from UKIBC Consortium universities"
-                color="white"
-              />
-              <StatCard
-                animation="right"
-                title="A total of"
-                number={36}
-                description="formal UK TNE partnerships were verified, delivered through 58 Indian institutions."
-                color="white"
-              />
+              {page.stats?.cards?.map((stat, idx) => (
+                <StatCard
+                  key={stat.title + idx}
+                  animation={
+                    idx === 0 ? "left" : idx === 2 ? "right" : "center"
+                  }
+                  number={stat.number}
+                  valueBefore={stat.valueBefore}
+                  valueAfter={stat.valueAfter}
+                  title={stat.title}
+                  description={stat.des}
+                  disclaimer={stat.disclaimer}
+                  color="white"
+                />
+              ))}
             </div>
           </div>
         </BackgroundGradientAnimation>
@@ -442,33 +435,44 @@ export default function Page({ page }: { page: PageProps }) {
 
         <div className="w-full h-fit flex justify-center items-center py-20 bg-black/5">
           <Carousel
-            data={[
-              {
-                quote:
-                  "UKIBC and its expert staff have been instrumental in ensuring that our expansion in India has involved minimal risk, stability, and the ingredients for long-term success.",
-                name: "Sian Impey",
-                role: "Head of International Development Office, Swansea University",
-                image: "/home-person3.jpg",
-              },
-              {
-                quote:
-                  "Transnational Education is the beacon illuminating the path to a truly interconnected world, where knowledge transcends borders, cultures unite, and understanding flourishes. Durham University embraces the transformative power of TNE, transcending borders to ignite minds, cultivate global citizenship, and bridge cultures, ensuring knowledge knows no bounds.",
-                name: "Professor Kieran Fernandes",
-                role: "Durham University",
-                image: "/person.jpg",
-              },
-            ]}
+            data={
+              Array.isArray(page?.testimonials)
+                ? page.testimonials.map(
+                    (testimonial: {
+                      quote: string;
+                      des: string;
+                      name: string;
+                      role: string;
+                      image: string;
+                      link: string;
+                    }) => ({
+                      quote: testimonial.quote,
+                      des: testimonial.des,
+                      name: testimonial.name,
+                      role: testimonial.role,
+                      image: `https://d2paj8ptqa22jg.cloudfront.net/pages/${page.type}/${testimonial.image}.webp`,
+                      link: testimonial.link,
+                    }),
+                  )
+                : []
+            }
           />
         </div>
 
         <Fullscreen
           ref={membershipRef as unknown as React.RefObject<HTMLDivElement>}
-          title1="Membership"
-          title2="The Right Rooms. The Right People."
-          description="Join a trusted ecosystem where business, government, and academia meet with intent. As a member, you gain access to curated B2G and B2B forums that turn dialogue into insight and insight into opportunity. Our platform connects you with decision-makers, leading institutions, and growth-ready enterprises to build relationships that deliver long-term value."
-          image="/home-membership.jpg"
-          buttonText="JOIN THE NETWORK"
-          buttonLink="/membership"
+          title1={page?.membership?.title || "Membership"}
+          title2={page?.membership?.subtitle || "Right place, Right people"}
+          description={
+            page?.membership?.des ||
+            "Join a trusted ecosystem where business, government, and academia meet with intent. As a member, you gain access to curated B2G and B2B forums that turn dialogue into insight and insight into opportunity. Our platform connects you with decision-makers, leading institutions, and growth-ready enterprises to build relationships that deliver long-term value."
+          }
+          image={
+            `https://d2paj8ptqa22jg.cloudfront.net/pages/${page.type}/${page?.membership?.image}.webp` ||
+            "/home-membership.jpg"
+          }
+          buttonText={page?.membership?.buttonTxt || "JOIN THE NETWORK"}
+          buttonLink={page?.membership?.link || "/membership"}
         />
 
         <Connect

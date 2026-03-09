@@ -38,6 +38,7 @@ interface PageProps {
   type: string;
   lander: {
     title: string[];
+    title2?: string[];
     des: string[];
     image: string[];
     button: {
@@ -170,6 +171,7 @@ export default function Home({ pages }: { pages: PageProps }) {
       <Lander
         title_data={pages.lander.title.map((t, i) => ({
           title: t,
+          title2: pages.lander.title2?.[i] ?? undefined,
           des: pages.lander.des[i] ?? undefined,
         }))}
         button={pages.lander.button?.enable || false}
