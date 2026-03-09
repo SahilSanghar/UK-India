@@ -62,17 +62,18 @@ interface PageProps {
 }
 
 const getPages = async () => {
-  const res = await fetch(process.env.PUBLIC_URL + "/api/admin/pages", {
+  const res = await fetch(process.env.PUBLIC_URL + "/api/admin/pages/get_by_type?type=home", {
     cache: "no-store",
   });
   if (!res.ok) {
     throw new Error("Failed to fetch pages");
   }
   const data = await res.json();
-  return data.pages as unknown as PageProps[];
+
+  return data.page as PageProps;
 };
 
 export default async function Page() {
-  const pages = await getPages();
-  return <Client pages={pages[0]} />;
+  const page = await getPages();
+  return <Client pages={page} />;
 }
