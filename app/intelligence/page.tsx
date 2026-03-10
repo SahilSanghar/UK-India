@@ -137,14 +137,7 @@ export default function Intelligence() {
 
   // const [events, setEvents] = useState([]);
 
-  useEffect(() => {
-    axios
-      .get("http://bryanp25.sg-host.com/wp-json/wp/v2/event?_embed")
-      .then((res) => {
-        // setEvents(res.data);
-        console.log(res.data);
-      });
-  }, []);
+
 
   return (
     <>

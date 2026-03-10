@@ -63,9 +63,9 @@ interface PageProps {
   box?: {
     title: string;
     content: string;
-    buttonText: string;
+    buttonTxt: string;
     link: string;
-    images: [string];
+    image: string[];
   }[];
   sectors?: {
     title: string;
@@ -301,14 +301,20 @@ export default function Page({ page }: { page: PageProps }) {
         <BoxImageText
           title={page.box?.[0]?.title || ""}
           description={page.box?.[0]?.content || ""}
-          buttonText={page.box?.[0]?.buttonText || ""}
+          buttonText={page.box?.[0]?.buttonTxt || ""}
           buttonLink={page.box?.[0]?.link || ""}
           className="my-20"
-          images={[
-            // { image: "/noble.jpg", position: "center" },
-            { image: "/noble2.jpg", position: "center" },
-            { image: "/noble3.jpg", position: "center" },
-          ]}
+          images={
+            page.box?.[0]?.image && page.box[0].image.length > 0
+              ? page.box[0].image.map((img: string) => ({
+                  image: `https://d2paj8ptqa22jg.cloudfront.net/pages/${page.type}/${img}.webp`,
+                  position: "center",
+                }))
+              : [
+                  { image: "/noble2.jpg", position: "center" },
+                  { image: "/noble3.jpg", position: "center" },
+                ]
+          }
           flip={false}
         />
 

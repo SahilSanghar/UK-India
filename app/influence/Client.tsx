@@ -16,7 +16,6 @@ import ImageSlider from "@/components/ImageSlider";
 import { BackgroundGradientAnimation } from "@/components/ui/background-gradient-animation";
 import Connect from "@/components/Connect";
 
-
 interface PageProps {
   id: string;
   title: string;
@@ -46,7 +45,7 @@ interface PageProps {
     }[];
     circle?: {
       title: string;
-      image:string;
+      image: string;
     }[];
   };
   membership?: {
@@ -68,9 +67,9 @@ interface PageProps {
   box?: {
     title: string;
     content: string;
-    buttonText: string;
+    buttonTxt: string;
     link: string;
-    images: [string];
+    image: string[];
   }[];
   contact?: {
     title: string;
@@ -124,7 +123,7 @@ export default function Influence({ page }: { page: PageProps }) {
 
   return (
     <>
-       <Lander
+      <Lander
         title_data={page.lander.title.map((t, i) => ({
           title: t,
           title2: page.lander.title2?.[i] ?? undefined,
@@ -171,15 +170,28 @@ export default function Influence({ page }: { page: PageProps }) {
         </div> */}
 
         <BoxImageText
-          title="Our Approach"
-          description="Our expert in-house team of account managers, sector specialists, and consultants curate and convenes a powerful bilateral network spanning industry, academia, and government, creating platforms where informed dialogue shapes outcomes. <br/><br/>We work in partnership with multiple levels of government, at the national and state levels in India, and the devolved administration, city region, and national levels in the UK."
-          buttonText="Meet the team"
+          title={page.box?.[0]?.title || ""}
+          description={page.box?.[0]?.content || ""}
+          buttonText={page.box?.[0]?.buttonTxt || ""}
+          buttonLink={page.box?.[0]?.link || ""}
           className="my-20"
-          buttonLink="/team"
-          images={[
-            { image: "/pressure.jpg", position: "center" },
-            { image: "/home/eyes/intel-2.png", position: "center" },
-          ]}
+          images={
+            page.box?.[0]?.image && page.box[0].image.length > 0
+              ? page.box[0].image.map((image: string) => ({
+                  image: `https://d2paj8ptqa22jg.cloudfront.net/pages/${page.type}/${image}.webp`,
+                  position: "center",
+                }))
+              : [
+                  {
+                    image: "/noble2.jpg",
+                    position: "center",
+                  },
+                  {
+                    image: "/noble3.jpg",
+                    position: "center",
+                  },
+                ]
+          }
           flip={false}
         />
 
@@ -199,14 +211,10 @@ export default function Influence({ page }: { page: PageProps }) {
             ref={intelligenceRef as unknown as React.RefObject<HTMLDivElement>}
           >
             <h1 className="text-2xl xl:text-5xl lg:text-4xl md:text-3xl sm:text-2xl font-bold text-white flex w-[80%] sm:w-4/5 md:w-2/3 lg:w-1/2 xl:w-2/5 mx-auto">
-              Our intelligence network supports your
+              {page.stats?.title || ""}
             </h1>
             <ul className="flex flex-col sm:flex-row gap-6 sm:gap-10 justify-center items-center w-full">
-              {[
-                "Business Operations",
-                "Government Relations",
-                "Advocacy Support",
-              ].map((item, index) => (
+              {page.stats?.circle?.map((card, index) => (
                 <motion.div
                   initial={{
                     y: 10,
@@ -226,75 +234,38 @@ export default function Influence({ page }: { page: PageProps }) {
                   key={index}
                   className="flex flex-col gap-2 items-center justify-center w-full sm:w-auto"
                 >
-                  <div className="px-5 py-5 sm:px-6 sm:py-6 md:px-7 md:py-7 bg-tiger rounded-full flex items-center justify-center">
-                    {index === 0 ? (
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                        className="w-8 h-8 md:w-10 md:h-10 text-white"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M7.5 5.25a3 3 0 0 1 3-3h3a3 3 0 0 1 3 3v.205c.933.085 1.857.197 2.774.334 1.454.218 2.476 1.483 2.476 2.917v3.033c0 1.211-.734 2.352-1.936 2.752A24.726 24.726 0 0 1 12 15.75c-2.73 0-5.357-.442-7.814-1.259-1.202-.4-1.936-1.541-1.936-2.752V8.706c0-1.434 1.022-2.7 2.476-2.917A48.814 48.814 0 0 1 7.5 5.455V5.25Zm7.5 0v.09a49.488 49.488 0 0 0-6 0v-.09a1.5 1.5 0 0 1 1.5-1.5h3a1.5 1.5 0 0 1 1.5 1.5Zm-3 8.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z"
-                          clipRule="evenodd"
-                        />
-                        <path d="M3 18.4v-2.796a4.3 4.3 0 0 0 .713.31A26.226 26.226 0 0 0 12 17.25c2.892 0 5.68-.468 8.287-1.335.252-.084.49-.189.713-.311V18.4c0 1.452-1.047 2.728-2.523 2.923-2.12.282-4.282.427-6.477.427a49.19 49.19 0 0 1-6.477-.427C4.047 21.128 3 19.852 3 18.4Z" />
-                      </svg>
-                    ) : index === 1 ? (
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                        className="w-8 h-8 md:w-10 md:h-10 text-white"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M12 2.25a.75.75 0 0 1 .75.75v.756a49.106 49.106 0 0 1 9.152 1 .75.75 0 0 1-.152 1.485h-1.918l2.474 10.124a.75.75 0 0 1-.375.84A6.723 6.723 0 0 1 18.75 18a6.723 6.723 0 0 1-3.181-.795.75.75 0 0 1-.375-.84l2.474-10.124H12.75v13.28c1.293.076 2.534.343 3.697.776a.75.75 0 0 1-.262 1.453h-8.37a.75.75 0 0 1-.262-1.453c1.162-.433 2.404-.7 3.697-.775V6.24H6.332l2.474 10.124a.75.75 0 0 1-.375.84A6.723 6.723 0 0 1 5.25 18a6.723 6.723 0 0 1-3.181-.795.75.75 0 0 1-.375-.84L4.168 6.241H2.25a.75.75 0 0 1-.152-1.485 49.105 49.105 0 0 1 9.152-1V3a.75.75 0 0 1 .75-.75Zm4.878 13.543 1.872-7.662 1.872 7.662h-3.744Zm-9.756 0L5.25 8.131l-1.872 7.662h3.744Z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    ) : (
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                        className="w-8 h-8 md:w-10 md:h-10 text-white"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M8.25 6.75a3.75 3.75 0 1 1 7.5 0 3.75 3.75 0 0 1-7.5 0ZM15.75 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM2.25 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM6.31 15.117A6.745 6.745 0 0 1 12 12a6.745 6.745 0 0 1 6.709 7.498.75.75 0 0 1-.372.568A12.696 12.696 0 0 1 12 21.75c-2.305 0-4.47-.612-6.337-1.684a.75.75 0 0 1-.372-.568 6.787 6.787 0 0 1 1.019-4.38Z"
-                          clipRule="evenodd"
-                        />
-                        <path d="M5.082 14.254a8.287 8.287 0 0 0-1.308 5.135 9.687 9.687 0 0 1-1.764-.44l-.115-.04a.563.563 0 0 1-.373-.487l-.01-.121a3.75 3.75 0 0 1 3.57-4.047ZM20.226 19.389a8.287 8.287 0 0 0-1.308-5.135 3.75 3.75 0 0 1 3.57 4.047l-.01.121a.563.563 0 0 1-.373.486l-.115.04c-.567.2-1.156.349-1.764.441Z" />
-                      </svg>
-                    )}
+                  <div className="w-25 px-5 py-5 sm:px-6 sm:py-6 md:px-7 md:py-7 bg-tiger rounded-full flex items-center justify-center">
+                    <Image
+                      src={`https://d2paj8ptqa22jg.cloudfront.net/pages/${page.type}/${card.image}.webp`}
+                      alt={card.title}
+                      width={0}
+                      height={0}
+                      sizes="100vw"
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                   <li className="text-base sm:text-lg md:text-xl font-bold text-white whitespace-pre-line text-center">
-                    {item}
+                    {card.title}
                   </li>
                 </motion.div>
               ))}
             </ul>
             <div className="w-full h-fit flex flex-col sm:flex-row gap-4 sm:gap-6 md:gap-10 justify-center items-center text-center mt-4">
-              <StatCard
-                animation="left"
-                number={105}
-                description="UKIBC Members"
-                color="white"
-              />
-              <StatCard
-                animation="center"
-                number={1200}
-                description="Attendees in financial year 2024/25"
-                color="white"
-              />
-              <StatCard
-                animation="right"
-                number={4}
-                description="MoUs with State Governments Signed"
-                color="white"
-              />
+              {page.stats?.cards?.map((stat, idx) => (
+                <StatCard
+                  key={stat.title + idx}
+                  animation={
+                    idx === 0 ? "left" : idx === 2 ? "right" : "center"
+                  }
+                  number={stat.number}
+                  valueBefore={stat.valueBefore}
+                  valueAfter={stat.valueAfter}
+                  title={stat.title}
+                  description={stat.des}
+                  disclaimer={stat.disclaimer}
+                  color="white"
+                />
+              ))}
             </div>
           </div>
         </BackgroundGradientAnimation>
@@ -401,38 +372,53 @@ export default function Influence({ page }: { page: PageProps }) {
 
         <Fullscreen
           ref={membershipRef as unknown as React.RefObject<HTMLDivElement>}
-          title1="Membership"
-          title2="The Right Rooms. The Right People."
-          description="Join a trusted ecosystem where business, government, and academia meet with intent. As a member, you gain access to curated B2G and B2B forums that turn dialogue into insight and insight into opportunity. Our platform connects you with decision-makers, leading institutions, and growth-ready enterprises to build relationships that deliver long-term value."
-          image="/home-membership.jpg"
-          buttonText="JOIN THE NETWORK"
-          buttonLink="/membership"
+          title1={page?.membership?.title || "Membership"}
+          title2={page?.membership?.subtitle || "Right place, Right people"}
+          description={
+            page?.membership?.des ||
+            "Join a trusted ecosystem where business, government, and academia meet with intent. As a member, you gain access to curated B2G and B2B forums that turn dialogue into insight and insight into opportunity. Our platform connects you with decision-makers, leading institutions, and growth-ready enterprises to build relationships that deliver long-term value."
+          }
+          image={
+            `https://d2paj8ptqa22jg.cloudfront.net/pages/${page.type}/${page?.membership?.image}.webp` ||
+            "/home-membership.jpg"
+          }
+          buttonText={page?.membership?.buttonTxt || "JOIN THE NETWORK"}
+          buttonLink={page?.membership?.link || "/membership"}
         />
+
         <div className="w-full h-fit flex justify-center items-center py-20 bg-black/5">
           <Carousel
-            data={[
-              {
-                quote:
-                  "UKIBC is now at the forefront of the dialogue on sustainability, the energy transition, and the technology benefits that can arise from the two countries' collaboration.",
-                name: "Nandita Sahgal-Tully",
-                role: "Group Board Member UKIBC",
-                image: "/home/testimonial/nandita.webp",
-              },
-              {
-                quote:
-                  "Tata is a long-standing UKIBC member, as we value the insights their excellent team provide and the interactions they curate with senior figures from business and government.",
-                name: "Tim Jones",
-                role: "Executive Director, Tata",
-                image: "/home/testimonial/tim.webp",
-              },
-            ]}
+            data={
+              Array.isArray(page?.testimonials)
+                ? page.testimonials.map(
+                    (testimonial: {
+                      quote: string;
+                      des: string;
+                      name: string;
+                      role: string;
+                      image: string;
+                      link: string;
+                    }) => ({
+                      quote: testimonial.quote,
+                      des: testimonial.des,
+                      name: testimonial.name,
+                      role: testimonial.role,
+                      image: `https://d2paj8ptqa22jg.cloudfront.net/pages/${page.type}/${testimonial.image}.webp`,
+                      link: testimonial.link,
+                    }),
+                  )
+                : []
+            }
           />
         </div>
 
         <Connect
-          title="Connect with us:"
-          description="To connect with one of our India Experts simply email us or send us a message via our contact page. We look forward to connecting with you."
-          image="/connect.webp"
+          title={page.contact?.title || "Connect with us:"}
+          description={page.contact?.content || ""}
+          image={
+            `https://d2paj8ptqa22jg.cloudfront.net/pages/${page.type}/${page.contact?.image}.webp` ||
+            "/connect.webp"
+          }
         />
       </section>
     </>

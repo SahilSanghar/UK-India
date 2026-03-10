@@ -32,7 +32,7 @@ export default function Page() {
       ) : isError ? (
         <p>Error loading pages</p>
       ) : (
-        <div className="flex flex-col items-center justify-center">
+        <div className="flex flex-row flex-wrap gap-5 items-center justify-center">
           {data?.pages.map((page: PageProps) => (
             <div
               key={page.id}
