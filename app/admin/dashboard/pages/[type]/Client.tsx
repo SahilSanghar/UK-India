@@ -11,6 +11,8 @@ import Testimonials from "./components/Testimonials";
 import Box from "./components/Box";
 import Sectors from "./components/Sectors";
 import Contact from "./components/Contact";
+import Cards from "./components/Cards";
+import Fullscreen from "./components/Fullscreen";
 import { useState } from "react";
 
 type Section =
@@ -22,6 +24,8 @@ type Section =
   | "testimonials"
   | "box"
   | "sectors"
+  | "cards"
+  | "fullscreen"
   | "contact"
   | "";
 
@@ -103,6 +107,48 @@ export default function Client({ type }: { type: string }) {
               <Box
                 type={type}
                 rawBox={data.page.box as Record<string, unknown>[]}
+              />
+            )}
+          </div>
+        )}
+
+        {data?.page?.cards && (
+          <div className="flex flex-col gap-0 bg-navy/10 w-full rounded-xl px-5 py-5 mt-5">
+            <div
+              className="w-full cursor-pointer"
+              onClick={() => toggle("cards")}
+            >
+              <h1 className="text-2xl font-bold flex items-center justify-left text-navy capitalize">
+                Cards
+              </h1>
+            </div>
+
+            {show === "cards" && (
+              <Cards
+                type={type}
+                rawCards={data.page.cards as Record<string, unknown>[]}
+              />
+            )}
+          </div>
+        )}
+
+        {data?.page?.fullscreen && (
+          <div className="flex flex-col gap-0 bg-navy/10 w-full rounded-xl px-5 py-5 mt-5">
+            <div
+              className="w-full cursor-pointer"
+              onClick={() => toggle("fullscreen")}
+            >
+              <h1 className="text-2xl font-bold flex items-center justify-left text-navy capitalize">
+                Fullscreen
+              </h1>
+            </div>
+
+            {show === "fullscreen" && (
+              <Fullscreen
+                type={type}
+                rawFullscreen={
+                  data.page.fullscreen as Record<string, unknown>
+                }
               />
             )}
           </div>

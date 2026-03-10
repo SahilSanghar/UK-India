@@ -43,7 +43,7 @@ export default function BoxImageText({
           <div
             className="text-xs sm:text-sm md:text-sm lg:text-sm xl:text-base 2xl:text-base leading-relaxed sm:leading-relaxed md:leading-relaxed font-medium px-4 sm:px-6 md:px-8 lg:px-10 mb-auto w-full text-justify wrap-break-word [&_p]:mb-4 [&_p:last-child]:mb-0 [&_p:empty]:before:content-['\\00a0']"
             dangerouslySetInnerHTML={{
-              __html: normalizeRichTextHtml(description as string),
+              __html: normalizeRichTextHtml((description as string) || ""),
             }}
           />
           {buttonText && buttonLink && (

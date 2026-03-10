@@ -77,6 +77,11 @@ interface PageProps {
     content: string;
     image: string;
   };
+  cards?: {
+    title: string;
+    des: string;
+    image: string;
+  }[];
 }
 
 export default function Intelligence({ page }: { page: PageProps }) {
@@ -252,34 +257,24 @@ export default function Intelligence({ page }: { page: PageProps }) {
             ref={intelligenceRef as unknown as React.RefObject<HTMLDivElement>}
           >
             <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-bold text-white flex w-[80%] md:w-full max-w-xl md:max-w-2xl lg:max-w-3xl mx-auto">
-              Our intelligence network supports your
+              {page.stats?.title}
             </h1>
             <div className="w-full h-fit flex flex-col md:flex-row gap-8 md:gap-10 lg:gap-15 justify-center items-center text-center">
-              <StatCard
-                animation="left"
-                number={825}
-                valueAfter="+"
-                title="Over"
-                description="Businesses and universities have used our services"
-                color="white"
-              />
-              <StatCard
-                animation="center"
-                number={46000}
-                disclaimer="(Last 6 years)"
-                title="UKIBC recruited"
-                description="students from UKIBC Consortium Universities"
-                color="white"
-              />
-              <StatCard
-                animation="right"
-                title="Our Members Contribute"
-                valueBefore="£"
-                number={600}
-                valueAfter=" Billion"
-                description="of revenue to the worlds economy"
-                color="white"
-              />
+              {page.stats?.cards?.map((stat, idx) => (
+                <StatCard
+                  key={stat.title + idx}
+                  animation={
+                    idx === 0 ? "left" : idx === 2 ? "right" : "center"
+                  }
+                  number={stat.number}
+                  valueBefore={stat.valueBefore}
+                  valueAfter={stat.valueAfter}
+                  title={stat.title}
+                  description={stat.des}
+                  disclaimer={stat.disclaimer}
+                  color="white"
+                />
+              ))}
             </div>
           </div>
         </BackgroundGradientAnimation>
@@ -385,68 +380,82 @@ export default function Intelligence({ page }: { page: PageProps }) {
 
         <div className="w-full h-fit flex justify-center items-center py-20 bg-black/5">
           <Carousel
-            data={[
-              {
-                quote:
-                  "UKIBC provided us with excellent advice and support throughout the recruitment process. Our membership enables us to tap into a network of universities and other UK-focused organisations. This is useful for our broader objectives of engaging with Indian universities and businesses, with whom we seek research collaborations and employment opportunities for our graduates.",
-                name: "Richard Cotton",
-                role: "Director of Student Recruitment and Outreach, University of Manchester",
-                image: "/home/testimonial/richard.jpg",
-              },
-              {
-                quote:
-                  "I have nothing but praise for Gunjan’s team. They have been very proactive about delivering what they said they would. I’d highly recommend them. They’re delivering exactly what we asked them to. Their reports are bespoke to us and delivered as promised.",
-                name: "Cameron Hunt",
-                role: "Anglo American",
-                image: "/home/testimonial/hunt.png",
-              },
-              {
-                quote:
-                  "The UKIBC set up our subsidiary. They have been managing our India company compliance over the past five years and providing market advice when needed. Our team has tripled as we build valuable business ties.",
-                name: "Jonathan Mahoney",
-                role: "Biocomposites",
-                image: "/person.jpg",
-              },
-            ]}
+            data={
+              Array.isArray(page?.testimonials)
+                ? page.testimonials.map(
+                    (testimonial: {
+                      quote: string;
+                      des: string;
+                      name: string;
+                      role: string;
+                      image: string;
+                      link: string;
+                    }) => ({
+                      quote: testimonial.quote,
+                      des: testimonial.des,
+                      name: testimonial.name,
+                      role: testimonial.role,
+                      image: `https://d2paj8ptqa22jg.cloudfront.net/pages/${page.type}/${testimonial.image}.webp`,
+                      link: testimonial.link,
+                    }),
+                  )
+                : []
+            }
           />
         </div>
         <div className="w-full h-fit flex flex-col md:flex-row justify-center items-center gap-10 pb-20 bg-black/5">
-          <InfoCard
-            animation="left"
-            title1="Reports"
-            des="Our intelligence comes to life through rigorous reports grounded in market research and policy insight"
-            image="/annual.jpg"
-            buttonText="Reports"
-            // idiot={true}
-            large={true}
-            link="/reports"
-          />
-          <InfoCard
-            animation="right"
-            title1="Case Studies"
-            des="See how our members have successfully entered, expanded, and scaled across the UK–India corridor, offering practical lessons, strategic clarity, and proven pathways for informed decision-making"
-            image="/case.webp"
-            buttonText="Case Studies"
-            // idiot={true}
-            large={true}
-            link="/business-solution-projects"
-          />
+          {Array.isArray(page?.cards) &&
+            page.cards.map(
+              (
+                card: {
+                  title: string;
+                  des: string;
+                  image: string;
+                  buttonTxt?: string;
+                  link?: string;
+                },
+                idx: number
+              ) => (
+                <InfoCard
+                  key={idx}
+                  animation={idx % 2 === 0 ? "left" : "right"}
+                  title1={card.title}
+                  des={card.des}
+                  image={`https://d2paj8ptqa22jg.cloudfront.net/pages/${page.type}/${card.image}.webp`}
+                  buttonText={card.buttonTxt}
+                  large={true}
+                  link={card.link}
+                />
+              )
+            )}
         </div>
 
         <Fullscreen
           ref={membershipRef as unknown as React.RefObject<HTMLDivElement>}
-          title1="Membership"
-          title2="The Right Rooms. The Right People."
-          description="Join a trusted ecosystem where business, government, and academia meet with intent. As a member, you gain access to curated B2G and B2B forums that turn dialogue into insight and insight into opportunity. Our platform connects you with decision-makers, leading institutions, and growth-ready enterprises to build relationships that deliver long-term value."
-          image="/home-membership.jpg"
-          buttonText="JOIN THE NETWORK"
-          buttonLink="/membership"
+          title1={page?.membership?.title || "Membership"}
+          title2={page?.membership?.subtitle || "Right place, Right people"}
+          description={
+            page?.membership?.des ||
+            "Join a trusted ecosystem where business, government, and academia meet with intent. As a member, you gain access to curated B2G and B2B forums that turn dialogue into insight and insight into opportunity. Our platform connects you with decision-makers, leading institutions, and growth-ready enterprises to build relationships that deliver long-term value."
+          }
+          image={
+            `https://d2paj8ptqa22jg.cloudfront.net/pages/${page.type}/${page?.membership?.image}.webp` ||
+            "/home-membership.jpg"
+          }
+          buttonText={page?.membership?.buttonTxt || "JOIN THE NETWORK"}
+          buttonLink={page?.membership?.link || "/membership"}
         />
 
         <Connect
-          title="Connect with us:"
-          description="To connect with one of our India Experts simply email us or send us a message via our contact page. We look forward to connecting with you."
-          image="/connect.webp"
+          title={page.contact?.title || "Connect with us:"}
+          description={
+            page.contact?.content ||
+            "To connect with one of our India Experts simply email us or send us a message via our contact page. We look forward to connecting with you."
+          }
+          image={
+            `https://d2paj8ptqa22jg.cloudfront.net/pages/${page.type}/${page.contact?.image}.webp` ||
+            "/connect.webp"
+          }
         />
         {/* <div className="w-full h-fit flex flex-row justify-center items-center">
           <div className="w-full max-w-6xl mx-auto flex flex-col gap-8 items-center justify-center text-center">

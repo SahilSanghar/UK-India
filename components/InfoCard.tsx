@@ -137,22 +137,27 @@ export default function InfoCard({
             } transition px-5 absolute flex flex-col m-auto justify-center items-center  left-0 right-0 bottom-0 rounded-b-2xl `}
           >
             {large || extraLarge ? (
-              <p
-                className="text-white font-bold md:text-3xl leading-tight text-xl text-center line-clamp-3 overflow-hidden"
+              <div
+                className="text-white font-bold md:text-3xl leading-tight text-xl text-center line-clamp-3 overflow-hidden [&_p]:m-0 [&_p:empty]:h-[1em]"
                 dangerouslySetInnerHTML={{ __html: title1 || "" }}
-              ></p>
+              />
             ) : (
-              <p
-                className="text-white font-semibold md:text-md leading-tight text-lg text-center line-clamp-3 overflow-hidden"
+              <div
+                className="text-white font-semibold md:text-md leading-tight text-lg text-center line-clamp-3 overflow-hidden [&_p]:m-0 [&_p:empty]:h-[1em]"
                 dangerouslySetInnerHTML={{ __html: title1 || "" }}
-              ></p>
+              />
             )}
+
+            <div
+              className={`text-${textPosition} text-white text-left text-xs opacity-80 font-semibold mt-1 [&_p]:m-0 [&_p:empty]:h-[1em]`}
+              dangerouslySetInnerHTML={{ __html: des || "" }}
+            />
 
             <p
               className={`text-${textPosition} text-white text-xs opacity-80 font-semibold mt-1`}
             >
               <>
-                {date ? betterDate : des}
+                {date ? betterDate : ""}
                 {des2 && (
                   <>
                     <br /> <br />
@@ -209,9 +214,9 @@ export default function InfoCard({
               onClick={() => setClicked((clicked) => !clicked)}
             >
               <path
-                fill-rule="evenodd"
+                fillRule="evenodd"
                 d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm-1.72 6.97a.75.75 0 1 0-1.06 1.06L10.94 12l-1.72 1.72a.75.75 0 1 0 1.06 1.06L12 13.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L13.06 12l1.72-1.72a.75.75 0 1 0-1.06-1.06L12 10.94l-1.72-1.72Z"
-                clip-rule="evenodd"
+                clipRule="evenodd"
               />
             </motion.svg>
           </div>
