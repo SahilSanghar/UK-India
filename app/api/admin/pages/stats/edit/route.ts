@@ -20,9 +20,15 @@ interface StatCard {
   link: string;
 }
 
+interface CircleItem {
+  title: string;
+  image: string;
+}
+
 interface StatsPayload {
   title: string;
   cards: StatCard[];
+  circle: CircleItem[];
 }
 
 export async function POST(req: Request) {
@@ -56,6 +62,13 @@ export async function POST(req: Request) {
       },
     }));
 
+    const circle = (stats.circle || []).map((item) => ({
+      M: {
+        title: { S: item.title || "" },
+        image: { S: item.image || "" },
+      },
+    }));
+
     await dynamoClient.send(
       new UpdateItemCommand({
         TableName: "ukibc_pages",
@@ -69,6 +82,7 @@ export async function POST(req: Request) {
             M: {
               title: { S: stats.title || "" },
               cards: { L: cards },
+              circle: { L: circle },
             },
           },
         },
