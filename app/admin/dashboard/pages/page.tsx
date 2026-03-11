@@ -20,7 +20,7 @@ export default function Page() {
   });
 
   return (
-    <div className="w-full h-screen flex flex-col items-center justify-center pb-10 pt-25 px-10 z-20">
+    <div className="w-full h-full flex flex-col items-center justify-center pb-10 pt-25 px-10 z-20">
       <h1 className="text-4xl font-bold flex items-center justify-center pt-10 mb-2 text-navy">
         Pages
       </h1>

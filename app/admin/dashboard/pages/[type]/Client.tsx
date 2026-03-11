@@ -13,6 +13,7 @@ import Sectors from "./components/Sectors";
 import Contact from "./components/Contact";
 import Cards from "./components/Cards";
 import Fullscreen from "./components/Fullscreen";
+import Locations from "./components/Locations";
 import { useState } from "react";
 
 type Section =
@@ -26,6 +27,7 @@ type Section =
   | "sectors"
   | "cards"
   | "fullscreen"
+  | "locations"
   | "contact"
   | "";
 
@@ -253,6 +255,28 @@ export default function Client({ type }: { type: string }) {
               <Sectors
                 type={type}
                 rawSectors={data.page.sectors as Record<string, unknown>[]}
+              />
+            )}
+          </div>
+        )}
+
+        {data?.page?.locations && (
+          <div className="flex flex-col gap-0 bg-navy/10 w-full rounded-xl px-5 py-5 mt-5">
+            <div
+              className="w-full cursor-pointer"
+              onClick={() => toggle("locations")}
+            >
+              <h1 className="text-2xl font-bold flex items-center justify-left text-navy capitalize">
+                Locations
+              </h1>
+            </div>
+
+            {show === "locations" && (
+              <Locations
+                type={type}
+                rawLocations={
+                  data.page.locations as Record<string, unknown>[]
+                }
               />
             )}
           </div>
