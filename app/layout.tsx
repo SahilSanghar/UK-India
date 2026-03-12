@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Provider } from "@/lib/provider";
+import Script from "next/script";
 
 const dmsans = DM_Sans({
   variable: "--font-dmsans",
@@ -23,8 +24,6 @@ export const metadata: Metadata = {
     "The UK India Business Council passionately believes that the UK-India partnership creates jobs and growth in both countries, and that UK and Indian businesses have ideas, technology, services, and products that can succeed in India and the UK, respectively. Through our last-mile insights, networks, future-focused policy advocacy, and market-entry services, we support businesses in achieving this success.",
 };
 
-
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -35,6 +34,20 @@ export default function RootLayout({
       <body
         className={`${montserrat.variable} ${dmsans.variable} antialiased overflow-x-hidden`}
       >
+        <Script
+          id="verloop-livechat"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function(w, d, s, u) {
+                w.Verloop = function(c) { w.Verloop._.push(c) }; w.Verloop._ = []; w.Verloop.url = u;
+                var h = d.getElementsByTagName(s)[0], j = d.createElement(s); j.async = true;
+                j.src = 'https://ukibc.verloop.io/livechat/script.min.js';
+                h.parentNode.insertBefore(j, h);
+              })(window, document, 'script', 'https://ukibc.verloop.io/livechat');
+            `,
+          }}
+        />
         <Provider>
           <Navbar />
           {children}
