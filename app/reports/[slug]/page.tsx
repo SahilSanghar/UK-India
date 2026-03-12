@@ -73,6 +73,8 @@ export default async function page(props: {
 
     // console.log(result);
     const posts = result.Items?.[0] ?? null;
+
+    console.log(posts);
     // console.log(posts);
 
     if (!posts) {

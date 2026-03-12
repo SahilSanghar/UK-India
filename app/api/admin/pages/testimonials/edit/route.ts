@@ -21,10 +21,19 @@ interface TestimonialItem {
 
 export async function POST(req: Request) {
   try {
-    const { type, testimonials } = (await req.json()) as {
+    const { type, testimonials, fieldKey = "testimonials" } = (await req.json()) as {
       type: string;
       testimonials: TestimonialItem[];
+      fieldKey?: string;
     };
+
+    const allowedFields = ["testimonials", "testimonials2", "testimonials3", "testimonials4"];
+    if (!allowedFields.includes(fieldKey)) {
+      return NextResponse.json(
+        { message: "Invalid field key" },
+        { status: 400 },
+      );
+    }
 
     const session = await getSession();
     if (!session) {
@@ -55,7 +64,7 @@ export async function POST(req: Request) {
         Key: { type: { S: type } },
         UpdateExpression: "SET #t = :t",
         ExpressionAttributeNames: {
-          "#t": "testimonials",
+          "#t": fieldKey,
         },
         ExpressionAttributeValues: {
           ":t": { L: items },

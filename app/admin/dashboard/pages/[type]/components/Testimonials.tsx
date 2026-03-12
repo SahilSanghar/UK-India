@@ -20,6 +20,8 @@ interface Testimonial {
 interface TestimonialsProps {
   type: string;
   rawTestimonials: Record<string, unknown>[];
+  fieldKey?: string;
+  label?: string;
 }
 
 const emptyTestimonial = (): Testimonial => ({
@@ -31,7 +33,7 @@ const emptyTestimonial = (): Testimonial => ({
   link: "",
 });
 
-export default function Testimonials({ type, rawTestimonials }: TestimonialsProps) {
+export default function Testimonials({ type, rawTestimonials, fieldKey = "testimonials", label = "Testimonial" }: TestimonialsProps) {
   const queryClient = useQueryClient();
 
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
@@ -62,6 +64,7 @@ export default function Testimonials({ type, rawTestimonials }: TestimonialsProp
       const res = await axios.post("/api/admin/pages/testimonials/edit", {
         type,
         testimonials,
+        fieldKey,
       });
       if (res.status !== 200) throw new Error("Failed to save");
       invalidate();
@@ -158,7 +161,7 @@ export default function Testimonials({ type, rawTestimonials }: TestimonialsProp
         >
           <div className="border-b border-gray-100 bg-gray-50 px-6 py-4 flex items-center justify-between">
             <h2 className="text-lg font-semibold text-navy">
-              Testimonial {idx + 1}
+              {label} {idx + 1}
               {item.name
                 ? ` — ${item.name.slice(0, 40)}${item.name.length > 40 ? "..." : ""}`
                 : ""}
@@ -311,7 +314,7 @@ export default function Testimonials({ type, rawTestimonials }: TestimonialsProp
         className="w-full py-3 border-2 border-dashed border-gray-300 rounded-xl text-sm font-medium text-gray-500 hover:border-navy/40 hover:text-navy hover:bg-navy/5 transition flex items-center justify-center gap-2 cursor-pointer"
       >
         <PlusIcon className="w-4 h-4" />
-        Add Testimonial
+        Add {label}
       </button>
 
       <button

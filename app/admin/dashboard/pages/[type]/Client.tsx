@@ -23,6 +23,9 @@ type Section =
   | "who"
   | "membership"
   | "testimonials"
+  | "testimonials2"
+  | "testimonials3"
+  | "testimonials4"
   | "box"
   | "sectors"
   | "cards"
@@ -238,7 +241,77 @@ export default function Client({ type }: { type: string }) {
           </div>
         )}
 
-     
+        {data?.page?.testimonials2 && (
+          <div className="flex flex-col gap-0 bg-navy/10 w-full rounded-xl px-5 py-5 mt-5">
+            <div
+              className="w-full cursor-pointer"
+              onClick={() => toggle("testimonials2")}
+            >
+              <h1 className="text-2xl font-bold flex items-center justify-left text-navy capitalize">
+                Testimonials 2
+              </h1>
+            </div>
+
+            {show === "testimonials2" && (
+              <Testimonials
+                type={type}
+                rawTestimonials={
+                  data.page.testimonials2 as Record<string, unknown>[]
+                }
+                fieldKey="testimonials2"
+                label="Testimonial"
+              />
+            )}
+          </div>
+        )}
+
+        {data?.page?.testimonials3 && (
+          <div className="flex flex-col gap-0 bg-navy/10 w-full rounded-xl px-5 py-5 mt-5">
+            <div
+              className="w-full cursor-pointer"
+              onClick={() => toggle("testimonials3")}
+            >
+              <h1 className="text-2xl font-bold flex items-center justify-left text-navy capitalize">
+                Testimonials 3
+              </h1>
+            </div>
+
+            {show === "testimonials3" && (
+              <Testimonials
+                type={type}
+                rawTestimonials={
+                  data.page.testimonials3 as Record<string, unknown>[]
+                }
+                fieldKey="testimonials3"
+                label="Testimonial"
+              />
+            )}
+          </div>
+        )}
+
+        {data?.page?.testimonials4 && (
+          <div className="flex flex-col gap-0 bg-navy/10 w-full rounded-xl px-5 py-5 mt-5">
+            <div
+              className="w-full cursor-pointer"
+              onClick={() => toggle("testimonials4")}
+            >
+              <h1 className="text-2xl font-bold flex items-center justify-left text-navy capitalize">
+                Testimonials 4
+              </h1>
+            </div>
+
+            {show === "testimonials4" && (
+              <Testimonials
+                type={type}
+                rawTestimonials={
+                  data.page.testimonials4 as Record<string, unknown>[]
+                }
+                fieldKey="testimonials4"
+                label="Testimonial"
+              />
+            )}
+          </div>
+        )}
 
         {data?.page?.sectors && (
           <div className="flex flex-col gap-0 bg-navy/10 w-full rounded-xl px-5 py-5 mt-5">

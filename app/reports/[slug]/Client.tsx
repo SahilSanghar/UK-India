@@ -138,7 +138,13 @@ export default function Client({
         className="w-[80%] md:w-[50%] mx-auto aspect-video relative flex flex-col gap-4 "
       >
         <Image
-          src={post?.image ?? ""}
+          src={`https://d2paj8ptqa22jg.cloudfront.net/reports/${post.id}.webp`}
+          onError={(e) => {
+            const target = e.target as HTMLImageElement;
+            if (target.src !== "/default.png") {
+              target.src = "/default.png";
+            }
+          }}
           alt={post?.title ?? "Untitled"}
           width={0}
           height={0}
