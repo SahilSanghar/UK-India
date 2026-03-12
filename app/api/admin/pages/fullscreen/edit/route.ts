@@ -25,14 +25,23 @@ interface FullscreenData {
 
 export async function POST(req: Request) {
   try {
-    const { type, fullscreen } = (await req.json()) as {
+    const { type, fullscreen, fieldKey = "fullscreen" } = (await req.json()) as {
       type: string;
       fullscreen: FullscreenData;
+      fieldKey?: string;
     };
 
     const session = await getSession();
     if (!session) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
+    const allowedFields = ["fullscreen", "fullscreen2", "fullscreen3", "fullscreen4"];
+    if (!allowedFields.includes(fieldKey)) {
+      return NextResponse.json(
+        { message: "Invalid field key" },
+        { status: 400 },
+      );
     }
 
     if (!type || !fullscreen) {
@@ -57,7 +66,7 @@ export async function POST(req: Request) {
         Key: { type: { S: type } },
         UpdateExpression: "SET #f = :f",
         ExpressionAttributeNames: {
-          "#f": "fullscreen",
+          "#f": fieldKey,
         },
         ExpressionAttributeValues: {
           ":f": {

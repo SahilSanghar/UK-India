@@ -24,9 +24,11 @@ interface FullscreenData {
 interface FullscreenProps {
   type: string;
   rawFullscreen: Record<string, unknown>;
+  fieldKey?: string;
+  label?: string;
 }
 
-export default function Fullscreen({ type, rawFullscreen }: FullscreenProps) {
+export default function Fullscreen({ type, rawFullscreen, fieldKey = "fullscreen", label = "Fullscreen" }: FullscreenProps) {
   const queryClient = useQueryClient();
 
   const [title, setTitle] = useState("");
@@ -62,6 +64,7 @@ export default function Fullscreen({ type, rawFullscreen }: FullscreenProps) {
       const res = await axios.post("/api/admin/pages/fullscreen/edit", {
         type,
         fullscreen: payload,
+        fieldKey,
       });
       if (res.status !== 200) throw new Error("Failed to save");
       invalidate();
@@ -157,7 +160,7 @@ export default function Fullscreen({ type, rawFullscreen }: FullscreenProps) {
       <section className="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
         <div className="border-b border-gray-100 bg-gray-50 px-6 py-4">
           <h2 className="text-lg font-semibold text-navy">
-            Fullscreen Details
+            {label} Details
           </h2>
         </div>
 
@@ -182,7 +185,7 @@ export default function Fullscreen({ type, rawFullscreen }: FullscreenProps) {
         </div>
       </section>
 
-      <h3 className="text-lg font-semibold text-navy">Fullscreen Cards</h3>
+      <h3 className="text-lg font-semibold text-navy">{label} Cards</h3>
 
       {cards.map((card, idx) => (
         <section

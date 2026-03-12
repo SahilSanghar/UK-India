@@ -30,6 +30,9 @@ type Section =
   | "sectors"
   | "cards"
   | "fullscreen"
+  | "fullscreen2"
+  | "fullscreen3"
+  | "fullscreen4"
   | "locations"
   | "contact"
   | "";
@@ -154,6 +157,78 @@ export default function Client({ type }: { type: string }) {
                 rawFullscreen={
                   data.page.fullscreen as Record<string, unknown>
                 }
+              />
+            )}
+          </div>
+        )}
+
+        {data?.page?.fullscreen2 && (
+          <div className="flex flex-col gap-0 bg-navy/10 w-full rounded-xl px-5 py-5 mt-5">
+            <div
+              className="w-full cursor-pointer"
+              onClick={() => toggle("fullscreen2")}
+            >
+              <h1 className="text-2xl font-bold flex items-center justify-left text-navy capitalize">
+                Fullscreen 2
+              </h1>
+            </div>
+
+            {show === "fullscreen2" && (
+              <Fullscreen
+                type={type}
+                rawFullscreen={
+                  data.page.fullscreen2 as Record<string, unknown>
+                }
+                fieldKey="fullscreen2"
+                label="Fullscreen 2"
+              />
+            )}
+          </div>
+        )}
+
+        {data?.page?.fullscreen3 && (
+          <div className="flex flex-col gap-0 bg-navy/10 w-full rounded-xl px-5 py-5 mt-5">
+            <div
+              className="w-full cursor-pointer"
+              onClick={() => toggle("fullscreen3")}
+            >
+              <h1 className="text-2xl font-bold flex items-center justify-left text-navy capitalize">
+                Fullscreen 3
+              </h1>
+            </div>
+
+            {show === "fullscreen3" && (
+              <Fullscreen
+                type={type}
+                rawFullscreen={
+                  data.page.fullscreen3 as Record<string, unknown>
+                }
+                fieldKey="fullscreen3"
+                label="Fullscreen 3"
+              />
+            )}
+          </div>
+        )}
+
+        {data?.page?.fullscreen4 && (
+          <div className="flex flex-col gap-0 bg-navy/10 w-full rounded-xl px-5 py-5 mt-5">
+            <div
+              className="w-full cursor-pointer"
+              onClick={() => toggle("fullscreen4")}
+            >
+              <h1 className="text-2xl font-bold flex items-center justify-left text-navy capitalize">
+                Fullscreen 4
+              </h1>
+            </div>
+
+            {show === "fullscreen4" && (
+              <Fullscreen
+                type={type}
+                rawFullscreen={
+                  data.page.fullscreen4 as Record<string, unknown>
+                }
+                fieldKey="fullscreen4"
+                label="Fullscreen 4"
               />
             )}
           </div>
