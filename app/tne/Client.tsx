@@ -4,6 +4,7 @@ import BoxImageText from "@/components/BoxImageText";
 import Carousel from "@/components/Carousel";
 import Connect from "@/components/Connect";
 import Lander from "@/components/Lander";
+import { normalizeRichTextHtml } from "@/lib/normalizeRichTextHtml";
 
 interface PageProps {
   id: string;
@@ -126,10 +127,10 @@ export default function TNE({ page }: { page: PageProps }) {
           {page.box?.[1]?.title || ""}
         </h1>
         <div className="max-w-[70%] text-left ">
-          <p
+          <div
             className="mb-4 text-sm md:text-base text-gray-700"
-            dangerouslySetInnerHTML={{ __html: page.box?.[1]?.content || "" }}
-          ></p>
+            dangerouslySetInnerHTML={{ __html: normalizeRichTextHtml(page.box?.[1]?.content || "") }}
+          />
         </div>
       </div>
 

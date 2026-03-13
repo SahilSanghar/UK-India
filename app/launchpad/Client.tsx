@@ -130,344 +130,6 @@ export default function Launchpad({ page }: { page: PageProps }) {
     rootMargin: "0px 0px -89% 0px",
   });
 
-  const apps = [
-    {
-      name: "Partner Eco-System Development",
-      svg: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          className="size-6"
-        >
-          <path
-            fillRule="evenodd"
-            d="M8.25 6.75a3.75 3.75 0 1 1 7.5 0 3.75 3.75 0 0 1-7.5 0ZM15.75 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM2.25 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM6.31 15.117A6.745 6.745 0 0 1 12 12a6.745 6.745 0 0 1 6.709 7.498.75.75 0 0 1-.372.568A12.696 12.696 0 0 1 12 21.75c-2.305 0-4.47-.612-6.337-1.684a.75.75 0 0 1-.372-.568 6.787 6.787 0 0 1 1.019-4.38Z"
-            clipRule="evenodd"
-          />
-          <path d="M5.082 14.254a8.287 8.287 0 0 0-1.308 5.135 9.687 9.687 0 0 1-1.764-.44l-.115-.04a.563.563 0 0 1-.373-.487l-.01-.121a3.75 3.75 0 0 1 3.57-4.047ZM20.226 19.389a8.287 8.287 0 0 0-1.308-5.135 3.75 3.75 0 0 1 3.57 4.047l-.01.121a.563.563 0 0 1-.373.486l-.115.04c-.567.2-1.156.349-1.764.441Z" />
-        </svg>
-      ),
-    },
-    {
-      name: "Market Landscape Analysis",
-      svg: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          className="size-6"
-        >
-          <path
-            fillRule="evenodd"
-            d="M2.25 2.25a.75.75 0 0 0 0 1.5H3v10.5a3 3 0 0 0 3 3h1.21l-1.172 3.513a.75.75 0 0 0 1.424.474l.329-.987h8.418l.33.987a.75.75 0 0 0 1.422-.474l-1.17-3.513H18a3 3 0 0 0 3-3V3.75h.75a.75.75 0 0 0 0-1.5H2.25Zm6.04 16.5.5-1.5h6.42l.5 1.5H8.29Zm7.46-12a.75.75 0 0 0-1.5 0v6a.75.75 0 0 0 1.5 0v-6Zm-3 2.25a.75.75 0 0 0-1.5 0v3.75a.75.75 0 0 0 1.5 0V9Zm-3 2.25a.75.75 0 0 0-1.5 0v1.5a.75.75 0 0 0 1.5 0v-1.5Z"
-            clipRule="evenodd"
-          />
-        </svg>
-      ),
-    },
-    {
-      name: "Supply Chain Management",
-      svg: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          className="size-6"
-        >
-          <path d="M3.375 4.5C2.339 4.5 1.5 5.34 1.5 6.375V13.5h12V6.375c0-1.036-.84-1.875-1.875-1.875h-8.25ZM13.5 15h-12v2.625c0 1.035.84 1.875 1.875 1.875h.375a3 3 0 1 1 6 0h3a.75.75 0 0 0 .75-.75V15Z" />
-          <path d="M8.25 19.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0ZM15.75 6.75a.75.75 0 0 0-.75.75v11.25c0 .087.015.17.042.248a3 3 0 0 1 5.958.464c.853-.175 1.522-.935 1.464-1.883a18.659 18.659 0 0 0-3.732-10.104 1.837 1.837 0 0 0-1.47-.725H15.75Z" />
-          <path d="M19.5 19.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0Z" />
-        </svg>
-      ),
-    },
-    {
-      name: "Product Launch Management",
-      svg: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          className="size-6"
-        >
-          <path
-            fillRule="evenodd"
-            d="M9.315 7.584C12.195 3.883 16.695 1.5 21.75 1.5a.75.75 0 0 1 .75.75c0 5.056-2.383 9.555-6.084 12.436A6.75 6.75 0 0 1 9.75 22.5a.75.75 0 0 1-.75-.75v-4.131A15.838 15.838 0 0 1 6.382 15H2.25a.75.75 0 0 1-.75-.75 6.75 6.75 0 0 1 7.815-6.666ZM15 6.75a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Z"
-            clipRule="evenodd"
-          />
-          <path d="M5.26 17.242a.75.75 0 1 0-.897-1.203 5.243 5.243 0 0 0-2.05 5.022.75.75 0 0 0 .625.627 5.243 5.243 0 0 0 5.022-2.051.75.75 0 1 0-1.202-.897 3.744 3.744 0 0 1-3.008 1.51c0-1.23.592-2.323 1.51-3.008Z" />
-        </svg>
-      ),
-    },
-    {
-      name: "Offshored Digital & Tech Teams",
-      svg: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          className="size-6"
-        >
-          <path
-            fillRule="evenodd"
-            d="M14.615 1.595a.75.75 0 0 1 .359.852L12.982 9.75h7.268a.75.75 0 0 1 .548 1.262l-10.5 11.25a.75.75 0 0 1-1.272-.71l1.992-7.302H3.75a.75.75 0 0 1-.548-1.262l10.5-11.25a.75.75 0 0 1 .913-.143Z"
-            clipRule="evenodd"
-          />
-        </svg>
-      ),
-    },
-  ];
-
-  const help = [
-    {
-      name: "Promote and build your profile in the market",
-      svg: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          className="size-6"
-        >
-          <path
-            fillRule="evenodd"
-            d="M2.25 2.25a.75.75 0 0 0 0 1.5H3v10.5a3 3 0 0 0 3 3h1.21l-1.172 3.513a.75.75 0 0 0 1.424.474l.329-.987h8.418l.33.987a.75.75 0 0 0 1.422-.474l-1.17-3.513H18a3 3 0 0 0 3-3V3.75h.75a.75.75 0 0 0 0-1.5H2.25Zm6.54 15h6.42l.5 1.5H8.29l.5-1.5Zm8.085-8.995a.75.75 0 1 0-.75-1.299 12.81 12.81 0 0 0-3.558 3.05L11.03 8.47a.75.75 0 0 0-1.06 0l-3 3a.75.75 0 1 0 1.06 1.06l2.47-2.47 1.617 1.618a.75.75 0 0 0 1.146-.102 11.312 11.312 0 0 1 3.612-3.321Z"
-            clipRule="evenodd"
-          />
-        </svg>
-      ),
-    },
-    {
-      name: "Lead recruitment campaigns",
-      svg: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          className="size-6"
-        >
-          <path d="M5.25 6.375a4.125 4.125 0 1 1 8.25 0 4.125 4.125 0 0 1-8.25 0ZM2.25 19.125a7.125 7.125 0 0 1 14.25 0v.003l-.001.119a.75.75 0 0 1-.363.63 13.067 13.067 0 0 1-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 0 1-.364-.63l-.001-.122ZM18.75 7.5a.75.75 0 0 0-1.5 0v2.25H15a.75.75 0 0 0 0 1.5h2.25v2.25a.75.75 0 0 0 1.5 0v-2.25H21a.75.75 0 0 0 0-1.5h-2.25V7.5Z" />
-        </svg>
-      ),
-    },
-    {
-      name: "Train and quality-manage agents and counsellors",
-      svg: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          className="size-6"
-        >
-          <path
-            fillRule="evenodd"
-            d="M18.685 19.097A9.723 9.723 0 0 0 21.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 0 0 3.065 7.097A9.716 9.716 0 0 0 12 21.75a9.716 9.716 0 0 0 6.685-2.653Zm-12.54-1.285A7.486 7.486 0 0 1 12 15a7.486 7.486 0 0 1 5.855 2.812A8.224 8.224 0 0 1 12 20.25a8.224 8.224 0 0 1-5.855-2.438ZM15.75 9a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"
-            clipRule="evenodd"
-          />
-        </svg>
-      ),
-    },
-    {
-      name: "Build meaningful partnerships",
-      svg: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          className="size-6"
-        >
-          <path
-            fillRule="evenodd"
-            d="M8.25 6.75a3.75 3.75 0 1 1 7.5 0 3.75 3.75 0 0 1-7.5 0ZM15.75 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM2.25 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM6.31 15.117A6.745 6.745 0 0 1 12 12a6.745 6.745 0 0 1 6.709 7.498.75.75 0 0 1-.372.568A12.696 12.696 0 0 1 12 21.75c-2.305 0-4.47-.612-6.337-1.684a.75.75 0 0 1-.372-.568 6.787 6.787 0 0 1 1.019-4.38Z"
-            clipRule="evenodd"
-          />
-          <path d="M5.082 14.254a8.287 8.287 0 0 0-1.308 5.135 9.687 9.687 0 0 1-1.764-.44l-.115-.04a.563.563 0 0 1-.373-.487l-.01-.121a3.75 3.75 0 0 1 3.57-4.047ZM20.226 19.389a8.287 8.287 0 0 0-1.308-5.135 3.75 3.75 0 0 1 3.57 4.047l-.01.121a.563.563 0 0 1-.373.486l-.115.04c-.567.2-1.156.349-1.764.441Z" />
-        </svg>
-      ),
-    },
-    {
-      name: "Interface with Central and State governments",
-      svg: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          className="size-6"
-        >
-          <path d="M11.584 2.376a.75.75 0 0 1 .832 0l9 6a.75.75 0 1 1-.832 1.248L12 3.901 3.416 9.624a.75.75 0 0 1-.832-1.248l9-6Z" />
-          <path
-            fillRule="evenodd"
-            d="M20.25 10.332v9.918H21a.75.75 0 0 1 0 1.5H3a.75.75 0 0 1 0-1.5h.75v-9.918a.75.75 0 0 1 .634-.74A49.109 49.109 0 0 1 12 9c2.59 0 5.134.202 7.616.592a.75.75 0 0 1 .634.74Zm-7.5 2.418a.75.75 0 0 0-1.5 0v6.75a.75.75 0 0 0 1.5 0v-6.75Zm3-.75a.75.75 0 0 1 .75.75v6.75a.75.75 0 0 1-1.5 0v-6.75a.75.75 0 0 1 .75-.75ZM9 12.75a.75.75 0 0 0-1.5 0v6.75a.75.75 0 0 0 1.5 0v-6.75Z"
-            clipRule="evenodd"
-          />
-          <path d="M12 7.875a1.125 1.125 0 1 0 0-2.25 1.125 1.125 0 0 0 0 2.25Z" />
-        </svg>
-      ),
-    },
-    {
-      name: "Interface with British Council, British High Commission, and UK Visas and Immigration",
-      svg: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          className="size-6"
-        >
-          <path
-            fillRule="evenodd"
-            d="M4.5 2.25a.75.75 0 0 0 0 1.5v16.5h-.75a.75.75 0 0 0 0 1.5h16.5a.75.75 0 0 0 0-1.5h-.75V3.75a.75.75 0 0 0 0-1.5h-15ZM9 6a.75.75 0 0 0 0 1.5h1.5a.75.75 0 0 0 0-1.5H9Zm-.75 3.75A.75.75 0 0 1 9 9h1.5a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75ZM9 12a.75.75 0 0 0 0 1.5h1.5a.75.75 0 0 0 0-1.5H9Zm3.75-5.25A.75.75 0 0 1 13.5 6H15a.75.75 0 0 1 0 1.5h-1.5a.75.75 0 0 1-.75-.75ZM13.5 9a.75.75 0 0 0 0 1.5H15A.75.75 0 0 0 15 9h-1.5Zm-.75 3.75a.75.75 0 0 1 .75-.75H15a.75.75 0 0 1 0 1.5h-1.5a.75.75 0 0 1-.75-.75ZM9 19.5v-2.25a.75.75 0 0 1 .75-.75h4.5a.75.75 0 0 1 .75.75v2.25a.75.75 0 0 1-.75.75h-4.5A.75.75 0 0 1 9 19.5Z"
-            clipRule="evenodd"
-          />
-        </svg>
-      ),
-    },
-  ];
-
-  const legal = [
-    {
-      name: "Wholly-owned subsidiary",
-      svg: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          className="size-6"
-        >
-          <path
-            fillRule="evenodd"
-            d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z"
-            clipRule="evenodd"
-          />
-        </svg>
-      ),
-    },
-    {
-      name: "Liaison Office",
-      svg: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          className="size-6"
-        >
-          <path
-            fillRule="evenodd"
-            d="M4.5 2.25a.75.75 0 0 0 0 1.5v16.5h-.75a.75.75 0 0 0 0 1.5h16.5a.75.75 0 0 0 0-1.5h-.75V3.75a.75.75 0 0 0 0-1.5h-15ZM9 6a.75.75 0 0 0 0 1.5h1.5a.75.75 0 0 0 0-1.5H9Zm-.75 3.75A.75.75 0 0 1 9 9h1.5a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75ZM9 12a.75.75 0 0 0 0 1.5h1.5a.75.75 0 0 0 0-1.5H9Zm3.75-5.25A.75.75 0 0 1 13.5 6H15a.75.75 0 0 1 0 1.5h-1.5a.75.75 0 0 1-.75-.75ZM13.5 9a.75.75 0 0 0 0 1.5H15A.75.75 0 0 0 15 9h-1.5Zm-.75 3.75a.75.75 0 0 1 .75-.75H15a.75.75 0 0 1 0 1.5h-1.5a.75.75 0 0 1-.75-.75ZM9 19.5v-2.25a.75.75 0 0 1 .75-.75h4.5a.75.75 0 0 1 .75.75v2.25a.75.75 0 0 1-.75.75h-4.5A.75.75 0 0 1 9 19.5Z"
-            clipRule="evenodd"
-          />
-        </svg>
-      ),
-    },
-    {
-      name: "Branch Office",
-      svg: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          className="size-6"
-        >
-          <path
-            fillRule="evenodd"
-            d="M3 2.25a.75.75 0 0 0 0 1.5v16.5h-.75a.75.75 0 0 0 0 1.5H15v-18a.75.75 0 0 0 0-1.5H3ZM6.75 19.5v-2.25a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75v2.25a.75.75 0 0 1-.75.75h-3a.75.75 0 0 1-.75-.75ZM6 6.75A.75.75 0 0 1 6.75 6h.75a.75.75 0 0 1 0 1.5h-.75A.75.75 0 0 1 6 6.75ZM6.75 9a.75.75 0 0 0 0 1.5h.75a.75.75 0 0 0 0-1.5h-.75ZM6 12.75a.75.75 0 0 1 .75-.75h.75a.75.75 0 0 1 0 1.5h-.75a.75.75 0 0 1-.75-.75ZM10.5 6a.75.75 0 0 0 0 1.5h.75a.75.75 0 0 0 0-1.5h-.75Zm-.75 3.75A.75.75 0 0 1 10.5 9h.75a.75.75 0 0 1 0 1.5h-.75a.75.75 0 0 1-.75-.75ZM10.5 12a.75.75 0 0 0 0 1.5h.75a.75.75 0 0 0 0-1.5h-.75ZM16.5 6.75v15h5.25a.75.75 0 0 0 0-1.5H21v-12a.75.75 0 0 0 0-1.5h-4.5Zm1.5 4.5a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75h-.008a.75.75 0 0 1-.75-.75v-.008Zm.75 2.25a.75.75 0 0 0-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 0 0 .75-.75v-.008a.75.75 0 0 0-.75-.75h-.008ZM18 17.25a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75h-.008a.75.75 0 0 1-.75-.75v-.008Z"
-            clipRule="evenodd"
-          />
-        </svg>
-      ),
-    },
-    {
-      name: "Not-for-Profit entity",
-      svg: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          className="size-6"
-        >
-          <path
-            fillRule="evenodd"
-            d="M8.25 6.75a3.75 3.75 0 1 1 7.5 0 3.75 3.75 0 0 1-7.5 0ZM15.75 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM2.25 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM6.31 15.117A6.745 6.745 0 0 1 12 12a6.745 6.745 0 0 1 6.709 7.498.75.75 0 0 1-.372.568A12.696 12.696 0 0 1 12 21.75c-2.305 0-4.47-.612-6.337-1.684a.75.75 0 0 1-.372-.568 6.787 6.787 0 0 1 1.019-4.38Z"
-            clipRule="evenodd"
-          />
-          <path d="M5.082 14.254a8.287 8.287 0 0 0-1.308 5.135 9.687 9.687 0 0 1-1.764-.44l-.115-.04a.563.563 0 0 1-.373-.487l-.01-.121a3.75 3.75 0 0 1 3.57-4.047ZM20.226 19.389a8.287 8.287 0 0 0-1.308-5.135 3.75 3.75 0 0 1 3.57 4.047l-.01.121a.563.563 0 0 1-.373.486l-.115.04c-.567.2-1.156.349-1.764.441Z" />
-        </svg>
-      ),
-    },
-    {
-      name: "LLP",
-      svg: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          className="size-6"
-        >
-          <path d="M11.584 2.376a.75.75 0 0 1 .832 0l9 6a.75.75 0 1 1-.832 1.248L12 3.901 3.416 9.624a.75.75 0 0 1-.832-1.248l9-6Z" />
-          <path
-            fillRule="evenodd"
-            d="M20.25 10.332v9.918H21a.75.75 0 0 1 0 1.5H3a.75.75 0 0 1 0-1.5h.75v-9.918a.75.75 0 0 1 .634-.74A49.109 49.109 0 0 1 12 9c2.59 0 5.134.202 7.616.592a.75.75 0 0 1 .634.74Zm-7.5 2.418a.75.75 0 0 0-1.5 0v6.75a.75.75 0 0 0 1.5 0v-6.75Zm3-.75a.75.75 0 0 1 .75.75v6.75a.75.75 0 0 1-1.5 0v-6.75a.75.75 0 0 1 .75-.75ZM9 12.75a.75.75 0 0 0-1.5 0v6.75a.75.75 0 0 0 1.5 0v-6.75Z"
-            clipRule="evenodd"
-          />
-          <path d="M12 7.875a1.125 1.125 0 1 0 0-2.25 1.125 1.125 0 0 0 0 2.25Z" />
-        </svg>
-      ),
-    },
-  ];
-
-  const support = [
-    {
-      name: "Ongoing Secretarial Compliance",
-      svg: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          className="size-6"
-        >
-          <path
-            fillRule="evenodd"
-            d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z"
-            clipRule="evenodd"
-          />
-        </svg>
-      ),
-    },
-    {
-      name: "Accounting & Payroll",
-      svg: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          className="size-6"
-        >
-          <path d="M4.5 3.75a3 3 0 0 0-3 3v.75h21v-.75a3 3 0 0 0-3-3h-15Z" />
-          <path
-            fillRule="evenodd"
-            d="M22.5 9.75h-21v7.5a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3v-7.5Zm-18 3.75a.75.75 0 0 1 .75-.75h6a.75.75 0 0 1 0 1.5h-6a.75.75 0 0 1-.75-.75Zm.75 2.25a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z"
-            clipRule="evenodd"
-          />
-        </svg>
-      ),
-    },
-    {
-      name: "HR Advisory with HR policies, contracts, employee handbook, and an employment framework support",
-      svg: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          className="size-6"
-        >
-          <path
-            fillRule="evenodd"
-            d="M12 2.25c-2.429 0-4.817.178-7.152.521C2.87 3.061 1.5 4.795 1.5 6.741v6.018c0 1.946 1.37 3.68 3.348 3.97.877.129 1.761.234 2.652.316V21a.75.75 0 0 0 1.28.53l4.184-4.183a.39.39 0 0 1 .266-.112c2.006-.05 3.982-.22 5.922-.506 1.978-.29 3.348-2.023 3.348-3.97V6.741c0-1.947-1.37-3.68-3.348-3.97A49.145 49.145 0 0 0 12 2.25ZM8.25 8.625a1.125 1.125 0 1 0 0 2.25 1.125 1.125 0 0 0 0-2.25Zm2.625 1.125a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Zm4.875-1.125a1.125 1.125 0 1 0 0 2.25 1.125 1.125 0 0 0 0-2.25Z"
-            clipRule="evenodd"
-          />
-        </svg>
-      ),
-    },
-  ];
-
   useEffect(() => {
     if (intelligenceInView) {
       setNavbar(true);
@@ -573,11 +235,11 @@ export default function Launchpad({ page }: { page: PageProps }) {
                 intelligenceRef as unknown as React.RefObject<HTMLDivElement>
               }
             >
-              <h1 className="md:text-5xl text-3xl font-bold text-white flex  md:w-[40%] w-fit ">
+              <h1 className="md:text-5xl text-3xl font-bold text-white flex md:w-[40%] w-fit text-center mx-auto justify-center items-center">
                 {page.fullscreen?.title}
               </h1>
-              <ul className="gap-3 grid grid-cols-1 md:grid-cols-3 justify-items-center items-center place-items-center w-full">
-                <div className="hidden md:flex col-span-1 md:col-span-3 w-fit justify-center">
+              <ul className="gap-3 grid grid-cols-1 md:grid-cols-3 justify-items-center items-center justify-center w-full">
+                <div className="hidden md:flex col-span-1 md:col-span-3 w-fit items-center justify-center">
                   {page.fullscreen?.cards.slice(0, 3).map((app, index) => (
                     <motion.div
                       initial={{
@@ -601,12 +263,14 @@ export default function Launchpad({ page }: { page: PageProps }) {
                         app.link && window.open(app.link, "_blank")
                       }
                     >
-                      <div className="px-7 py-7 bg-tiger rounded-full flex items-center justify-center mx-auto">
+                      <div className="p-5 w-20 bg-tiger rounded-full flex items-center justify-center mx-auto">
                         <Image
                           src={`https://d2paj8ptqa22jg.cloudfront.net/pages/${page.type}/${app.image}.webp`}
                           alt={app.title}
-                          width={100}
-                          height={100}
+                          width={0}
+                          height={0}
+                          sizes="100vw"
+                          className="w-full h-full object-cover"
                         />
                       </div>
                       <li className="md:text-xl text-base font-bold text-white text-center list-none md:w-[60%] w-full">
@@ -639,12 +303,14 @@ export default function Launchpad({ page }: { page: PageProps }) {
                         app.link && window.open(app.link, "_blank")
                       }
                     >
-                      <div className="px-7 py-7 bg-tiger rounded-full flex items-center justify-center mx-auto">
+                      <div className="p-5 w-20 bg-tiger rounded-full flex items-center justify-center mx-auto">
                         <Image
                           src={`https://d2paj8ptqa22jg.cloudfront.net/pages/${page.type}/${app.image}.webp`}
                           alt={app.title}
-                          width={100}
-                          height={100}
+                          width={0}
+                          height={0}
+                          sizes="100vw"
+                          className="w-full h-full object-cover"
                         />
                       </div>
                       <li className="md:text-xl text-base font-bold text-white text-center list-none md:w-[60%] w-full">
@@ -678,12 +344,14 @@ export default function Launchpad({ page }: { page: PageProps }) {
                         app.link && window.open(app.link, "_blank")
                       }
                     >
-                      <div className="px-5 py-5 bg-tiger rounded-full flex items-center justify-center mx-auto">
+                      <div className="p-5 w-20 bg-tiger rounded-full flex items-center justify-center mx-auto">
                         <Image
                           src={`https://d2paj8ptqa22jg.cloudfront.net/pages/${page.type}/${app.image}.webp`}
                           alt={app.title}
-                          width={100}
-                          height={100}
+                          width={0}
+                          height={0}
+                          sizes="100vw"
+                          className="w-full h-full object-cover"
                         />
                       </div>
                       <li className="md:text-xl text-base font-bold text-white text-center list-none md:w-[60%] w-full">
@@ -774,12 +442,14 @@ export default function Launchpad({ page }: { page: PageProps }) {
                     className="flex flex-col h-full gap-2 items-center  text-center md:mx-6 mx-2 "
                     onClick={() => app.link && window.open(app.link, "_blank")}
                   >
-                    <div className="px-5 py-5 bg-tiger rounded-full flex items-center justify-center mx-auto">
+                    <div className="p-5 w-20 bg-tiger rounded-full flex items-center justify-center mx-auto">
                       <Image
                         src={`https://d2paj8ptqa22jg.cloudfront.net/pages/${page.type}/${app.image}.webp`}
                         alt={app.title}
-                        width={100}
-                        height={100}
+                        width={0}
+                        height={0}
+                        sizes="100vw"
+                        className="w-full h-full object-cover"
                       />
                     </div>
                     <li className="md:text-lg text-[12px] font-bold text-white text-center list-none xl:w-[90%] w-full">
@@ -819,12 +489,14 @@ export default function Launchpad({ page }: { page: PageProps }) {
                     className="flex flex-col h-full gap-2 items-center  text-center md:mx-6 mx-2 "
                     onClick={() => app.link && window.open(app.link, "_blank")}
                   >
-                    <div className="px-5 py-5 bg-tiger rounded-full flex items-center justify-center mx-auto">
+                    <div className="p-5 w-20 bg-tiger rounded-full flex items-center justify-center mx-auto">
                       <Image
                         src={`https://d2paj8ptqa22jg.cloudfront.net/pages/${page.type}/${app.image}.webp`}
                         alt={app.title}
-                        width={100}
-                        height={100}
+                        width={0}
+                        height={0}
+                        sizes="100vw"
+                        className="w-full h-full object-cover"
                       />
                     </div>
                     <li className="md:text-lg text-[12px] font-bold text-white text-center list-none xl:w-[90%] w-full">
@@ -861,12 +533,14 @@ export default function Launchpad({ page }: { page: PageProps }) {
                     className="flex flex-col h-full gap-2 items-center  text-center md:mx-6 mx-2 "
                     onClick={() => app.link && window.open(app.link, "_blank")}
                   >
-                    <div className="px-5 py-5 bg-tiger rounded-full flex items-center justify-center mx-auto">
+                    <div className="p-5 w-20 bg-tiger rounded-full flex items-center justify-center mx-auto">
                       <Image
                         src={`https://d2paj8ptqa22jg.cloudfront.net/pages/${page.type}/${app.image}.webp`}
                         alt={app.title}
-                        width={100}
-                        height={100}
+                        width={0}
+                        height={0}
+                        sizes="100vw"
+                        className="w-full h-full object-cover"
                       />
                     </div>
                     <li className="md:text-lg text-[12px] font-bold text-white text-center list-none xl:w-[90%] w-full">

@@ -10,6 +10,7 @@ import StatCard from "@/components/StatCard";
 import Link from "next/link";
 import LiquidButton from "@/components/LiquidButton";
 import { data } from "framer-motion/client";
+import { normalizeRichTextHtml } from "@/lib/normalizeRichTextHtml";
 
 interface PageProps {
   id: string;
@@ -245,7 +246,7 @@ export default function GovernmentRelations({ page }: { page: PageProps }) {
             viewport={{ once: false }}
             className="text-2xl xl:text-5xl lg:text-4xl md:text-3xl sm:text-2xl font-bold text-white flex w-full justify-center items-center text-center mx-auto"
           >
-            <span className="w-full text-center">{page.fullscreen?.title}</span>
+            <span className="w-full text-center md:w-[40%] mx-auto">{page.fullscreen?.title}</span>
           </motion.h1>
           <motion.ul
             initial={{ opacity: 0, y: 20 }}
@@ -257,7 +258,6 @@ export default function GovernmentRelations({ page }: { page: PageProps }) {
             <motion.div
               initial={{ y: 20, opacity: 0, scale: 0.99 }}
               whileInView={{ y: 0, opacity: 1, scale: 1 }}
-              whileTap={{ scale: 1.05, transition: { duration: 0.1 } }}
               transition={{ duration: 0.3 }}
               viewport={{ once: false }}
               className="flex flex-col gap-2 items-center justify-center w-full sm:w-auto"
@@ -267,7 +267,8 @@ export default function GovernmentRelations({ page }: { page: PageProps }) {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4 }}
                 viewport={{ once: false }}
-                className="text-base sm:text-base md:text-base font-medium text-white whitespace-pre-line text-center w-[70%] mx-auto"
+                className="text-base sm:text-base md:text-base font-medium text-white whitespace-pre-line text-center w-[100%] mx-auto [&_a]:text-white [&_a]:underline gap-1 flex flex-col
+                  [&_ul]:list-disc [&_ul]:list-inside [&_ol]:list-decimal [&_ul]:pl-6 [&_ol]:pl-6 [&_ul]:mb-4 [&_ol]:mb-4 [&_li]:mb-2 [&_li:last-child]:mb-0 [&_li]:pl-1"
                 dangerouslySetInnerHTML={{ __html: page.fullscreen?.des || "" }}
               />
             </motion.div>
@@ -280,18 +281,18 @@ export default function GovernmentRelations({ page }: { page: PageProps }) {
             viewport={{ once: false }}
             className="text-2xl xl:text-5xl lg:text-4xl md:text-3xl sm:text-2xl font-bold text-white flex w-full justify-center items-center text-center mx-auto"
           >
-            <span className="w-full text-center">
+            <span className="w-full text-center md:w-[40%] mx-auto">
               {page.fullscreen2?.title}
             </span>
           </motion.h1>
-          <motion.p
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.05 }}
             viewport={{ once: false }}
             className="text-base sm:text-base md:text-base font-medium text-white whitespace-pre-line text-center w-[80%] sm:w-4/5 md:w-2/3 lg:w-1/2 xl:w-[50%] mx-auto"
-            dangerouslySetInnerHTML={{ __html: page.fullscreen2?.des || "" }}
-          ></motion.p>
+            dangerouslySetInnerHTML={{ __html: normalizeRichTextHtml(page.fullscreen2?.des || "") }}
+          />
 
           {/* <LiquidButton text="Membership" link="/membership" /> */}
         </motion.div>

@@ -2,6 +2,7 @@
 
 import Connect from "@/components/Connect";
 import Lander from "@/components/Lander";
+import { normalizeRichTextHtml } from "@/lib/normalizeRichTextHtml";
 
 interface PageProps {
   id: string;
@@ -96,15 +97,15 @@ export default function Vacancies({ page }: { page: PageProps }) {
 
       <section id="more" className="w-screen h-fit py-20">
         {" "}
-        <div className="w-full max-w-6xl mx-auto flex flex-col gap-8 items-center justify-center text-center">
+        <div className="w-full max-w-6xl mx-auto flex flex-col gap-8 items-center justify-center ">
           <h1 className="md:text-4xl text-2xl font-bold text-navy">
             {page.box?.[0]?.title || ""}
           </h1>
-          <p className="md:text-lg text-sm font-medium leading-relaxed md:w-full w-[90%] text-center m-auto ">
-            <span
-              dangerouslySetInnerHTML={{ __html: page.box?.[0]?.content || "" }}
-            ></span>
-          </p>
+          <div className="md:text-base text-sm font-medium leading-relaxed md:w-full w-[90%]">
+            <div className="m-auto font-light"
+              dangerouslySetInnerHTML={{ __html: normalizeRichTextHtml(page.box?.[0]?.content || "") }}
+            />
+          </div>
         </div>
       </section>
       <Connect
