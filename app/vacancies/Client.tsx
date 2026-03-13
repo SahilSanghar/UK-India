@@ -1,0 +1,120 @@
+"use client";
+
+import Connect from "@/components/Connect";
+import Lander from "@/components/Lander";
+
+interface PageProps {
+  id: string;
+  title: string;
+  type: string;
+  lander: {
+    title: string[];
+    title2?: string[];
+    des: string[];
+    image: string[];
+    flip: boolean;
+    button: {
+      enable: boolean;
+      text: string;
+      link: string;
+    };
+  };
+  stats?: {
+    title: string;
+    cards: {
+      title: string;
+      valueBefore: string;
+      valueAfter: string;
+      number: number;
+      des: string;
+      disclaimer: string;
+      link: string;
+    }[];
+    circle?: {
+      title: string;
+      image: string;
+    }[];
+  };
+  membership?: {
+    title: string;
+    subtitle: string;
+    des: string;
+    image: string;
+    buttonTxt: string;
+    link: string;
+  };
+  testimonials?: {
+    quote: string;
+    des: string;
+    name: string;
+    role: string;
+    image: string;
+    link: string;
+  }[];
+  box?: {
+    title: string;
+    content: string;
+    buttonTxt: string;
+    link: string;
+    image: string[];
+  }[];
+  contact?: {
+    title: string;
+    content: string;
+    image: string;
+  };
+}
+
+export default function Vacancies({ page }: { page: PageProps }) {
+  return (
+    <>
+      <Lander
+        title_data={page.lander.title.map((t, i) => ({
+          title: t,
+          title2: page.lander.title2?.[i] ?? undefined,
+          des: page.lander.des[i] ?? undefined,
+        }))}
+        button={page.lander.button?.enable || false}
+        buttonTxt={page.lander.button?.text || ""}
+        buttonLink={page.lander.button?.link || ""}
+        currency={true}
+        flip={page.lander.flip || false}
+        images={
+          page.lander.image && page.lander.image.length > 0
+            ? page.lander.image.map((img) => ({
+                image: `https://d2paj8ptqa22jg.cloudfront.net/pages/${page.type}/${img}.webp`,
+                position: "50%_50%",
+              }))
+            : [
+                {
+                  image: "/person.jpg",
+                  position: "50%_50%",
+                },
+              ]
+        }
+      />
+
+      <section id="more" className="w-screen h-fit py-20">
+        {" "}
+        <div className="w-full max-w-6xl mx-auto flex flex-col gap-8 items-center justify-center text-center">
+          <h1 className="md:text-4xl text-2xl font-bold text-navy">
+            {page.box?.[0]?.title || ""}
+          </h1>
+          <p className="md:text-lg text-sm font-medium leading-relaxed md:w-full w-[90%] text-center m-auto ">
+            <span
+              dangerouslySetInnerHTML={{ __html: page.box?.[0]?.content || "" }}
+            ></span>
+          </p>
+        </div>
+      </section>
+      <Connect
+        title={page.contact?.title || "Connect with us:"}
+        description={page.contact?.content || ""}
+        image={
+          `https://d2paj8ptqa22jg.cloudfront.net/pages/${page.type}/${page.contact?.image}.webp` ||
+          "/connect.webp"
+        }
+      />
+    </>
+  );
+}
