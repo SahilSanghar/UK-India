@@ -5,12 +5,15 @@ import useEmblaCarousel from "embla-carousel-react";
 import Image from "next/image";
 
 interface CompaniesProps {
-  images: string[];
+  data: {
+    image: string;
+    link: string;
+  }[];
 }
 
-export default function Companies({ images }: CompaniesProps) {
+export default function Companies({ data }: CompaniesProps) {
   // Duplicate images for seamless infinite loop
-  const duplicatedImages = [...images, ...images, ...images];
+  const duplicatedImages = [...data.map((item) => item.image), ...data.map((item) => item.image), ...data.map((item) => item.image)];
 
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: true,
@@ -48,8 +51,8 @@ export default function Companies({ images }: CompaniesProps) {
               >
                 <div className="relative w-full h-16 sm:h-20 md:h-40 md:w-40 hover:grayscale-0 transition-all duration-300">
                   <Image
-                    src={image}
-                    alt={`Company logo ${(index % images.length) + 1}`}
+                    src={`https://d2paj8ptqa22jg.cloudfront.net/pages/home/${data[index % data.length].image}.webp`}
+                    alt={`Company logo ${(index % data.length) + 1}`}
                     fill
                     className="object-contain"
                     sizes="(max-width: 640px) 120px, (max-width: 768px) 150px, 200px"

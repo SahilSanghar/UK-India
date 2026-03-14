@@ -83,6 +83,10 @@ interface PageProps {
     image: string;
     link: string;
   }[];
+  company?: {
+    image: string;
+    link: string;
+  }[];
 }
 
 export default function Home({ pages }: { pages: PageProps }) {
@@ -477,15 +481,23 @@ export default function Home({ pages }: { pages: PageProps }) {
         <Carousel
           data={
             Array.isArray(pages?.testimonials)
-              ? pages.testimonials.map((testimonial: { quote: string; des: string; name: string; role: string; image: string; link: string }) => ({
-                  quote: testimonial.quote,
-                  des: testimonial.des,
-                  name: testimonial.name,
-                  role: testimonial.role,
-                  image:
-                    `https://d2paj8ptqa22jg.cloudfront.net/pages/${pages.type}/${testimonial.image}.webp`,
-                  link: testimonial.link,
-                }))
+              ? pages.testimonials.map(
+                  (testimonial: {
+                    quote: string;
+                    des: string;
+                    name: string;
+                    role: string;
+                    image: string;
+                    link: string;
+                  }) => ({
+                    quote: testimonial.quote,
+                    des: testimonial.des,
+                    name: testimonial.name,
+                    role: testimonial.role,
+                    image: `https://d2paj8ptqa22jg.cloudfront.net/pages/${pages.type}/${testimonial.image}.webp`,
+                    link: testimonial.link,
+                  }),
+                )
               : []
           }
         />
@@ -567,16 +579,7 @@ export default function Home({ pages }: { pages: PageProps }) {
       </BackgroundGradientAnimation>
 
       <div className="w-full h-fit flex flex-col justify-center items-center pt-10 pb-30 ">
-        <Companies
-          images={[
-            "/home-company1.png",
-            "/home-company2.jpg",
-            "/home-company3.png",
-            "/home-company4.png",
-            "/home-company5.png",
-            "/home-company6.png",
-          ]}
-        />
+        <Companies data={pages.company || []} />
 
         {/* <div className="w-1/2 h-5 my-10 border-b-2 border-black" /> */}
 

@@ -14,6 +14,7 @@ import Contact from "./components/Contact";
 import Cards from "./components/Cards";
 import Fullscreen from "./components/Fullscreen";
 import Locations from "./components/Locations";
+import Companies from "./components/Companies";
 import { useState } from "react";
 
 type Section =
@@ -34,6 +35,7 @@ type Section =
   | "fullscreen3"
   | "fullscreen4"
   | "locations"
+  | "company"
   | "contact"
   | "";
 
@@ -100,7 +102,7 @@ export default function Client({ type }: { type: string }) {
           </div>
         )}
 
-{data?.page?.box && (
+        {data?.page?.box && (
           <div className="flex flex-col gap-0 bg-navy/10 w-full rounded-xl px-5 py-5 mt-5">
             <div
               className="w-full cursor-pointer"
@@ -154,9 +156,7 @@ export default function Client({ type }: { type: string }) {
             {show === "fullscreen" && (
               <Fullscreen
                 type={type}
-                rawFullscreen={
-                  data.page.fullscreen as Record<string, unknown>
-                }
+                rawFullscreen={data.page.fullscreen as Record<string, unknown>}
               />
             )}
           </div>
@@ -176,9 +176,7 @@ export default function Client({ type }: { type: string }) {
             {show === "fullscreen2" && (
               <Fullscreen
                 type={type}
-                rawFullscreen={
-                  data.page.fullscreen2 as Record<string, unknown>
-                }
+                rawFullscreen={data.page.fullscreen2 as Record<string, unknown>}
                 fieldKey="fullscreen2"
                 label="Fullscreen 2"
               />
@@ -200,9 +198,7 @@ export default function Client({ type }: { type: string }) {
             {show === "fullscreen3" && (
               <Fullscreen
                 type={type}
-                rawFullscreen={
-                  data.page.fullscreen3 as Record<string, unknown>
-                }
+                rawFullscreen={data.page.fullscreen3 as Record<string, unknown>}
                 fieldKey="fullscreen3"
                 label="Fullscreen 3"
               />
@@ -224,9 +220,7 @@ export default function Client({ type }: { type: string }) {
             {show === "fullscreen4" && (
               <Fullscreen
                 type={type}
-                rawFullscreen={
-                  data.page.fullscreen4 as Record<string, unknown>
-                }
+                rawFullscreen={data.page.fullscreen4 as Record<string, unknown>}
                 fieldKey="fullscreen4"
                 label="Fullscreen 4"
               />
@@ -422,9 +416,27 @@ export default function Client({ type }: { type: string }) {
             {show === "locations" && (
               <Locations
                 type={type}
-                rawLocations={
-                  data.page.locations as Record<string, unknown>[]
-                }
+                rawLocations={data.page.locations as Record<string, unknown>[]}
+              />
+            )}
+          </div>
+        )}
+
+        {data?.page?.company && (
+          <div className="flex flex-col gap-0 bg-navy/10 w-full rounded-xl px-5 py-5 mt-5">
+            <div
+              className="w-full cursor-pointer"
+              onClick={() => toggle("company")}
+            >
+              <h1 className="text-2xl font-bold flex items-center justify-left text-navy capitalize">
+                Companies
+              </h1>
+            </div>
+
+            {show === "company" && (
+              <Companies
+                type={type}
+                rawCompanies={data.page.company as Record<string, unknown>[]}
               />
             )}
           </div>
