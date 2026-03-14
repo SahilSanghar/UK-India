@@ -83,6 +83,8 @@ export default function Page() {
     content: "",
     address: "",
     date: "",
+    sortIndex: 0,
+    originalIndex: 0,
   });
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [isImageDragOver, setIsImageDragOver] = useState(false);
@@ -174,7 +176,7 @@ export default function Page() {
     }
   };
 
-  const { mutate: editTeam, isPending } = useMutation({
+  const { mutateAsync: editTeamAsync, isPending } = useMutation({
     mutationFn: (data: {
       id: string;
       title: string;
@@ -183,24 +185,38 @@ export default function Page() {
       date: string;
       address: string;
     }) => axios.post("/api/admin/group_board/edit", data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["group-board"] });
-      setEdit({ ...edit, edit: false });
-    },
-    onError: () => {
-      console.error("Failed to edit group board member");
-    },
   });
 
-  const handleEdit = () => {
-    editTeam({
-      id: edit.id,
-      title: edit.title,
-      job_title: edit.job_title,
-      content: edit.content,
-      date: edit.date,
-      address: edit.address,
-    });
+  const handleEdit = async () => {
+    try {
+      await editTeamAsync({
+        id: edit.id,
+        title: edit.title || "",
+        job_title: edit.job_title || "",
+        content: edit.content || "",
+        date: edit.date,
+        address: edit.address || "",
+      });
+    } catch {
+      console.error("Failed to edit group board member");
+      return;
+    }
+
+    const targetIndex = edit.sortIndex - 1;
+    if (targetIndex !== edit.originalIndex && targetIndex >= 0 && targetIndex < sortedTeam.length) {
+      const updated = [...sortedTeam];
+      const [moved] = updated.splice(edit.originalIndex, 1);
+      updated.splice(targetIndex, 0, moved);
+
+      const leftSort = updated[targetIndex - 1]?.sort ?? null;
+      const rightSort = updated[targetIndex + 1]?.sort ?? null;
+
+      setSortedTeam(updated);
+      await callSortUpdateApi(leftSort, rightSort, edit.id, edit.date);
+    }
+
+    queryClient.invalidateQueries({ queryKey: ["group-board"] });
+    setEdit((prev) => ({ ...prev, edit: false }));
   };
   useEffect(() => {
     const nextTeam =
@@ -583,12 +599,14 @@ export default function Page() {
                               setEdit({
                                 edit: true,
                                 id: member.id.toString(),
-                                title: member.title,
-                                image: member.image,
-                                job_title: member.job_title,
-                                content: member.content,
+                                title: member.title || "",
+                                image: member.image || "",
+                                job_title: member.job_title || "",
+                                content: member.content || "",
                                 date: member.date,
-                                address: member.address,
+                                address: member.address || "",
+                                sortIndex: index + 1,
+                                originalIndex: index,
                               });
                             }}
                           >
@@ -714,6 +732,32 @@ export default function Page() {
 
                             <div className="flex flex-col">
                               <label
+                                htmlFor="sortIndex"
+                                className="text-sm md:text-base text-navy font-bold mb-1"
+                              >
+                                Sort Position
+                              </label>
+                              <input
+                                type="number"
+                                min={1}
+                                max={sortedTeam.length}
+                                value={edit.sortIndex}
+                                onChange={(e) => {
+                                  const val = parseInt(e.target.value, 10);
+                                  if (!isNaN(val)) {
+                                    setEdit({ ...edit, sortIndex: val });
+                                  }
+                                }}
+                                placeholder={`1 – ${sortedTeam.length}`}
+                                className="text-base font-medium text-black border border-navy/30 focus:border-navy outline-none w-full px-4 py-2 rounded-lg transition-all placeholder:text-navy/40"
+                              />
+                              <p className="text-xs text-navy/60 mt-1">
+                                Currently at position {edit.originalIndex + 1} of {sortedTeam.length}. Change the number to reorder.
+                              </p>
+                            </div>
+
+                            <div className="flex flex-col">
+                              <label
                                 htmlFor="content"
                                 className="text-sm md:text-base text-navy font-bold mb-1"
                               >
@@ -726,15 +770,6 @@ export default function Page() {
                                   setEdit({ ...edit, content })
                                 }
                               />
-
-                              {/* <textarea
-                              value={edit.content}
-                              onChange={(e) =>
-                                setEdit({ ...edit, content: e.target.value })
-                              }
-                              placeholder="Write a short bio or description..."
-                              className="text-base font-medium text-gray-800 border border-navy/30 focus:border-navy outline-none w-full px-4 py-2 h-36 rounded-lg transition-all bg-navy/5 resize-none placeholder:text-navy/40"
-                            /> */}
                             </div>
 
                             <div className="flex flex-row gap-3 mt-4 items-center">

@@ -74,6 +74,8 @@ export default function Page() {
     url: "",
     date: "",
     filters: [] as string[],
+    sortIndex: 0,
+    originalIndex: 0,
   });
   const [filterInputString, setFilterInputString] = useState<string>("");
   const [previewImage, setPreviewImage] = useState<string | null>(null);
@@ -172,7 +174,7 @@ export default function Page() {
     }
   };
 
-  const { mutate: editTeam, isPending } = useMutation({
+  const { mutateAsync: editTeamAsync, isPending } = useMutation({
     mutationFn: (data: {
       id: string;
       title: string;
@@ -181,26 +183,40 @@ export default function Page() {
       date: string;
       filters: string[];
     }) => axios.post("/api/admin/members/edit", data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["members"] });
-      setEdit({ ...edit, edit: false });
-    },
-    onError: () => {
-      console.error("Failed to edit team member");
-    },
   });
 
-  const handleEdit = () => {
-    editTeam({
-      id: edit.id,
-      title: edit.title,
-      content: edit.content,
-      url: edit.url,
-      date: edit.date,
-      filters: Array.isArray(edit.filters)
-        ? edit.filters.map((f) => (typeof f === "string" ? f.toLowerCase() : f))
-        : [],
-    });
+  const handleEdit = async () => {
+    try {
+      await editTeamAsync({
+        id: edit.id,
+        title: edit.title,
+        content: edit.content,
+        url: edit.url,
+        date: edit.date,
+        filters: Array.isArray(edit.filters)
+          ? edit.filters.map((f) => (typeof f === "string" ? f.toLowerCase() : f))
+          : [],
+      });
+    } catch {
+      console.error("Failed to edit member");
+      return;
+    }
+
+    const targetIndex = edit.sortIndex - 1;
+    if (targetIndex !== edit.originalIndex && targetIndex >= 0 && targetIndex < sortedTeam.length) {
+      const updated = [...sortedTeam];
+      const [moved] = updated.splice(edit.originalIndex, 1);
+      updated.splice(targetIndex, 0, moved);
+
+      const leftSort = updated[targetIndex - 1]?.sort ?? null;
+      const rightSort = updated[targetIndex + 1]?.sort ?? null;
+
+      setSortedTeam(updated);
+      await callSortUpdateApi(leftSort, rightSort, edit.id, edit.date);
+    }
+
+    queryClient.invalidateQueries({ queryKey: ["members"] });
+    setEdit((prev) => ({ ...prev, edit: false }));
   };
 
   useEffect(() => {
@@ -561,6 +577,8 @@ export default function Page() {
                                   url: member.url ?? "",
                                   date: member.date,
                                   filters: member.filters,
+                                  sortIndex: index + 1,
+                                  originalIndex: index,
                                 });
                                 setFilterInputString(
                                   (member.filters || []).join(", "),
@@ -689,6 +707,32 @@ export default function Page() {
                                 placeholder="E.g. Director, Manager, India"
                                 className="text-base font-medium text-black border border-navy/30 focus:border-navy outline-none w-full px-4 py-2 rounded-lg transition-all placeholder:text-navy/40"
                               />
+                            </div>
+
+                            <div className="flex flex-col">
+                              <label
+                                htmlFor="sortIndex"
+                                className="text-sm md:text-base text-navy font-bold mb-1"
+                              >
+                                Sort Position
+                              </label>
+                              <input
+                                type="number"
+                                min={1}
+                                max={sortedTeam.length}
+                                value={edit.sortIndex}
+                                onChange={(e) => {
+                                  const val = parseInt(e.target.value, 10);
+                                  if (!isNaN(val)) {
+                                    setEdit({ ...edit, sortIndex: val });
+                                  }
+                                }}
+                                placeholder={`1 – ${sortedTeam.length}`}
+                                className="text-base font-medium text-black border border-navy/30 focus:border-navy outline-none w-full px-4 py-2 rounded-lg transition-all placeholder:text-navy/40"
+                              />
+                              <p className="text-xs text-navy/60 mt-1">
+                                Currently at position {edit.originalIndex + 1} of {sortedTeam.length}. Change the number to reorder.
+                              </p>
                             </div>
 
                             <div className="flex flex-col">

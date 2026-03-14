@@ -34,11 +34,11 @@ export async function POST(req: Request) {
           "#a": "address",
         },
         ExpressionAttributeValues: {
-          ":id": { S: id },
-          ":t": { S: title },
-          ":j": { S: job_title },
-          ":c": { S: content },
-          ":a": { S: address },
+          ":id": { S: String(id) },
+          ":t": { S: String(title || "") },
+          ":j": { S: String(job_title || "") },
+          ":c": { S: String(content || "") },
+          ":a": { S: String(address || "") },
         },
       })
     );
