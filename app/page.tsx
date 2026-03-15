@@ -62,9 +62,12 @@ interface PageProps {
 }
 
 const getPages = async () => {
-  const res = await fetch(process.env.PUBLIC_URL + "/api/admin/pages/get_by_type?type=home", {
-    cache: "no-store",
-  });
+  const res = await fetch(
+    process.env.PUBLIC_URL + "/api/admin/pages/get_by_type?type=home",
+    {
+      next: { revalidate: 3600 },
+    },
+  );
   if (!res.ok) {
     throw new Error("Failed to fetch pages");
   }
