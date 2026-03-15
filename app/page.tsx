@@ -1,5 +1,6 @@
 import React from "react";
 import Client from "./Client";
+import { fetchPage } from "@/lib/fetchPage";
 
 interface PageProps {
   id: string;
@@ -62,21 +63,15 @@ interface PageProps {
 }
 
 const getPages = async () => {
-  const res = await fetch(
-    process.env.PUBLIC_URL + "/api/admin/pages/get_by_type?type=home",
-    {
-      next: { revalidate: 3600 },
-    },
-  );
-  if (!res.ok) {
-    throw new Error("Failed to fetch pages");
-  }
-  const data = await res.json();
-
-  return data.page as PageProps;
+  const page = await fetchPage("home");
+  return page as PageProps;
 };
 
 export default async function Page() {
   const page = await getPages();
+
+  // console.log(page);
   return <Client pages={page} />;
 }
+
+export const revalidate = 3600;
