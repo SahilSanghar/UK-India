@@ -74,4 +74,4 @@ export default async function Page() {
   return <Client pages={page} />;
 }
 
-export const revalidate = 3600;
+export const revalidate = 600;

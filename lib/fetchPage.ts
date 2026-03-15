@@ -31,6 +31,6 @@ export async function fetchPage(type: string) {
     return marshalled?.[0];
   } catch (error) {
     console.error(error);
-    return null;
+    throw new Error("ISR failed");
   }
 }
