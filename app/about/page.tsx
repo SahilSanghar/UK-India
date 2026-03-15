@@ -4,7 +4,7 @@ const getPage = async () => {
   const res = await fetch(
     process.env.PUBLIC_URL + "/api/admin/pages/get_by_type?type=about",
     {
-      next: { revalidate: 3600 },
+      cache: "no-store",
     },
   );
   if (!res.ok) {

@@ -4,7 +4,7 @@ const getPage = async () => {
   const res = await fetch(
     process.env.PUBLIC_URL + "/api/admin/pages/get_by_type?type=contact",
     {
-      next: { revalidate: 3600 },
+      cache: "no-store",
     },
   );
   if (!res.ok) {
@@ -13,7 +13,6 @@ const getPage = async () => {
 
   const data = await res.json();
 
-  console.log(data.page);
   return data.page;
 };
 

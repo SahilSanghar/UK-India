@@ -2,21 +2,20 @@ import Client from "./Client";
 
 const getPage = async () => {
   const res = await fetch(
-    process.env.PUBLIC_URL + "/api/admin/pages/get_by_type?type=business-solution-projects",
+    process.env.PUBLIC_URL +
+      "/api/admin/pages/get_by_type?type=business-solution-projects",
     {
-      next: { revalidate: 3600 },
+      cache: "no-store",
     },
   );
   if (!res.ok) {
     throw new Error("Failed to fetch page");
   }
-  
+
   const data = await res.json();
 
-  console.log(data.page);
   return data.page;
 };
-
 
 export default async function Page() {
   const page = await getPage();

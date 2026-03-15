@@ -5,7 +5,7 @@ const getPage = async () => {
     process.env.PUBLIC_URL +
       "/api/admin/pages/get_by_type?type=membership-projects",
     {
-      next: { revalidate: 3600 },
+      cache: "no-store",
     },
   );
   if (!res.ok) {
