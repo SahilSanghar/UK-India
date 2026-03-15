@@ -10,6 +10,7 @@ import TextEditor from "@/components/TextEditor";
 
 interface FullscreenCardItem {
   title: string;
+  des: string;
   image: string;
   buttonTxt: string;
   link: string;
@@ -47,6 +48,7 @@ export default function Fullscreen({ type, rawFullscreen, fieldKey = "fullscreen
     setCards(
       rawCards.map((c: Record<string, unknown>) => ({
         title: (c.title as string) || "",
+        des: (c.des as string) || "",
         image: (c.image as string) || "",
         buttonTxt: (c.buttonTxt as string) || "",
         link: (c.link as string) || "",
@@ -85,7 +87,7 @@ export default function Fullscreen({ type, rawFullscreen, fieldKey = "fullscreen
   const addCard = () => {
     setCards((prev) => [
       ...prev,
-      { title: "", image: "", buttonTxt: "", link: "" },
+      { title: "", des: "", image: "", buttonTxt: "", link: "" },
     ]);
   };
 
@@ -218,6 +220,14 @@ export default function Fullscreen({ type, rawFullscreen, fieldKey = "fullscreen
                 onChange={(e) => updateCard(idx, { title: e.target.value })}
                 placeholder="Card title"
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-navy/30 focus:border-navy transition"
+              />
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <label className="text-sm font-medium text-gray-600">Description</label>
+              <TextEditor
+                content={card.des || ""}
+                onChange={(val) => updateCard(idx, { des: val })}
               />
             </div>
 

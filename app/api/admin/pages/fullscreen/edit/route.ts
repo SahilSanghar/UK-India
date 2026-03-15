@@ -12,6 +12,7 @@ const dynamoClient = new DynamoDBClient({
 
 interface FullscreenCardItem {
   title: string;
+  des: string;
   image: string;
   buttonTxt: string;
   link: string;
@@ -54,6 +55,7 @@ export async function POST(req: Request) {
     const cardItems = (fullscreen.cards || []).map((c) => ({
       M: {
         title: { S: c.title || "" },
+        des: { S: c.des || "" },
         image: { S: c.image || "" },
         buttonTxt: { S: c.buttonTxt || "" },
         link: { S: c.link || "" },
