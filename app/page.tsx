@@ -65,7 +65,7 @@ const getPages = async () => {
   const res = await fetch(
     process.env.PUBLIC_URL + "/api/admin/pages/get_by_type?type=home",
     {
-      next: { revalidate: 3600 },
+      next: { revalidate: 60 },
     },
   );
   if (!res.ok) {
