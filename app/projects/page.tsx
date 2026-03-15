@@ -1,9 +1,12 @@
 import Client from "./Client";
 
 const getPage = async () => {
-  const res = await fetch(process.env.PUBLIC_URL + "/api/admin/pages/get_by_type?type=projects", {
-    cache: "no-store",
-  });
+  const res = await fetch(
+    process.env.PUBLIC_URL + "/api/admin/pages/get_by_type?type=projects",
+    {
+      next: { revalidate: 3600 },
+    },
+  );
   if (!res.ok) {
     throw new Error("Failed to fetch page");
   }
