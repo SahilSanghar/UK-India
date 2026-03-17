@@ -152,7 +152,7 @@ export default function Events({ page }: { page: PageProps }) {
       />
       <section id="more">
         <div className="w-full h-fit flex flex-col gap-10 items-center justify-center py-20">
-          <div className="w-fit mx-auto mt-10 flex flex-col gap-10 items-center justify-items-center justify-center">
+          <div className="w-fit mx-auto mt-10 flex flex-col gap-10 items-center justify-items-center justify-center md:max-w-[800px] w-full">
             <p className="md:text-4xl text-2xl font-bold text-navy">
               Upcoming Events
             </p>
@@ -194,15 +194,17 @@ export default function Events({ page }: { page: PageProps }) {
                         <EventCard
                           title1={item.title}
                           date={item.date}
-                          image={item.id.toString() || "/home-1.png"}
+                          image={item.image || "/home-1.png"}
                           animation="center"
                           key={index}
                           location={item.location}
                           venue={item.venue}
                           who_can_attend={item.who_can_attend}
-                          event_date={item.start_date || item.tempdate}
+                          event_date={item.start_date}
+                          tempdate={item.tempdate || ""}
                           event_end_date={item.end_date}
                           time={item.time}
+                          className="w-full max-w-[800px]"
                         />
                       );
                     }

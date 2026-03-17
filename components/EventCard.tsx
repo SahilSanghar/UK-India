@@ -93,7 +93,8 @@ export default function EventCard({
             </p>
           </div>
         )}
-        {event_date && (
+
+        {!tempdate && event_date && (
           <div className="flex flex-row gap-2 items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
