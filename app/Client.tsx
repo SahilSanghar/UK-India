@@ -21,6 +21,7 @@ import Video from "next-video";
 import map from "@/videos/map.mp4";
 import Fullscreen from "@/components/Fullscreen";
 import Ticker from "@/components/Ticker";
+import { PageProps } from "@/lib/PageProps";
 
 interface StatCard {
   title: string;
@@ -32,62 +33,62 @@ interface StatCard {
   link: string;
 }
 
-interface PageProps {
-  id: string;
-  title: string;
-  type: string;
-  lander: {
-    title: string[];
-    title2?: string[];
-    des: string[];
-    image: string[];
-    button: {
-      enable: boolean;
-      text: string;
-      link: string;
-    };
-  };
-  what: {
-    title: string;
-    des: string;
-    cards: {
-      title: string;
-      des: string;
-      images: string[];
-    }[];
-  };
-  stats?: {
-    title: string;
-    cards: StatCard[];
-  };
-  who?: {
-    title: string;
-    cards: {
-      title: string;
-      image: string;
-    }[];
-  };
-  membership?: {
-    title: string;
-    subtitle: string;
-    des: string;
-    image: string;
-    buttonTxt: string;
-    link: string;
-  };
-  testimonials?: {
-    quote: string;
-    des: string;
-    name: string;
-    role: string;
-    image: string;
-    link: string;
-  }[];
-  company?: {
-    image: string;
-    link: string;
-  }[];
-}
+// interface PageProps {
+//   id: string;
+//   title: string;
+//   type: string;
+//   lander: {
+//     title: string[];
+//     title2?: string[];
+//     des: string[];
+//     image: string[];
+//     button: {
+//       enable: boolean;
+//       text: string;
+//       link: string;
+//     };
+//   };
+//   what: {
+//     title: string;
+//     des: string;
+//     cards: {
+//       title: string;
+//       des: string;
+//       images: string[];
+//     }[];
+//   };
+//   stats?: {
+//     title: string;
+//     cards: StatCard[];
+//   };
+//   who?: {
+//     title: string;
+//     cards: {
+//       title: string;
+//       image: string;
+//     }[];
+//   };
+//   membership?: {
+//     title: string;
+//     subtitle: string;
+//     des: string;
+//     image: string;
+//     buttonTxt: string;
+//     link: string;
+//   };
+//   testimonials?: {
+//     quote: string;
+//     des: string;
+//     name: string;
+//     role: string;
+//     image: string;
+//     link: string;
+//   }[];
+//   company?: {
+//     image: string;
+//     link: string;
+//   }[];
+// }
 
 export default function Home({ pages }: { pages: PageProps }) {
   const [video, setVideo] = useState(false);

@@ -26,6 +26,7 @@ interface PostProps {
   location: string;
   venue: string;
   who_can_attend: string;
+  tempdate: string;
   date: string;
   sort: string;
 }
@@ -68,6 +69,7 @@ export default function Page() {
     location: "",
     venue: "",
     who_can_attend: "",
+    tempdate: "",
   });
   const [newMemberFile, setNewMemberFile] = useState<File | null>(null);
   const [newMemberPreview, setNewMemberPreview] = useState<string | null>(null);
@@ -86,6 +88,7 @@ export default function Page() {
     location: "",
     venue: "",
     who_can_attend: "",
+    tempdate: "",
   });
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [isImageDragOver, setIsImageDragOver] = useState(false);
@@ -145,6 +148,7 @@ export default function Page() {
         location: newMember.location,
         venue: newMember.venue,
         who_can_attend: newMember.who_can_attend,
+        tempdate: newMember.tempdate,
       });
 
       if (response.status === 200) {
@@ -168,6 +172,7 @@ export default function Page() {
           location: "",
           venue: "",
           who_can_attend: "",
+          tempdate: "",
         });
         setNewMemberFile(null);
         setNewMemberPreview(null);
@@ -194,13 +199,13 @@ export default function Page() {
       location: string;
       venue: string;
       who_can_attend: string;
+      tempdate: string;
     }) =>
       axios.post("/api/admin/events/edit", {
         id: data.id,
         title: data.title,
         content: data.content,
         date: data.date,
-        // send whether a new image was selected (via drag/drop or file input)
         image: data.image,
         start_date: data.start_date,
         end_date: data.end_date,
@@ -208,6 +213,7 @@ export default function Page() {
         location: data.location,
         venue: data.venue,
         who_can_attend: data.who_can_attend,
+        tempdate: data.tempdate,
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["events"] });
@@ -224,7 +230,6 @@ export default function Page() {
       title: edit.title,
       content: edit.content,
       date: edit.date,
-      // backend needs true when a new image was chosen
       image: editHasNewImage,
       start_date: edit.start_date,
       end_date: edit.end_date,
@@ -232,6 +237,7 @@ export default function Page() {
       location: edit.location,
       venue: edit.venue,
       who_can_attend: edit.who_can_attend,
+      tempdate: edit.tempdate,
     });
   };
   useEffect(() => {
@@ -379,6 +385,27 @@ export default function Page() {
                         }
                         placeholder="Full name"
                         className="text-base font-medium text-black border border-navy/30 focus:border-navy outline-none w-full px-4 py-2 rounded-lg transition-all  placeholder:text-navy/40"
+                      />
+                    </div>
+
+                    <div className="flex flex-col">
+                      <label
+                        htmlFor="tempdate"
+                        className="text-sm md:text-base text-navy font-bold mb-1"
+                      >
+                        Temporary Date
+                      </label>
+                      <input
+                        type="text"
+                        value={newMember.tempdate}
+                        onChange={(e) =>
+                          setNewMember({
+                            ...newMember,
+                            tempdate: e.target.value,
+                          })
+                        }
+                        placeholder="Remove after event is confirmed"
+                        className="text-base font-medium text-black border border-navy/30 focus:border-navy outline-none w-full px-4 py-2 rounded-lg transition-all placeholder:text-navy/40"
                       />
                     </div>
                     <div className="flex flex-col">
@@ -566,13 +593,39 @@ export default function Page() {
                               {member.title}
                             </p>
                             <p className="text-sm text-black font-bold">
-                              {(() => {
+                              {/* {(() => {
                                 const d = new Date(member.date);
                                 const month = d.toLocaleString("en-US", {
                                   month: "long",
                                 });
                                 return `${month} ${d.getDate()}, ${d.getFullYear()}`;
-                              })()}
+                              })()} */}
+                              {!member.start_date && member.tempdate && (
+                                <p className="text-sm text-black font-bold">
+                                  {member.tempdate}
+                                </p>
+                              )}
+                              {member.start_date &&
+                              member.start_date.length === 8
+                                ? (() => {
+                                    const year = parseInt(
+                                      member.start_date.substring(0, 4),
+                                    );
+                                    const month =
+                                      parseInt(
+                                        member.start_date.substring(4, 6),
+                                      ) - 1; // JS months are 0-based
+                                    const day = parseInt(
+                                      member.start_date.substring(6, 8),
+                                    );
+                                    const d = new Date(year, month, day);
+                                    return d.toLocaleDateString("en-US", {
+                                      month: "long",
+                                      day: "numeric",
+                                      year: "numeric",
+                                    });
+                                  })()
+                                : member.start_date}
                             </p>
                             {/* <button
                               onClick={() =>
@@ -594,16 +647,17 @@ export default function Page() {
                               setEdit({
                                 edit: true,
                                 id: member.id.toString(),
-                                title: member.title,
-                                image: member.image,
-                                content: member.content,
-                                date: member.date,
-                                start_date: member.start_date,
-                                end_date: member.end_date,
-                                time: member.time,
-                                location: member.location,
-                                venue: member.venue,
-                                who_can_attend: member.who_can_attend,
+                                title: member.title || "",
+                                image: member.image || "",
+                                content: member.content || "",
+                                date: member.date || "",
+                                start_date: member.start_date || "",
+                                end_date: member.end_date || "",
+                                time: member.time || "",
+                                location: member.location || "",
+                                venue: member.venue || "",
+                                who_can_attend: member.who_can_attend || "",
+                                tempdate: member.tempdate || "",
                               });
                             }}
                           >
@@ -686,6 +740,26 @@ export default function Page() {
                               />
                             </div>
                             {/* i am here */}
+                            <div className="flex flex-col">
+                              <label
+                                htmlFor="tempdate"
+                                className="text-sm md:text-base text-navy font-bold mb-1"
+                              >
+                                Temporary Date
+                              </label>
+                              <input
+                                type="text"
+                                value={edit.tempdate}
+                                onChange={(e) =>
+                                  setEdit({
+                                    ...edit,
+                                    tempdate: e.target.value,
+                                  })
+                                }
+                                placeholder="Remove after event is confirmed"
+                                className="text-base font-medium text-black border border-navy/30 focus:border-navy outline-none w-full px-4 py-2 rounded-lg transition-all placeholder:text-navy/40"
+                              />
+                            </div>
                             <div className="flex flex-col">
                               <label
                                 htmlFor="title"

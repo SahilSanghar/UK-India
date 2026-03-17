@@ -67,10 +67,11 @@ export default function PostsCarousel({ posts }: PostsCarouselProps) {
               <InfoCard
                 title1={post.title}
                 date={post.date || ""}
-                image={post.image.replace("ukibc", "ukibc-storage") || "/home-1.png"}
+                image={post.image || "/home-1.png"}
                 link={"/news/" + post.slug}
                 animation="center"
               />
+              {/* {post.image} */}
             </div>
           ))}
         </div>

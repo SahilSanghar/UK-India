@@ -3,68 +3,70 @@
 import Connect from "@/components/Connect";
 import Lander from "@/components/Lander";
 import { normalizeRichTextHtml } from "@/lib/normalizeRichTextHtml";
+import { PageProps } from "@/lib/PageProps";
+import InfoCard from "@/components/InfoCard";
 
-interface PageProps {
-  id: string;
-  title: string;
-  type: string;
-  lander: {
-    title: string[];
-    title2?: string[];
-    des: string[];
-    image: string[];
-    flip: boolean;
-    button: {
-      enable: boolean;
-      text: string;
-      link: string;
-    };
-  };
-  stats?: {
-    title: string;
-    cards: {
-      title: string;
-      valueBefore: string;
-      valueAfter: string;
-      number: number;
-      des: string;
-      disclaimer: string;
-      link: string;
-    }[];
-    circle?: {
-      title: string;
-      image: string;
-    }[];
-  };
-  membership?: {
-    title: string;
-    subtitle: string;
-    des: string;
-    image: string;
-    buttonTxt: string;
-    link: string;
-  };
-  testimonials?: {
-    quote: string;
-    des: string;
-    name: string;
-    role: string;
-    image: string;
-    link: string;
-  }[];
-  box?: {
-    title: string;
-    content: string;
-    buttonTxt: string;
-    link: string;
-    image: string[];
-  }[];
-  contact?: {
-    title: string;
-    content: string;
-    image: string;
-  };
-}
+// interface PageProps {
+//   id: string;
+//   title: string;
+//   type: string;
+//   lander: {
+//     title: string[];
+//     title2?: string[];
+//     des: string[];
+//     image: string[];
+//     flip: boolean;
+//     button: {
+//       enable: boolean;
+//       text: string;
+//       link: string;
+//     };
+//   };
+//   stats?: {
+//     title: string;
+//     cards: {
+//       title: string;
+//       valueBefore: string;
+//       valueAfter: string;
+//       number: number;
+//       des: string;
+//       disclaimer: string;
+//       link: string;
+//     }[];
+//     circle?: {
+//       title: string;
+//       image: string;
+//     }[];
+//   };
+//   membership?: {
+//     title: string;
+//     subtitle: string;
+//     des: string;
+//     image: string;
+//     buttonTxt: string;
+//     link: string;
+//   };
+//   testimonials?: {
+//     quote: string;
+//     des: string;
+//     name: string;
+//     role: string;
+//     image: string;
+//     link: string;
+//   }[];
+//   box?: {
+//     title: string;
+//     content: string;
+//     buttonTxt: string;
+//     link: string;
+//     image: string[];
+//   }[];
+//   contact?: {
+//     title: string;
+//     content: string;
+//     image: string;
+//   };
+// }
 
 export default function Vacancies({ page }: { page: PageProps }) {
   return (
@@ -102,12 +104,60 @@ export default function Vacancies({ page }: { page: PageProps }) {
             {page.box?.[0]?.title || ""}
           </h1>
           <div className="md:text-base text-sm font-medium leading-relaxed md:w-full w-[90%]">
-            <div className="m-auto font-light"
-              dangerouslySetInnerHTML={{ __html: normalizeRichTextHtml(page.box?.[0]?.content || "") }}
+            <div
+              className="m-auto font-light"
+              dangerouslySetInnerHTML={{
+                __html: normalizeRichTextHtml(page.box?.[0]?.content || ""),
+              }}
             />
           </div>
         </div>
       </section>
+
+      <div className="w-screen h-fit py-20 bg-linear-to-b to-blue-950 from-navy min-h-160 flex justify-center items-center">
+        <div className="w-full h-fit max-w-6xl mx-auto flex flex-col gap-8 items-center justify-center ">
+          <h1 className="md:text-4xl text-2xl font-bold text-white">
+            {page.fullscreen?.title || ""}
+          </h1>
+          <div className="md:text-base text-sm font-medium leading-relaxed md:w-full w-[90%] text-white text-center">
+            <div
+              className="m-auto font-light"
+              dangerouslySetInnerHTML={{
+                __html: normalizeRichTextHtml(page.fullscreen?.des || ""),
+              }}
+            />
+          </div>
+
+          <div className="w-full flex flex-wrap gap-4 items-stretch justify-center">
+            {page.fullscreen?.cards && page.fullscreen?.cards.length <= 0 && (
+              <div className="w-full flex gap-4 items-center justify-center">
+                <h2 className="md:text-xl text-xl font-medium text-white">
+                  No vacancies available at the moment.
+                </h2>
+              </div>
+            )}
+            {page.fullscreen?.cards?.map((card) => (
+              <div
+                key={card.title}
+                className="flex flex-col gap-4 items-center justify-center flex-[1_1_320px] min-w-[320px] max-w-md"
+              >
+                <InfoCard
+                  title1={card.title}
+                  popup={true}
+                  des={card.des}
+                  idiot={true}
+                  large={true}
+                  animation="center"
+                  buttonText={card.buttonTxt}
+                  link={card.link}
+                  image={`https://d2paj8ptqa22jg.cloudfront.net/pages/${page.type}/${card.image}.webp`}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
       <Connect
         title={page.contact?.title || "Connect with us:"}
         description={page.contact?.content || ""}

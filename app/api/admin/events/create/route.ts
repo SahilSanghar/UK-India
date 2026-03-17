@@ -34,6 +34,7 @@ export async function POST(req: Request) {
       location,
       venue,
       who_can_attend,
+      tempdate,
     } = await req.json();
     const session = await getSession();
     if (!session) {
@@ -54,6 +55,7 @@ export async function POST(req: Request) {
           location: { S: location },
           venue: { S: venue },
           who_can_attend: { S: who_can_attend },
+          tempdate: { S: tempdate || "" },
           title: { S: title },
           image: {
             S: `/events/${id}`,

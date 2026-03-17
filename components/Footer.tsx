@@ -55,7 +55,7 @@ export default function Footer() {
     !isAdminDashboard && (
       <footer className="w-full bg-navy text-white">
         <div className="max-w-7xl mx-auto px-4 md:px-8 py-12 md:py-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
             {/* Column 1: Branding and Social Media */}
             <div className="flex flex-col gap-6 lg:border-r-2 border-white/20 pr-10">
               <div>
@@ -187,7 +187,7 @@ export default function Footer() {
                       href={`/${link.toLowerCase().replace(/\s+/g, "-")}`}
                       className="flex items-center gap-2 text-sm md:text-base hover:text-white/80 transition-colors"
                     >
-                      <span className="text-white">{" >"}</span>
+                      <span className="text-white"></span>
                       <span>{link == "Launchpad" ? "Launchpad®" : link}</span>
                     </Link>
                   </li>
@@ -196,7 +196,7 @@ export default function Footer() {
             </div>
 
             {/* Column 3: Get In Touch */}
-            <div className="flex flex-col gap-6 lg:border-r-2 border-white/20 pr-10 ">
+            <div className="flex flex-col gap-6  border-white/20 pr-10 ">
               <h3 className="text-base md:text-lg font-bold uppercase">
                 Get In Touch
               </h3>
@@ -308,7 +308,7 @@ export default function Footer() {
             </div>
 
             {/* Column 4: Newsletter */}
-            <div className="flex flex-col gap-4 ">
+            {/* <div className="flex flex-col gap-4 ">
               <h3 className="text-base md:text-lg font-bold uppercase">
                 Newsletter
               </h3>
@@ -358,7 +358,7 @@ export default function Footer() {
                   Subscribe
                 </button>
               </form>
-            </div>
+            </div> */}
           </div>
 
           {/* Copyright */}

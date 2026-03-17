@@ -9,10 +9,11 @@ import EventCard from "@/components/EventCard";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 interface PostProps {
+  id: string;
   image: string;
   title: string;
   date: string;
-
+  tempdate: string;
   start_date: string;
   end_date: string;
   location: string;
@@ -193,13 +194,13 @@ export default function Events({ page }: { page: PageProps }) {
                         <EventCard
                           title1={item.title}
                           date={item.date}
-                          image={item.image || "/home-1.png"}
+                          image={item.id.toString() || "/home-1.png"}
                           animation="center"
                           key={index}
                           location={item.location}
                           venue={item.venue}
                           who_can_attend={item.who_can_attend}
-                          event_date={item.start_date}
+                          event_date={item.start_date || item.tempdate}
                           event_end_date={item.end_date}
                           time={item.time}
                         />
@@ -212,7 +213,7 @@ export default function Events({ page }: { page: PageProps }) {
           </div>
           <div className="w-fit  mt-10 flex flex-col  gap-10 items-center justify-items-center justify-center mx-10">
             <p className="md:text-4xl text-2xl font-bold text-navy">
-              Past Events
+              Other Events
             </p>
             {isLoading && (
               <div className="w-full h-full flex items-center justify-center mx-auto mt-10">
@@ -233,6 +234,7 @@ export default function Events({ page }: { page: PageProps }) {
                     venue={item.venue}
                     who_can_attend={item.who_can_attend}
                     event_date={item.start_date}
+                    tempdate={item.tempdate || ""}
                     event_end_date={item.end_date}
                     time={item.time}
                   />

@@ -12,6 +12,7 @@ interface EventCardProps {
   venue?: string;
   who_can_attend?: string;
   event_date?: string;
+  tempdate?: string;
   event_end_date?: string;
   time?: string;
   loading?: boolean;
@@ -28,6 +29,7 @@ export default function EventCard({
   location,
   venue,
   who_can_attend,
+  tempdate,
   event_date,
   event_end_date,
   time,
@@ -84,6 +86,13 @@ export default function EventCard({
       </div>
 
       <div className="w-full md:w-1/2 h-full flex flex-col justify-center gap-3 md:gap-5 items-start md:items-center p-3 border-t-2 md:border-t-0 md:border-l-2 border-black/10">
+        {tempdate && (
+          <div className="flex flex-row gap-2 items-center">
+            <p className="text-sm md:text-base font-medium break-words">
+              {tempdate || "-"}
+            </p>
+          </div>
+        )}
         {event_date && (
           <div className="flex flex-row gap-2 items-center">
             <svg
@@ -112,19 +121,21 @@ export default function EventCard({
                     day: "numeric",
                   })
                 : event_date}{" "}
-              -{" "}
-              {event_end_date && event_end_date.length === 8
-                ? new Date(
-                    `${event_end_date.substring(0, 4)}-${event_end_date.substring(
-                      4,
-                      6,
-                    )}-${event_end_date.substring(6, 8)}`,
-                  ).toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })
-                : event_end_date}
+              {event_end_date &&
+                ` - ${
+                  event_end_date.length === 8
+                    ? new Date(
+                        `${event_end_date.substring(0, 4)}-${event_end_date.substring(
+                          4,
+                          6,
+                        )}-${event_end_date.substring(6, 8)}`,
+                      ).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })
+                    : event_end_date
+                }`}
             </p>
           </div>
         )}

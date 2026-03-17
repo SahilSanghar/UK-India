@@ -23,11 +23,44 @@ export async function POST(req: Request) {
       location,
       venue,
       who_can_attend,
+      tempdate,
     } = await req.json();
 
     const session = await getSession();
     if (!session) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
+    let updateExpression =
+      "SET #t = :t, #c = :c, #s = :s, #e = :e, #tm = :tm, #l = :l, #v = :v, #w = :w, #td = :td";
+    const exprNames: Record<string, string> = {
+      "#t": "title",
+      "#c": "content",
+      "#s": "start_date",
+      "#e": "end_date",
+      "#tm": "time",
+      "#l": "location",
+      "#v": "venue",
+      "#w": "who_can_attend",
+      "#td": "tempdate",
+    };
+    const exprValues: Record<string, { S: string }> = {
+      ":id": { S: id },
+      ":t": { S: title || "" },
+      ":c": { S: content || "" },
+      ":s": { S: start_date?.replace(/-/g, "") || "" },
+      ":e": { S: end_date?.replace(/-/g, "") || "" },
+      ":tm": { S: time || "" },
+      ":l": { S: location || "" },
+      ":v": { S: venue || "" },
+      ":w": { S: who_can_attend || "" },
+      ":td": { S: tempdate || "" },
+    };
+
+    if (image) {
+      updateExpression += ", #i = :i";
+      exprNames["#i"] = "image";
+      exprValues[":i"] = { S: `/events/${id}` };
     }
 
     await dynamoClient.send(
@@ -38,31 +71,9 @@ export async function POST(req: Request) {
           date: { S: date },
         },
         ConditionExpression: "id = :id",
-        UpdateExpression:
-          "SET #t = :t, #c = :c, #i = :i, #s = :s, #e = :e, #tm = :tm, #l = :l, #v = :v, #w = :w",
-        ExpressionAttributeNames: {
-          "#t": "title",
-          "#c": "content",
-          "#i": "image",
-          "#s": "start_date",
-          "#e": "end_date",
-          "#tm": "time",
-          "#l": "location",
-          "#v": "venue",
-          "#w": "who_can_attend",
-        },
-        ExpressionAttributeValues: {
-          ":id": { S: id },
-          ":t": { S: title || "" },
-          ":c": { S: content || "" },
-          ":i": { S: image ? `/events/${id}` : "" },
-          ":s": { S: start_date?.replace(/-/g, "") || "" },
-          ":e": { S: end_date?.replace(/-/g, "") || "" },
-          ":tm": { S: time || "" },
-          ":l": { S: location || "" },
-          ":v": { S: venue || "" },
-          ":w": { S: who_can_attend || "" },
-        },
+        UpdateExpression: updateExpression,
+        ExpressionAttributeNames: exprNames,
+        ExpressionAttributeValues: exprValues,
       }),
     );
 

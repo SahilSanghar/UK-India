@@ -22,13 +22,19 @@ export default function Client({ post }: { post: PostProps }) {
         className="w-[80%] mx-auto h-[500px] relative flex flex-col gap-4"
       >
         <Image
-          src={post?.image ?? ""}
+          src={post?.image ?? "/default.png"}
           alt={post?.title ?? "Untitled"}
           width={0}
           height={0}
           sizes="100vw"
           priority
           className="w-full h-full object-cover rounded-4xl"
+          onError={(e) => {
+            const img = e.target as HTMLImageElement;
+            if (img.src !== "/default.png") {
+              img.src = "/default.png";
+            }
+          }}
         />
       </motion.div>
       <motion.div
@@ -38,7 +44,10 @@ export default function Client({ post }: { post: PostProps }) {
         transition={{ duration: 0.5, delay: 0.2 }}
         className="w-full max-w-7xl mx-auto px-4 py-10 mt-10"
       >
-        <h1 className="text-4xl font-bold text-navy" dangerouslySetInnerHTML={{ __html: post?.title ?? "Untitled" }} />
+        <h1
+          className="text-4xl font-bold text-navy"
+          dangerouslySetInnerHTML={{ __html: post?.title ?? "Untitled" }}
+        />
         <p className="text-md font-medium text-gray-500">
           {post?.date
             ? (() => {
