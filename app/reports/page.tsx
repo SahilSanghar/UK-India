@@ -1,22 +1,15 @@
 import Client from "./Client";
+import { fetchPage } from "@/lib/fetchPage";
+import { PageProps } from "@/lib/PageProps";
 
 const getPage = async () => {
-  const res = await fetch(
-    process.env.PUBLIC_URL + "/api/admin/pages/get_by_type?type=reports",
-    {
-      cache: "no-store",
-    },
-  );
-  if (!res.ok) {
-    throw new Error("Failed to fetch page");
-  }
-
-  const data = await res.json();
-
-  return data.page;
+  const page = await fetchPage("reports");
+  return page as PageProps;
 };
 
 export default async function Page() {
   const page = await getPage();
   return <Client page={page} />;
 }
+
+export const revalidate = 60;
