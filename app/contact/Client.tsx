@@ -1,7 +1,7 @@
 "use client";
 
 import Lander from "@/components/Lander";
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 
 interface PageProps {
@@ -80,22 +80,35 @@ interface PageProps {
 export default function ContactPage({ page }: { page: PageProps }) {
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+  const isSubmitting = useRef(false);
+
+  useEffect(() => {
+    function handleBeforeUnload(e: BeforeUnloadEvent) {
+      if (isSubmitting.current) {
+        e.preventDefault();
+        e.returnValue =
+          "Your enquiry is being submitted. If you leave now it may not be received.";
+      }
+    }
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, []);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
     setStatus("idle");
+    isSubmitting.current = true;
 
     const form = e.currentTarget;
-    const formData = new FormData(form);
     const body = {
-      firstname: formData.get("firstname"),
-      lastname: formData.get("lastname"),
-      organization: formData.get("organization"),
-      email: formData.get("email"),
-      location: formData.get("location"),
-      assistance: formData.get("assistance"),
-      message: formData.get("message"),
+      firstname: (form.elements.namedItem("firstname") as HTMLInputElement).value,
+      lastname: (form.elements.namedItem("lastname") as HTMLInputElement).value,
+      organization: (form.elements.namedItem("organization") as HTMLInputElement).value,
+      email: (form.elements.namedItem("email") as HTMLInputElement).value,
+      location: (form.elements.namedItem("location") as HTMLInputElement).value,
+      assistance: (form.elements.namedItem("assistance") as HTMLSelectElement).value,
+      message: (form.elements.namedItem("message") as HTMLTextAreaElement).value,
     };
 
     try {
@@ -107,6 +120,7 @@ export default function ContactPage({ page }: { page: PageProps }) {
       setStatus("error");
     } finally {
       setLoading(false);
+      isSubmitting.current = false;
     }
   }
 
@@ -151,8 +165,33 @@ export default function ContactPage({ page }: { page: PageProps }) {
 
         <form
           onSubmit={handleSubmit}
-          className="w-[90%] md:w-1/2 bg-mix2/10 border-mix border-2 p-10 rounded-4xl mx-auto flex flex-col gap-8 items-center justify-center text-center my-20"
+          className="relative w-[90%] md:w-1/2 bg-mix2/10 border-mix border-2 p-10 rounded-4xl mx-auto flex flex-col gap-8 items-center justify-center text-center my-20"
         >
+          {loading && (
+            <div className="absolute inset-0 bg-white/70 rounded-4xl flex flex-col items-center justify-center z-10 gap-3">
+              <svg
+                className="animate-spin h-10 w-10 text-navy"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                />
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8v8H4z"
+                />
+              </svg>
+              <p className="text-navy font-semibold text-sm">Submitting your enquiry…</p>
+            </div>
+          )}
           <div className="w-full flex flex-col gap-4">
             <p className="md:text-4xl text-2xl font-bold text-navy text-left">
               Send Us an Enquiry

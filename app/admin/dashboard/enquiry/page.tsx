@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
+import * as XLSX from "xlsx";
 
 interface EnquiryItem {
   id: string;
@@ -71,6 +72,42 @@ export default function Page() {
     });
 
   const [enquiries, setEnquiries] = useState<EnquiryItem[]>([]);
+  const [downloading, setDownloading] = useState(false);
+
+  async function handleDownload() {
+    setDownloading(true);
+    try {
+      const res = await axios.get("/api/admin/enquiry/download", {
+        params: { type: filterType },
+      });
+      const rows = res.data.rows;
+      if (!rows || rows.length === 0) {
+        alert("No data to export.");
+        return;
+      }
+
+      const ws = XLSX.utils.json_to_sheet(rows, { dateNF: "yyyy-mm-dd" });
+
+      // Set the Date column (column A) to date format so Excel recognizes it
+      const range = XLSX.utils.decode_range(ws["!ref"] || "A1");
+      for (let r = range.s.r + 1; r <= range.e.r; r++) {
+        const cell = ws[XLSX.utils.encode_cell({ r, c: 0 })];
+        if (cell && cell.v) {
+          cell.t = "d";
+          cell.v = new Date(cell.v);
+          cell.z = "yyyy-mm-dd";
+        }
+      }
+
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, filterType === "contact" ? "Contacts" : "Reports");
+      XLSX.writeFile(wb, `${filterType}_enquiries.xlsx`);
+    } catch {
+      alert("Failed to download. Please try again.");
+    } finally {
+      setDownloading(false);
+    }
+  }
 
   useEffect(() => {
     const items =
@@ -144,6 +181,28 @@ export default function Page() {
           }`}
         >
           Reports
+        </button>
+        <button
+          onClick={handleDownload}
+          disabled={downloading}
+          className="px-6 py-2 rounded-full font-semibold transition-all duration-150 cursor-pointer bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 flex items-center gap-2"
+        >
+          {downloading ? (
+            <>
+              <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
+              </svg>
+              Exporting...
+            </>
+          ) : (
+            <>
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V3" />
+              </svg>
+              Download Excel
+            </>
+          )}
         </button>
       </div>
 
