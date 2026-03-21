@@ -31,6 +31,7 @@ interface PostProps {
   linkedin: string;
   date: string;
   sort: string;
+  filters: string[];
 }
 
 export default function Page() {
@@ -70,6 +71,7 @@ export default function Page() {
   });
   const [newMemberFile, setNewMemberFile] = useState<File | null>(null);
   const [newMemberPreview, setNewMemberPreview] = useState<string | null>(null);
+  const [newMemberFilterInput, setNewMemberFilterInput] = useState<string>("");
   const newMemberFileInputRef = useRef<HTMLInputElement | null>(null);
 
   const [edit, setEdit] = useState({
@@ -81,7 +83,9 @@ export default function Page() {
     oldDate: "",
     date: "",
     time: "",
+    filters: [] as string[],
   });
+  const [filterInputString, setFilterInputString] = useState<string>("");
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [isImageDragOver, setIsImageDragOver] = useState(false);
   const editFileInputRef = useRef<HTMLInputElement | null>(null);
@@ -129,11 +133,15 @@ export default function Page() {
   const handleCreate = async () => {
     setNewMember({ ...newMember, loading: true });
     try {
+      const filtersArray = newMemberFilterInput
+        ? newMemberFilterInput.split(",").map((f) => f.trim()).filter(Boolean)
+        : [];
       const response = await axios.post("/api/admin/posts/create", {
         title: newMember.title,
         image: Boolean(newMemberFile),
         content: newMember.content,
         date: `${newMember.date}T${newMember.time}`,
+        filters: filtersArray.map((f) => f.toLowerCase()),
         sort: generateKeyBetween(
           sortedTeam[sortedTeam.length - 1]?.sort ?? null,
           null,
@@ -160,6 +168,7 @@ export default function Page() {
         });
         setNewMemberFile(null);
         setNewMemberPreview(null);
+        setNewMemberFilterInput("");
       } else {
         alert("Failed to create news post");
         setNewMember({ ...newMember, edit: true, loading: false });
@@ -177,6 +186,7 @@ export default function Page() {
       content: string;
       oldDate: string;
       newDate: string;
+      filters: string[];
     }) =>
       axios.post("/api/admin/posts/edit", {
         id: data.id,
@@ -184,10 +194,12 @@ export default function Page() {
         content: data.content,
         oldDate: data.oldDate,
         newDate: data.newDate,
+        filters: data.filters,
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["news"] });
       setEdit({ ...edit, edit: false });
+      setFilterInputString("");
     },
     onError: () => {
       console.error("Failed to edit news post");
@@ -205,6 +217,9 @@ export default function Page() {
       content: edit.content,
       oldDate,
       newDate,
+      filters: Array.isArray(edit.filters)
+        ? edit.filters.map((f) => (typeof f === "string" ? f.toLowerCase() : f))
+        : [],
     });
   };
   useEffect(() => {
@@ -388,6 +403,23 @@ export default function Page() {
                       />
                     </div>
 
+                    <div className="flex flex-col">
+                      <label
+                        htmlFor="filters"
+                        className="text-sm md:text-base text-navy font-bold mb-1"
+                      >
+                        Filters (comma-separated)
+                      </label>
+                      <input
+                        type="text"
+                        id="filters"
+                        value={newMemberFilterInput}
+                        onChange={(e) => setNewMemberFilterInput(e.target.value)}
+                        placeholder="E.g. Economy, Trade, India"
+                        className="text-base font-medium text-black border border-navy/30 focus:border-navy outline-none w-full px-4 py-2 rounded-lg transition-all placeholder:text-navy/40"
+                      />
+                    </div>
+
                     <div className="flex flex-row gap-3 mt-4 items-center">
                       <button
                         onClick={() => void handleCreate()}
@@ -397,9 +429,10 @@ export default function Page() {
                         {newMember.loading ? "Creating..." : "Create"}
                       </button>
                       <button
-                        onClick={() =>
-                          setNewMember({ ...newMember, edit: false })
-                        }
+                        onClick={() => {
+                          setNewMember({ ...newMember, edit: false });
+                          setNewMemberFilterInput("");
+                        }}
                         className="bg-white border border-navy text-navy px-6 py-2 rounded-full shadow hover:bg-navy/5 transition-colors duration-150 cursor-pointer"
                       >
                         Cancel
@@ -482,7 +515,11 @@ export default function Page() {
                                     new Date(member.date)
                                       .toTimeString()
                                       .slice(0, 8) || "",
+                                  filters: member.filters ?? [],
                                 });
+                                setFilterInputString(
+                                  (member.filters ?? []).join(", "),
+                                );
                               }}
                             >
                               <p className="text-black font-medium">Edit</p>
@@ -586,6 +623,31 @@ export default function Page() {
 
                               <div className="flex flex-col">
                                 <label
+                                  htmlFor="filters"
+                                  className="text-sm md:text-base text-navy font-bold mb-1"
+                                >
+                                  Filters (comma-separated)
+                                </label>
+                                <input
+                                  type="text"
+                                  value={filterInputString}
+                                  onChange={(e) => {
+                                    setFilterInputString(e.target.value);
+                                    const filtersArray = e.target.value
+                                      ? e.target.value
+                                          .split(",")
+                                          .map((f) => f.trim())
+                                          .filter(Boolean)
+                                      : [];
+                                    setEdit({ ...edit, filters: filtersArray });
+                                  }}
+                                  placeholder="E.g. Economy, Trade, India"
+                                  className="text-base font-medium text-black border border-navy/30 focus:border-navy outline-none w-full px-4 py-2 rounded-lg transition-all placeholder:text-navy/40"
+                                />
+                              </div>
+
+                              <div className="flex flex-col">
+                                <label
                                   htmlFor="content"
                                   className="text-sm md:text-base text-navy font-bold mb-1"
                                 >
@@ -609,9 +671,10 @@ export default function Page() {
                                   {isPending ? "Saving..." : "Save"}
                                 </button>
                                 <button
-                                  onClick={() =>
-                                    setEdit({ ...edit, edit: false })
-                                  }
+                                  onClick={() => {
+                                    setEdit({ ...edit, edit: false });
+                                    setFilterInputString("");
+                                  }}
                                   className="bg-white border border-navy text-navy px-6 py-2 rounded-full shadow hover:bg-navy/5 transition-colors duration-150 cursor-pointer"
                                 >
                                   Cancel

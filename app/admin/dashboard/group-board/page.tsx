@@ -13,6 +13,7 @@ import { motion } from "framer-motion";
 import TextEditor from "@/components/TextEditor";
 import { PlusIcon, XIcon } from "lucide-react";
 import { generateKeyBetween } from "@/lib/sort";
+import ImageCropModal from "@/components/ImageCropModal";
 
 interface PostProps {
   id: number;
@@ -90,22 +91,42 @@ export default function Page() {
   const [isImageDragOver, setIsImageDragOver] = useState(false);
   const editFileInputRef = useRef<HTMLInputElement | null>(null);
 
+  // Cropping state
+  const [cropSrc, setCropSrc] = useState<string | null>(null);
+  const [cropContext, setCropContext] = useState<"new" | "edit">("new");
+
   const handleNewMemberImageFile = (file: File | undefined | null) => {
     if (!file) return;
     const objectUrl = URL.createObjectURL(file);
-    setNewMemberPreview(objectUrl);
-    setNewMemberFile(file);
-    setNewMember((prev) => ({ ...prev, image: true }));
+    setCropSrc(objectUrl);
+    setCropContext("new");
   };
 
-  const handleImageFile = async (file: File | undefined | null, id: string) => {
-    if (!file) return;
+  const handleCropDone = (croppedFile: File) => {
+    const objectUrl = URL.createObjectURL(croppedFile);
+    if (cropContext === "new") {
+      setNewMemberPreview(objectUrl);
+      setNewMemberFile(croppedFile);
+      setNewMember((prev) => ({ ...prev, image: true }));
+    } else {
+      uploadCroppedEditImage(croppedFile);
+    }
+    setCropSrc(null);
+  };
 
+  const handleImageFile = (file: File | undefined | null) => {
+    if (!file) return;
+    const objectUrl = URL.createObjectURL(file);
+    setCropSrc(objectUrl);
+    setCropContext("edit");
+  };
+
+  const uploadCroppedEditImage = async (file: File) => {
     const objectUrl = URL.createObjectURL(file);
     setPreviewImage(objectUrl);
 
     const signedUrl = await axios.post("/api/admin/team/image/signed", {
-      key: `group-board/${id}`,
+      key: `group-board/${edit.id}`,
     });
 
     if (!signedUrl) {
@@ -113,11 +134,9 @@ export default function Page() {
       return;
     }
 
-    console.log(signedUrl.data.signedUrl);
-
     const uploadImage = await axios.put(signedUrl.data.signedUrl, file, {
       headers: {
-        "Content-Type": file?.type || "image/jpeg",
+        "Content-Type": file.type || "image/jpeg",
       },
     });
 
@@ -636,7 +655,7 @@ export default function Page() {
                               e.preventDefault();
                               setIsImageDragOver(false);
                               const file = e.dataTransfer.files?.[0];
-                              void handleImageFile(file, edit.id.toString());
+                              handleImageFile(file);
                             }}
                             onClick={() => editFileInputRef.current?.click()}
                           >
@@ -664,7 +683,7 @@ export default function Page() {
                               className="hidden"
                               onChange={(e) => {
                                 const file = e.target.files?.[0];
-                                void handleImageFile(file, edit.id.toString());
+                                handleImageFile(file);
                                 e.target.value = "";
                               }}
                             />
@@ -819,6 +838,15 @@ export default function Page() {
           </button>
         )}
       </div>
+
+      {cropSrc && (
+        <ImageCropModal
+          imageSrc={cropSrc}
+          aspect={1}
+          onCropDone={handleCropDone}
+          onCancel={() => setCropSrc(null)}
+        />
+      )}
     </>
   );
 }

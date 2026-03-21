@@ -28,7 +28,11 @@ export async function POST(req: Request) {
       newDate,
       // back-compat: previous payload only had { id, title, content, date }
       date,
+      filters,
     } = body ?? {};
+
+    const filtersArray = (filters || []) as string[];
+    const filtersList = filtersArray.map((f: string) => ({ S: f }));
 
     const session = await getSession();
     if (!session) {
@@ -73,21 +77,26 @@ export async function POST(req: Request) {
       const updatedImageValue =
         typeof previousImageValue === "string" ? previousImageValue : "";
 
+      const putItem: Record<string, import("@aws-sdk/client-dynamodb").AttributeValue> = {
+        id: { S: id },
+        type: { S: "post" },
+        date: { S: newDateKey },
+        title: { S: title },
+        content: { S: content },
+        slug: { S: nextSlug },
+        image: { S: updatedImageValue },
+      };
+      if (filtersList.length > 0) {
+        putItem.filters = { L: filtersList };
+      }
+
       await dynamoClient.send(
         new TransactWriteItemsCommand({
           TransactItems: [
             {
               Put: {
                 TableName: "ukibc_posts",
-                Item: {
-                  id: { S: id },
-                  type: { S: "post" },
-                  date: { S: newDateKey },
-                  title: { S: title },
-                  content: { S: content },
-                  slug: { S: nextSlug },
-                  image: { S: updatedImageValue },
-                },
+                Item: putItem,
                 ConditionExpression:
                   "attribute_not_exists(#t) AND attribute_not_exists(#d)",
                 ExpressionAttributeNames: {
@@ -122,17 +131,19 @@ export async function POST(req: Request) {
           date: { S: oldDateKey },
         },
         ConditionExpression: "id = :id",
-        UpdateExpression: "SET #t = :t, #c = :c, #s = :s",
+        UpdateExpression: "SET #t = :t, #c = :c, #s = :s, #f = :f",
         ExpressionAttributeNames: {
           "#t": "title",
           "#c": "content",
           "#s": "slug",
+          "#f": "filters",
         },
         ExpressionAttributeValues: {
           ":id": { S: id },
           ":t": { S: title },
           ":c": { S: content },
           ":s": { S: nextSlug },
+          ":f": { L: filtersList },
         },
       }),
     );
