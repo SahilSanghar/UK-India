@@ -54,7 +54,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: "Invalid payload" }, { status: 400 });
     }
 
-    const nextSlug = slugify(title, { lower: true });
+    const nextSlug = slugify(title, { lower: true, strict: true });
 
     // If the date key changes, we must "move" the item (create new + delete old).
     if (newDateKey !== oldDateKey) {

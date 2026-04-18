@@ -43,7 +43,7 @@ export async function POST(req: Request) {
       image: { S: `/members/${id}`},
       url: { S: url },
       content: { S: content },
-      slug: { S: slugify(title, { lower: true }) },
+      slug: { S: slugify(title, { lower: true, strict: true }) },
     };
 
     await dynamoClient.send(

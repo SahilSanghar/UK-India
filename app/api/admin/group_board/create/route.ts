@@ -45,7 +45,7 @@ export async function POST(req: Request) {
           },
           job_title: { S: job_title },
           content: { S: content },
-          slug: { S: slugify(title, { lower: true }) },
+          slug: { S: slugify(title, { lower: true, strict: true }) },
         },
       })
     );

@@ -40,7 +40,7 @@ export async function POST(req: Request) {
       title: { S: title },
       image: { S: `https://ukibc.s3.ap-south-1.amazonaws.com/posts/${id}` },
       content: { S: content },
-      slug: { S: slugify(title, { lower: true }) + "-" + id.slice(0, 8) },
+      slug: { S: slugify(title, { lower: true, strict: true }) + "-" + id.slice(0, 8) },
     };
 
     if (filtersList.length > 0) {

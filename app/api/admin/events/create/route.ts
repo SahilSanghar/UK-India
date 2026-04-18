@@ -61,7 +61,7 @@ export async function POST(req: Request) {
             S: `/events/${id}`,
           },
           content: { S: content },
-          slug: { S: slugify(title, { lower: true }) + "-" + id.slice(0, 8) },
+          slug: { S: slugify(title, { lower: true, strict: true }) + "-" + id.slice(0, 8) },
         },
       }),
     );

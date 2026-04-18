@@ -45,7 +45,7 @@ export async function POST(req: Request) {
             S: `https://ukibc-storage.s3.ap-south-1.amazonaws.com/reports/${id}`,
           },
           content: { S: content },
-          slug: { S: slugify(title, { lower: true }) },
+          slug: { S: slugify(title, { lower: true, strict: true }) },
         },
       })
     );
