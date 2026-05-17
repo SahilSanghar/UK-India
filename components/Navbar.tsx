@@ -35,12 +35,12 @@ export default function Navbar() {
           href: "/interaction",
         },
         {
-          label: "Influence",
-          href: "/influence",
-        },
-        {
           label: "Intelligence",
           href: "/intelligence",
+        },
+        {
+          label: "Influence",
+          href: "/influence",
         },
       ],
     },
@@ -89,8 +89,34 @@ export default function Navbar() {
       ],
     },
     {
-      label: "Membership",
-      href: "/membership",
+      label: "What we offer",
+      href: "#",
+      sublinks: [
+        {
+          label: "Launchpad",
+          href: "/launchpad",
+        },
+        {
+          label: "Vacancies",
+          href: "/vacancies",
+        },
+        {
+          label: "Group Board",
+          href: "/group-board",
+        },
+        {
+          label: "TNE",
+          href: "/tne",
+        },
+        {
+          label: "Government Relations",
+          href: "/government-relations",
+        },
+        {
+          label: "Higher Education Advisory",
+          href: "/higher-education-advisory",
+        },
+      ],
     },
     {
       label: "Contact Us",

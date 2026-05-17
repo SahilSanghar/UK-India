@@ -363,7 +363,7 @@ export default function Footer() {
 
           {/* Copyright */}
           <div className="mt-12 pt-8 border-t border-white/20 text-center text-sm text-white/80">
-            <p>© 2024 UK India Business Council. All Rights Reserved.</p>
+            <p>© 2024 UK India Business Council India Pvt. Ltd. All Rights Reserved.</p>
             <div className="mt-2 flex justify-center gap-4">
               <Link
                 href="/disclaimer"

@@ -98,12 +98,12 @@ interface PageProps {
     }[];
   };
 }
+
 export default function Events({ page }: { page: PageProps }) {
   const {
     data,
     fetchNextPage,
     hasNextPage,
-    // isFetchingNextPage,
     isLoading,
     isFetching,
   } = useInfiniteQuery({
@@ -120,8 +120,6 @@ export default function Events({ page }: { page: PageProps }) {
     getNextPageParam: (lastPage) => lastPage.lastKey ?? undefined,
     initialPageParam: undefined as Record<string, unknown> | undefined,
   });
-
-  // Show load more button when user scrolls down
 
   return (
     <>
@@ -152,19 +150,20 @@ export default function Events({ page }: { page: PageProps }) {
       />
       <section id="more">
         <div className="w-full h-fit flex flex-col gap-10 items-center justify-center py-20">
+
+          {/* Upcoming Events */}
           <div className="w-fit mx-auto mt-10 flex flex-col gap-10 items-center justify-items-center justify-center md:max-w-[800px] w-full">
             <p className="md:text-4xl text-2xl font-bold text-navy">
               Upcoming Events
             </p>
             {isLoading && (
               <div className="w-full h-full flex items-center justify-center mx-auto mt-10">
-                <div className="w-10 h-10 border-5 border-navy border-t-transparent border-r-transparent border-l-transparent rounded-full animate-spin "></div>
+                <div className="w-10 h-10 border-5 border-navy border-t-transparent border-r-transparent border-l-transparent rounded-full animate-spin"></div>
               </div>
             )}
             {data?.pages
               .flatMap((page) => page.events ?? [])
               .filter((item: PostProps) => {
-                // item.start_date is in "yyyymmdd" format, e.g., "20250220"
                 if (!item.start_date || item.start_date.length !== 8)
                   return false;
                 const eventDateNum = Number(item.start_date);
@@ -205,6 +204,7 @@ export default function Events({ page }: { page: PageProps }) {
                           event_end_date={item.end_date}
                           time={item.time}
                           className="w-full max-w-[800px]"
+                          link={`/events/${item.id}`}
                         />
                       );
                     }
@@ -213,13 +213,15 @@ export default function Events({ page }: { page: PageProps }) {
                 })
             )}
           </div>
-          <div className="w-fit  mt-10 flex flex-col  gap-10 items-center justify-items-center justify-center mx-10">
+
+          {/* Other Events */}
+          <div className="w-fit mt-10 flex flex-col gap-10 items-center justify-items-center justify-center mx-10">
             <p className="md:text-4xl text-2xl font-bold text-navy">
               Other Events
             </p>
             {isLoading && (
               <div className="w-full h-full flex items-center justify-center mx-auto mt-10">
-                <div className="w-10 h-10 border-5 border-navy border-t-transparent border-r-transparent border-l-transparent rounded-full animate-spin "></div>
+                <div className="w-10 h-10 border-5 border-navy border-t-transparent border-r-transparent border-l-transparent rounded-full animate-spin"></div>
               </div>
             )}
             {data?.pages
@@ -239,10 +241,12 @@ export default function Events({ page }: { page: PageProps }) {
                     tempdate={item.tempdate || ""}
                     event_end_date={item.end_date}
                     time={item.time}
+                    link={`/events/${item.id}`}
                   />
                 );
               })}
           </div>
+
           {hasNextPage && (
             <div className="w-full flex items-center justify-center mt-10 mb-10">
               <button

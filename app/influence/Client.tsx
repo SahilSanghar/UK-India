@@ -370,7 +370,7 @@ export default function Influence({ page }: { page: PageProps }) {
           </div>
         </div>
 
-        <Fullscreen
+        {/* <Fullscreen
           ref={membershipRef as unknown as React.RefObject<HTMLDivElement>}
           title1={page?.membership?.title || "Membership"}
           title2={page?.membership?.subtitle || "Right place, Right people"}
@@ -384,7 +384,7 @@ export default function Influence({ page }: { page: PageProps }) {
           }
           buttonText={page?.membership?.buttonTxt || "JOIN THE NETWORK"}
           buttonLink={page?.membership?.link || "/membership"}
-        />
+        /> */}
 
         <div className="w-full h-fit flex justify-center items-center py-20 bg-black/5">
           <Carousel

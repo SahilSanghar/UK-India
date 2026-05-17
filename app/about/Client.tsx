@@ -73,6 +73,10 @@ interface PageProps {
     link: string;
     image: string[];
   }[];
+  sectors?: {
+    title: string;
+    image: string;
+  }[];
   contact?: {
     title: string;
     content: string;
@@ -142,35 +146,48 @@ export default function About({ page }: { page: PageProps }) {
                 image: `https://d2paj8ptqa22jg.cloudfront.net/pages/${page.type}/${img}.webp`,
                 position: "50%_50%",
               }))
-            : [
-                {
-                  image: "/person.jpg",
-                  position: "50%_50%",
-                },
-              ]
+            : [{ image: "/person.jpg", position: "50%_50%" }]
         }
       />
-      {/* <SimpleLander
-        ref={landerRef as unknown as React.RefObject<HTMLDivElement>}
-        heading1="Influence"
-        description="Shaping the Conversations That Shape Policy"
-        image="/home-card1.png"
-        button={true}
-        buttonLink="/influence#more"
-      /> */}
 
       <section id="more">
-        {/* <div className="w-full h-fiy py-20">
-          <p className=" text-xl font-bold w-[60%] m-auto text-justify">
-            We work to create a level playing field where industries can grow
-            with confidence, clarity, and fairness. This is achieved through
-            sustained advocacy with government and regulatory bodies, and by
-            facilitating high-impact engagements including policy dialogues,
-            roundtables, forums, receptions, delegations, and direct
-            industry–government interactions.
-          </p>
-        </div> */}
+        {/* Key Sectors */}
+        {Array.isArray(page.sectors) && page.sectors.length > 0 && (
+          <section className="w-full pt-20 bg-white text-black">
+            <div className="w-full flex flex-col items-center">
+              <h2 className="text-4xl md:text-5xl font-bold text-navy text-center mb-2">
+                Key Sectors
+              </h2>
+              <p className="md:text-lg text-base text-gray-700 mx-10 md:mx-0 text-center mb-10 max-w-2xl">
+                UKIBC supports companies across a wide range of sectors
+              </p>
+              <div className="mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-y-3 gap-x-2 md:gap-y-5 md:gap-x-4 justify-items-center w-[96%] sm:w-[90%] max-w-7xl">
+                {page.sectors.map((sector, index) => (
+                  <motion.div
+                    initial={{ y: 10, opacity: 0 }}
+                    whileInView={{ y: 0, opacity: 1 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    key={index}
+                    className="flex flex-col hover:scale-105 cursor-pointer text-center bg-navy/5 w-[110px] h-[110px] sm:w-[140px] sm:h-[140px] md:w-[180px] md:h-[180px] rounded-3xl md:rounded-4xl justify-center items-center"
+                  >
+                    <Image
+                      src={`https://d2paj8ptqa22jg.cloudfront.net/pages/interaction/${sector.image}.webp`}
+                      alt={sector.title}
+                      width={56}
+                      height={56}
+                      className="w-11 h-11 sm:w-14 sm:h-14 md:w-16 md:h-16 mb-1 p-2 md:p-3"
+                    />
+                    <span className="text-xs sm:text-sm md:text-base font-bold leading-tight p-2">
+                      {sector.title}
+                    </span>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
 
+        {/* Cards */}
         <div className="flex gap-5 md:flex-row flex-col my-20 items-center justify-center">
           {Array.isArray(page?.cards) &&
             page.cards.map(
@@ -198,12 +215,12 @@ export default function About({ page }: { page: PageProps }) {
             )}
         </div>
 
-        <div className="flex gap-5 flex-col my-20 text-navy ">
+        {/* Box sections */}
+        <div className="flex gap-5 flex-col my-20 text-navy">
           <h1 className="md:text-3xl text-xl font-bold text-center md:w-[70%] w-[90%] mx-auto mb-5">
             {page.box?.[0]?.title}
           </h1>
           <BoxImageText
-            // title={page.box?.[0]?.title || ""}
             description={page.box?.[0]?.content || ""}
             buttonText={page.box?.[0]?.buttonTxt || ""}
             buttonLink={page.box?.[0]?.link || ""}
@@ -215,14 +232,8 @@ export default function About({ page }: { page: PageProps }) {
                     position: "center",
                   }))
                 : [
-                    {
-                      image: "/noble2.jpg",
-                      position: "center",
-                    },
-                    {
-                      image: "/noble3.jpg",
-                      position: "center",
-                    },
+                    { image: "/noble2.jpg", position: "center" },
+                    { image: "/noble3.jpg", position: "center" },
                   ]
             }
             flip={false}
@@ -241,20 +252,15 @@ export default function About({ page }: { page: PageProps }) {
                     position: "center",
                   }))
                 : [
-                    {
-                      image: "/noble2.jpg",
-                      position: "center",
-                    },
-                    {
-                      image: "/noble3.jpg",
-                      position: "center",
-                    },
+                    { image: "/noble2.jpg", position: "center" },
+                    { image: "/noble3.jpg", position: "center" },
                   ]
             }
             flip={true}
           />
         </div>
 
+        {/* Fullscreen gradient section */}
         <BackgroundGradientAnimation
           gradientBackgroundStart="rgb(1 45 107)"
           gradientBackgroundEnd="rgb(0 11 25)"
@@ -264,7 +270,7 @@ export default function About({ page }: { page: PageProps }) {
           fourthColor="139, 187, 254"
           fifthColor="139, 187, 254"
           interactive={false}
-          containerClassName="w-full min-h-screen md:h-screen h-[150vh]  flex  justify-center items-center bg-navy relative"
+          containerClassName="w-full min-h-screen md:h-screen h-[150vh] flex justify-center items-center bg-navy relative"
         >
           <div
             className="z-10 absolute top-0 left-0 bottom-0 right-0 mx-auto w-full min-h-screen h-auto flex flex-col justify-center items-center text-center gap-10 sm:gap-16 md:gap-20 py-10 sm:py-20"
@@ -276,7 +282,9 @@ export default function About({ page }: { page: PageProps }) {
               </h1>
               <div
                 className="text-white text-base sm:text-lg md:text-xl w-full sm:w-[85%] md:w-[70%] mx-auto [&_p]:m-0 [&_p:empty]:h-[1em]"
-                dangerouslySetInnerHTML={{ __html: normalizeRichTextHtml(page.fullscreen?.des || "") }}
+                dangerouslySetInnerHTML={{
+                  __html: normalizeRichTextHtml(page.fullscreen?.des || ""),
+                }}
               />
             </div>
             <div className="w-full h-fit flex flex-col sm:flex-row gap-7 sm:gap-6 md:gap-10 lg:gap-15 justify-center text-center px-4">
@@ -309,66 +317,7 @@ export default function About({ page }: { page: PageProps }) {
           </div>
         </BackgroundGradientAnimation>
 
-        {/* <div className="w-full h-fit flex justify-center items-center py-20 bg-black/5">
-          <Carousel
-            data={[
-              {
-                quote:
-                  "UKIBC provided us with excellent advice and support at every stage in the recruitment. Our membership enables us to tap into a network of universities and other UK-focused organisations. This is useful for our wider objectives of engagement with Indian universities and businesses with whom we seek research collaboration and employment opportunities for our graduates.",
-                name: "Richard Cotton",
-                role: "Director of Student Recruitment and Outreach, University of Manchester",
-                image: "/home/testimonial/richard.jpg",
-              },
-              {
-                quote:
-                  "I have nothing but praise for Gunjan’s team. They have been very proactive about delivering what they said they would. I’d highly recommend them. What they’re delivering for us is exactly what we asked them to deliver. Their reports are bespoke to us and delivered what they said they would.",
-                name: "Cameron Hunt",
-                role: "Anglo American",
-                image: "/home/testimonial/hunt.png",
-              },
-              {
-                quote:
-                  "The UKIBC set up our subsidiary. They have been managing our India company compliance over the past five years and providing market advice when needed. Our team has tripled as we build valuable business ties.",
-                name: "Jonathan Mahoney",
-                role: "Biocomposites",
-                image: "/person.jpg",
-              },
-            ]}
-          />
-        </div> */}
-        {/* <div className="w-full h-fit flex flex-row justify-center items-center gap-10 pb-20 bg-black/5">
-          <InfoCard
-            animation="left"
-            title1="Reports"
-            des="Our intelligence comes to life through rigorous reports grounded in market research and policy insight"
-            image="/3-eyes/intel/intel1.jpeg"
-            buttonText="Reports"
-            idiot={true}
-            extraLarge={true}
-            link="/reports"
-          />
-          <InfoCard
-            animation="right"
-            title1="Case Studies"
-            des="See how our members have successfully entered, expanded, and scaled across the UK–India corridor, offering practical lessons, strategic clarity, and proven pathways for informed decision-making."
-            image="/3-eyes/intel/intel1.jpeg"
-            buttonText="Case Studies"
-            idiot={true}
-            extraLarge={true}
-            link="/business-solution-projects"
-          />
-        </div> */}
-
-        {/* <Fullscreen
-          ref={membershipRef as unknown as React.RefObject<HTMLDivElement>}
-          title1="Membership"
-          title2="The Right Rooms. The Right People."
-          description="Join a trusted ecosystem where business, government, and academia meet with intent. As a member, you gain access to curated B2G and B2B forums that turn dialogue into insight and insight into opportunity. Our platform connects you with decision-makers, leading institutions, and growth-ready enterprises to build relationships that deliver long-term value."
-          image="/home-membership.jpg"
-          buttonText="JOIN THE NETWORK"
-          buttonLink="/membership"
-        /> */}
-
+        {/* Connect */}
         <Connect
           title={page.contact?.title || "Connect with us:"}
           description={
