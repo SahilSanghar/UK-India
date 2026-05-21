@@ -2,9 +2,8 @@
 
 import Lander from "@/components/Lander";
 import React, { useEffect, useState, useMemo } from "react";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { getSession } from "@/lib/session";
 import LandscapeCard from "@/components/LandscapeCard";
 
 interface PostProps {
@@ -14,22 +13,18 @@ interface PostProps {
   slug: string;
 }
 
-const fetchReports = async ({
-  pageParam = null,
-}: {
-  pageParam?: string | null;
-}): Promise<{
-  reports: PostProps[];
-  lastKey: string | null;
-  count: number;
-}> => {
+interface FilterItem {
+  name: string;
+  team_area: string;
+  active: boolean;
+  sort: number;
+}
+
+const fetchAllReports = async (): Promise<PostProps[]> => {
   const res = await axios.get("/api/admin/reports", {
-    params: {
-      limit: 10,
-      lastKey: pageParam ? JSON.stringify(pageParam) : undefined,
-    },
+    params: { limit: 1000 },
   });
-  return res.data;
+  return res.data.reports ?? [];
 };
 
 interface PageProps {
@@ -109,98 +104,74 @@ interface PageProps {
   };
 }
 
+const REPORTS_PER_PAGE = 12;
+
 export default function Page({ page }: { page: PageProps }) {
-  // Dynamically build a year-based filter from posts
-
-  const [filter, setFilter] = useState<
-    { name: string; team_area: string; active: boolean; sort: number }[]
-  >([
-    {
-      name: "All",
-      team_area: "all",
-      active: true,
-      sort: 0,
-    },
+  const [filter, setFilter] = useState<FilterItem[]>([
+    { name: "All", team_area: "all", active: true, sort: 0 },
   ]);
-
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState<string>("");
   const [searchResults, setSearchResults] = useState<PostProps[] | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const { data, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage } =
-    useInfiniteQuery({
-      queryKey: ["reports"],
-      queryFn: fetchReports,
-      getNextPageParam: (lastPage) => lastPage.lastKey ?? undefined,
-      initialPageParam: undefined,
-    });
+  const { data: posts = [], isLoading } = useQuery({
+    queryKey: ["reports-all"],
+    queryFn: fetchAllReports,
+  });
 
-  const posts: PostProps[] = useMemo(
-    () => data?.pages.flatMap((page) => page.reports) ?? [],
-    [data],
-  );
-
-  // Update filter when posts are fetched
+  // Build year filters from posts
   useEffect(() => {
     if (!posts.length) return;
 
-    // Get up to max 5 most recent years from posts
-    const years = Array.from(
+    const currentYear = new Date().getFullYear();
+
+    const allYears = Array.from(
       new Set(
         posts
           .map((post) => (post.date ? post.date.slice(0, 4) : null))
           .filter((y): y is string => !!y),
       ),
-    )
-      .sort((a, b) => Number(b) - Number(a))
-      .slice(0, 5);
+    ).sort((a, b) => Number(b) - Number(a));
 
-    const filters = [
-      {
-        name: "All",
-        team_area: "all",
-        active:
-          filter.find((f) => f.active)?.team_area === "all" ? true : false,
-        sort: 0,
-      },
-      ...years.map((year, idx) => ({
+    const recentYears = allYears.filter((y) => Number(y) >= currentYear - 2);
+    const hasOlderYears = allYears.some((y) => Number(y) < currentYear - 2);
+
+    const activeArea = filter.find((f: FilterItem) => f.active)?.team_area ?? "all";
+
+    const filters: FilterItem[] = [
+      { name: "All", team_area: "all", active: activeArea === "all", sort: 0 },
+      ...(hasOlderYears
+        ? [{ name: "Previous Years", team_area: "previous", active: activeArea === "previous", sort: 1 }]
+        : []),
+      ...recentYears.map((year, idx) => ({
         name: year,
         team_area: year,
-        active: filter.find((f) => f.active)?.team_area === year ? true : false,
-        sort: idx + 1,
+        active: activeArea === year,
+        sort: idx + 2,
       })),
     ];
 
-    // Ensure one is active
-    const activeFound = filters.some((f) => f.active);
-    if (!activeFound && filters.length) {
-      filters[0].active = true;
-    }
+    const activeFound = filters.some((f: FilterItem) => f.active);
+    if (!activeFound && filters.length) filters[0].active = true;
 
     setFilter(filters);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [posts]);
 
-  // Posts to display: apply year filter and sorting to either search results or all posts
   const visiblePosts = useMemo(() => {
     const baseList = searchResults ?? posts;
-
-    const activeFilter = filter.find((f) => f.active);
+    const activeFilter = filter.find((f: FilterItem) => f.active);
+    const currentYear = new Date().getFullYear();
 
     const filtered = baseList.filter((item: PostProps) => {
-      if (!activeFilter) return true;
-
-      // If filter is "all", show all posts
-      if (activeFilter.team_area === "all") {
-        return true;
-      }
-
-      // Filter by year: compare item's date year with the active filter's team_area (which is a year)
-      const postYear = item.date ? item.date.slice(0, 4) : "";
-      return postYear === activeFilter.team_area;
+      if (!activeFilter || activeFilter.team_area === "all") return true;
+      const postYear = item.date ? Number(item.date.slice(0, 4)) : null;
+      if (!postYear) return false;
+      if (activeFilter.team_area === "previous") return postYear < currentYear - 2;
+      return String(postYear) === activeFilter.team_area;
     });
 
-    // Sort by date descending (newest first) if a date exists
-    return filtered.slice().sort((a, b) => {
+    return filtered.slice().sort((a: PostProps, b: PostProps) => {
       const aDate = a.date || "";
       const bDate = b.date || "";
       if (!aDate && !bDate) return 0;
@@ -210,45 +181,76 @@ export default function Page({ page }: { page: PageProps }) {
     });
   }, [posts, filter, searchResults]);
 
+  const totalPages = Math.ceil(visiblePosts.length / REPORTS_PER_PAGE);
+  const paginatedPosts = visiblePosts.slice(
+    (currentPage - 1) * REPORTS_PER_PAGE,
+    currentPage * REPORTS_PER_PAGE,
+  );
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    document.getElementById("more")?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const handleFilterChange = (item: FilterItem) => {
+    setFilter(
+      filter.map((i: FilterItem) =>
+        i.sort === item.sort ? { ...i, active: true } : { ...i, active: false },
+      ),
+    );
+    setCurrentPage(1);
+  };
+
+  const getPageNumbers = (): (number | "...")[] => {
+    const pages: (number | "...")[] = [];
+    if (totalPages <= 7) {
+      for (let i = 1; i <= totalPages; i++) pages.push(i);
+    } else {
+      pages.push(1);
+      if (currentPage > 3) pages.push("...");
+      for (
+        let i = Math.max(2, currentPage - 1);
+        i <= Math.min(totalPages - 1, currentPage + 1);
+        i++
+      ) {
+        pages.push(i);
+      }
+      if (currentPage < totalPages - 2) pages.push("...");
+      pages.push(totalPages);
+    }
+    return pages;
+  };
+
   const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     const term = searchTerm.trim();
 
-    // If search is empty, just reset to normal view
     if (!term) {
       setSearchResults(null);
+      setCurrentPage(1);
       setFilter(
-        filter.map((item) =>
-          item.team_area === "all"
-            ? { ...item, active: true }
-            : { ...item, active: false },
+        filter.map((item: FilterItem) =>
+          item.team_area === "all" ? { ...item, active: true } : { ...item, active: false },
         ),
       );
       return;
     }
 
-    // Activate "All" filter while searching
     setFilter(
-      filter.map((item) =>
-        item.team_area === "all"
-          ? { ...item, active: true }
-          : { ...item, active: false },
+      filter.map((item: FilterItem) =>
+        item.team_area === "all" ? { ...item, active: true } : { ...item, active: false },
       ),
     );
 
     try {
       const res = await axios.get("/api/admin/reports/search", {
-        params: {
-          search: term,
-        },
+        params: { search: term },
       });
-
       if (res.status === 200) {
         setSearchResults(res.data as PostProps[]);
+        setCurrentPage(1);
       }
     } catch {
-      // On error, fall back to normal posts
       setSearchResults(null);
     }
   };
@@ -256,11 +258,10 @@ export default function Page({ page }: { page: PageProps }) {
   const handleClearSearch = () => {
     setSearchTerm("");
     setSearchResults(null);
+    setCurrentPage(1);
     setFilter(
-      filter.map((item) =>
-        item.team_area === "all"
-          ? { ...item, active: true }
-          : { ...item, active: false },
+      filter.map((item: FilterItem) =>
+        item.team_area === "all" ? { ...item, active: true } : { ...item, active: false },
       ),
     );
   };
@@ -284,22 +285,18 @@ export default function Page({ page }: { page: PageProps }) {
                 image: `https://d2paj8ptqa22jg.cloudfront.net/pages/${page.type}/${img}.webp`,
                 position: "50%_50%",
               }))
-            : [
-                {
-                  image: "/person.jpg",
-                  position: "50%_50%",
-                },
-              ]
+            : [{ image: "/person.jpg", position: "50%_50%" }]
         }
       />
       <section id="more">
         <div className="w-full h-fit flex flex-col gap-10 items-center justify-center py-20">
           <p className="text-4xl font-bold text-navy">Reports</p>
+
+          {/* Search + Year Filter inline */}
           <div className="w-fit h-fit flex flex-row items-center justify-center gap-2">
             <form
-              action=""
               className="w-full h-fit flex flex-row items-center justify-center gap-2"
-              onSubmit={(e) => handleSearch(e)}
+              onSubmit={handleSearch}
             >
               <input
                 type="text"
@@ -308,7 +305,6 @@ export default function Page({ page }: { page: PageProps }) {
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="border-2 border-navy focus:outline-none rounded-full px-2 py-1 w-full"
               />
-
               <button
                 type={searchResults ? "button" : "submit"}
                 className="bg-navy text-white px-4 py-2 rounded-full"
@@ -317,66 +313,98 @@ export default function Page({ page }: { page: PageProps }) {
                 {searchResults ? "Clear" : "Search"}
               </button>
             </form>
-          </div>
-          {/* <div className="w-fit h-fit flex flex-row md:gap-4 gap-2 items-center justify-center">
-            {filter.map((item) => (
-              <div
-                key={item.sort}
-                className="w-fit h-full flex flex-row items-center justify-center cursor-pointer"
-                onClick={() => {
-                  setFilter(
-                    filter.map((i) =>
-                      i.sort === item.sort
-                        ? { ...i, active: true }
-                        : { ...i, active: false },
-                    ),
-                  );
-                }}
-              >
-                <p
-                  className={`text-sm font-bold  md:px-4 px-2 md:py-2 py-1 rounded-full cursor-pointer  duration-300 ${
-                    item.active
-                      ? "bg-navy border-2 border-navy text-white"
-                      : "text-navy bg-white border-2 border-navy"
-                  }`}
-                >
-                  {item.name}
-                </p>
+
+            {/* Year Filter */}
+            {!searchResults && (
+              <div className="w-fit h-fit flex flex-row md:gap-3 gap-2 items-center justify-center ps-2 max-w-[250vw]">
+                {filter.map((item: FilterItem) => (
+                  <button
+                    key={item.sort}
+                    onClick={() => handleFilterChange(item)}
+                    className={`text-sm font-bold md:px-4 px-3 md:py-2 py-1 rounded-full cursor-pointer transition-all duration-300 whitespace-nowrap ${
+                      item.active
+                        ? "bg-navy border-2 border-navy text-white"
+                        : "text-navy bg-white border-2 border-navy hover:bg-navy/10"
+                    }`}
+                  >
+                    {item.name}
+                  </button>
+                ))}
               </div>
-            ))}
-          </div> */}
+            )}
+          </div>
 
           {isLoading && (
             <div className="w-full h-full flex items-center justify-center mx-auto mt-10">
-              <div className="w-10 h-10 border-5 border-navy border-t-transparent border-r-transparent border-l-transparent rounded-full animate-spin "></div>
+              <div className="w-10 h-10 border-5 border-navy border-t-transparent border-r-transparent border-l-transparent rounded-full animate-spin"></div>
             </div>
           )}
-          <div className="w-fit mx-auto mt-10 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4  gap-10  items-center justify-items-center justify-center">
-            {visiblePosts.map((item: PostProps, index: number) => {
-              return (
-                <LandscapeCard
-                  title1={item.title || ""}
-                  date={item.date}
-                  landscape={true}
-                  image={
-                    item.image.replace("ukibc", "ukibc-storage") ||
-                    "/home-1.png"
-                  }
-                  link={"/reports/" + item.slug}
-                  animation="center"
-                  key={index}
-                />
-              );
-            })}
+
+          {/* Reports Grid */}
+          <div className="w-fit mx-auto mt-10 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-10 items-center justify-items-center justify-center">
+            {paginatedPosts.map((item: PostProps, index: number) => (
+              <LandscapeCard
+                key={index}
+                title1={item.title || ""}
+                date={item.date}
+                landscape={true}
+                image={
+                  item.image.replace("ukibc", "ukibc-storage") || "/home-1.png"
+                }
+                link={"/reports/" + item.slug}
+                animation="center"
+              />
+            ))}
           </div>
-          {!searchResults && hasNextPage && (
-            <div className="w-full flex items-center justify-center mt-10 mb-10">
+
+          {/* Pagination */}
+          {!isLoading && totalPages > 1 && (
+            <div className="flex items-center gap-2 mt-4 flex-wrap justify-center">
+              {/* Prev */}
               <button
-                onClick={() => fetchNextPage()}
-                disabled={isFetchingNextPage}
-                className={`px-6 py-3 bg-navy text-white font-bold rounded-full hover:bg-opacity-90 transition-all duration-300 cursor-pointer ${"opacity-100 translate-y-0 scale-100"}`}
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className={`px-4 py-2 rounded-full font-bold text-sm transition-all duration-300 cursor-pointer ${
+                  currentPage === 1
+                    ? "opacity-40 cursor-not-allowed bg-navy/10 text-navy"
+                    : "bg-navy/10 text-navy hover:bg-navy hover:text-white"
+                }`}
               >
-                {isFetchingNextPage ? "Loading..." : "Load More"}
+                ← Prev
+              </button>
+
+              {/* Page Numbers */}
+              {getPageNumbers().map((p, i) =>
+                p === "..." ? (
+                  <span key={`ellipsis-${i}`} className="px-2 text-navy font-bold">
+                    ...
+                  </span>
+                ) : (
+                  <button
+                    key={p}
+                    onClick={() => handlePageChange(p as number)}
+                    className={`w-10 h-10 rounded-full font-bold text-sm transition-all duration-300 cursor-pointer ${
+                      currentPage === p
+                        ? "bg-navy text-white"
+                        : "bg-navy/10 text-navy hover:bg-navy hover:text-white"
+                    }`}
+                  >
+                    {p}
+                  </button>
+                ),
+              )}
+
+              {/* Next */}
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className={`px-4 py-2 rounded-full font-bold text-sm transition-all duration-300 cursor-pointer ${
+                  currentPage === totalPages
+                    ? "opacity-40 cursor-not-allowed bg-navy/10 text-navy"
+                    : "bg-navy/10 text-navy hover:bg-navy hover:text-white"
+                }`}
+              >
+                Next →
               </button>
             </div>
           )}
