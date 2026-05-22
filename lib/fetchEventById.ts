@@ -1,14 +1,37 @@
+import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { ScanCommand, DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
+
+const client = new DynamoDBClient({
+  region: "ap-south-1",
+  credentials: {
+    accessKeyId: process.env.A_CLIENT!,
+    secretAccessKey: process.env.A_SECRET!,
+  },
+});
+
+const dynamoClient = DynamoDBDocumentClient.from(client);
+
 export async function fetchEventById(id: string) {
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/events/single?id=${id}`,
-      { cache: "no-store" },
-    );
+    const command = new ScanCommand({
+      TableName: "ukibc_events",
+      FilterExpression: "id = :id",
+      ExpressionAttributeValues: {
+        ":id": id,
+      },
+    });
 
-    if (!res.ok) return null;
+    const result = await dynamoClient.send(command);
+    const item = result.Items?.[0];
 
-    const data = await res.json();
-    return data ?? null;
+    if (!item) return null;
+
+    return {
+      ...item,
+      image: item.image
+        ? `https://d2paj8ptqa22jg.cloudfront.net/events/${item.id}.webp`
+        : "/event.jpg",
+    };
   } catch (error) {
     console.error("Failed to fetch event by id", error);
     return null;

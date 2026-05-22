@@ -123,33 +123,25 @@ export default function Page({ page }: { page: PageProps }) {
   useEffect(() => {
     if (!posts.length) return;
 
-    const currentYear = new Date().getFullYear();
-
     const allYears = Array.from(
       new Set(
         posts
           .map((post) => (post.date ? post.date.slice(0, 4) : null))
           .filter((y): y is string => !!y),
       ),
-    ).sort((a, b) => Number(b) - Number(a));
-
-    const recentYears = allYears.filter((y) => Number(y) >= currentYear - 2);
-    const hasOlderYears = allYears.some((y) => Number(y) < currentYear - 2);
+    ).sort((a, b) => Number(b) - Number(a)).slice(0, 3);
 
     const activeArea = filter.find((f: FilterItem) => f.active)?.team_area ?? "all";
 
-    const filters: FilterItem[] = [
-      { name: "All", team_area: "all", active: activeArea === "all", sort: 0 },
-      ...(hasOlderYears
-        ? [{ name: "Previous Years", team_area: "previous", active: activeArea === "previous", sort: 1 }]
-        : []),
-      ...recentYears.map((year, idx) => ({
-        name: year,
-        team_area: year,
-        active: activeArea === year,
-        sort: idx + 2,
-      })),
-    ];
+const filters: FilterItem[] = [
+  { name: "All", team_area: "all", active: activeArea === "all", sort: 0 },
+  ...allYears.map((year, idx) => ({
+    name: year,
+    team_area: year,
+    active: activeArea === year,
+    sort: idx + 1,
+  })),
+];
 
     const activeFound = filters.some((f: FilterItem) => f.active);
     if (!activeFound && filters.length) filters[0].active = true;
@@ -161,13 +153,11 @@ export default function Page({ page }: { page: PageProps }) {
   const visiblePosts = useMemo(() => {
     const baseList = searchResults ?? posts;
     const activeFilter = filter.find((f: FilterItem) => f.active);
-    const currentYear = new Date().getFullYear();
 
     const filtered = baseList.filter((item: PostProps) => {
       if (!activeFilter || activeFilter.team_area === "all") return true;
       const postYear = item.date ? Number(item.date.slice(0, 4)) : null;
       if (!postYear) return false;
-      if (activeFilter.team_area === "previous") return postYear < currentYear - 2;
       return String(postYear) === activeFilter.team_area;
     });
 

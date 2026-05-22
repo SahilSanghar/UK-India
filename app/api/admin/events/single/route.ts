@@ -1,14 +1,16 @@
 import { NextResponse, NextRequest } from "next/server";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { ScanCommand } from "@aws-sdk/lib-dynamodb";
+import { ScanCommand, DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
 
-const dynamoClient = new DynamoDBClient({
+const client = new DynamoDBClient({
   region: "ap-south-1",
   credentials: {
     accessKeyId: process.env.A_CLIENT!,
     secretAccessKey: process.env.A_SECRET!,
   },
 });
+
+const dynamoClient = DynamoDBDocumentClient.from(client);
 
 export async function GET(req: NextRequest) {
   try {
