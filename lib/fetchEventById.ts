@@ -31,7 +31,7 @@ export async function fetchEventById(id: string) {
       image: item.image
         ? `https://d2paj8ptqa22jg.cloudfront.net/events/${item.id}.webp`
         : "/event.jpg",
-    };
+    } as any;
   } catch (error) {
     console.error("Failed to fetch event by id", error);
     return null;
