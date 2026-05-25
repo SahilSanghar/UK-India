@@ -242,8 +242,8 @@ export default function Intelligence({ page }: { page: PageProps }) {
         </div>
 
         <BackgroundGradientAnimation
-          gradientBackgroundStart="rgb(251 206 188)"
-          gradientBackgroundEnd="rgb(241 92 35)"
+          gradientBackgroundStart="rgb(1 45 107)"
+          gradientBackgroundEnd="rgb(0 11 25)"
           firstColor="3, 107, 252"
           secondColor="2, 87, 207"
           thirdColor="1, 30, 71"

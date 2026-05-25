@@ -93,6 +93,10 @@ export default function Navbar() {
       href: "#",
       sublinks: [
         {
+          label: "Membership",
+          href: "/membership",
+        },
+        {
           label: "Launchpad",
           href: "/launchpad",
         },
