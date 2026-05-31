@@ -29,7 +29,7 @@ export async function fetchEventById(id: string) {
     return {
       ...item,
       image: item.image
-        ? `https://d2paj8ptqa22jg.cloudfront.net${item.image}`
+        ? `https://d2paj8ptqa22jg.cloudfront.net/events/${item.id}.webp`
         : "/event.jpg",
     } as any;
   } catch (error) {

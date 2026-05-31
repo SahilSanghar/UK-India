@@ -167,12 +167,10 @@ export default function Lander({
                               key={word + index}
                               initial={{
                                 opacity: 0,
-                                filter: "blur(10px)",
                                 y: 20,
                               }}
                               animate={{
                                 opacity: 1,
-                                filter: "blur(0px)",
                                 y: 0,
                               }}
                               transition={{ duration: 0.5, delay: 0.2 * index }}
@@ -201,12 +199,10 @@ export default function Lander({
                               key={word + index}
                               initial={{
                                 opacity: 0,
-                                filter: "blur(10px)",
                                 y: 20,
                               }}
                               animate={{
                                 opacity: 1,
-                                filter: "blur(0px)",
                                 y: 0,
                               }}
                               transition={{ duration: 0.5, delay: 0.2 * index }}
@@ -245,10 +241,9 @@ export default function Lander({
                             key={(word + index).toString()}
                             initial={shouldAnimateTitle2 ? {
                               opacity: 0,
-                              filter: "blur(10px)",
                               y: 20,
                             } : false}
-                            animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
+                            animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.5, delay: 0.1 * index }}
                             className="inline-block"
                           >
@@ -272,10 +267,9 @@ export default function Lander({
                             key={(word + index).toString()}
                             initial={shouldAnimateTitle2 ? {
                               opacity: 0,
-                              filter: "blur(10px)",
                               y: 20,
                             } : false}
-                            animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
+                            animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.5, delay: 0.1 * index }}
                             className="inline-block"
                           >
@@ -312,10 +306,9 @@ export default function Lander({
                             key={(word + index).toString()}
                             initial={shouldAnimateDes ? {
                               opacity: 0,
-                              filter: "blur(10px)",
                               y: 20,
                             } : false}
-                            animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
+                            animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.5, delay: 0.1 * index }}
                             className="inline-block"
                           >
@@ -339,10 +332,9 @@ export default function Lander({
                             key={(word + index).toString()}
                             initial={shouldAnimateDes ? {
                               opacity: 0,
-                              filter: "blur(10px)",
                               y: 20,
                             } : false}
-                            animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
+                            animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.5, delay: 0.1 * index }}
                             className="inline-block"
                           >

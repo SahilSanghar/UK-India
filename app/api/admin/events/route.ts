@@ -55,8 +55,8 @@ export async function GET(req: NextRequest) {
         return {
           ...item,
           image: item.image
-            ? "https://d2paj8ptqa22jg.cloudfront.net" + item.image
-            : "/home-1.png",
+            ? "https://d2paj8ptqa22jg.cloudfront.net/events/" + item.id + ".webp"
+            : "/default.png",
         };
       });
     }
