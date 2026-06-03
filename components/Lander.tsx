@@ -336,7 +336,7 @@ export default function Lander({
              * Also renamed prop internally to showCurrency to avoid shadowing state var.
              * Only fetches from API when showCurrency=true.
              */}
-            {showCurrency && (
+            {/* {showCurrency && (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -365,7 +365,7 @@ export default function Lander({
                   INR: <b>{currencyData.INR.toFixed(2)}</b>
                 </div>
               </motion.div>
-            )}
+            )} */}
           </div>
 
           {/*
