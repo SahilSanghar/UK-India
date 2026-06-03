@@ -354,7 +354,10 @@ export default function Navbar() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.2 }}
               exit={{ opacity: 0, y: -10 }}
-              className="absolute top-10 pt-10 md:pt-0 md:top-20 h-screen left-0 w-full bg-white shadow-lg  py-2 border border-gray-100 z-10 justify-center items-center"
+              // FIX 7: Mobile menu top offset — "top-10 pt-10 md:pt-0 md:top-20" was inconsistent.
+              // The nav bar itself has no explicit height set (h-fit), but in practice renders ~56px (h-14)
+              // on mobile and ~64px (h-16) on tablet. Using top-14 md:top-16 lines up cleanly.
+              className="absolute top-14 md:top-16 h-[calc(100vh-3.5rem)] md:h-[calc(100vh-4rem)] left-0 w-full bg-white shadow-lg py-2 border border-gray-100 z-10 overflow-y-auto"
             >
               {links.map((link) => {
                 const expanded = openDropdown === link.label;
