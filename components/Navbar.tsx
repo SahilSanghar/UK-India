@@ -128,35 +128,7 @@ export default function Navbar() {
     },
   ];
 
-  const [time, setTime] = useState<{ ist: string; gmt: string }>({
-    ist: "00:00",
-    gmt: "00:00",
-  });
 
-  useEffect(() => {
-    const updateTime = () => {
-      const ist = new Date().toLocaleTimeString("en-IN", {
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: false,
-        timeZone: "Asia/Kolkata",
-      });
-      const gmt = new Date().toLocaleTimeString("en-GB", {
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: false,
-        timeZone: "Europe/London",
-      });
-      setTime({ ist: ist.toString(), gmt: gmt.toString() });
-    };
-
-    // Update immediately on mount
-    updateTime();
-
-    // Then update every second
-    const interval = setInterval(updateTime, 60000);
-    return () => clearInterval(interval);
-  }, []);
   const handleMouseEnter = (label: string) => {
     setOpenDropdown(label);
   };
@@ -293,22 +265,7 @@ export default function Navbar() {
           ))}
         </motion.ul>
 
-        <ul
-          className={`hidden 2xl:flex items-center justify-center transition-all duration-300 ease-in-out gap-6 md:gap-5 text-sm md:text-  xl:text-base font-medium h-12 px-5  rounded-full border border-mix ml-3  ${
-            scroll
-              ? "bg-transparent border-none text-black"
-              : " border-mix border bg-black/50 backdrop-blur-sm text-white"
-          }`}
-        >
-          <li className="ml-auto flex items-center gap-2 ">
-            <span>GMT:</span>
-            <span>{time.gmt}</span>
-          </li>
-          <li className="flex items-center gap-2 ">
-            <span>IST:</span>
-            <span>{time.ist}</span>
-          </li>
-        </ul>
+
 
         <div
           className="lg:hidden flex items-center justify-center  cursor-pointer"
