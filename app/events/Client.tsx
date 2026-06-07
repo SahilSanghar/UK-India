@@ -101,6 +101,7 @@ const EVENTS_PER_PAGE = 5;
 
 export default function Events({ page }: { page: PageProps }) {
   const [activeTab, setActiveTab] = useState<"upcoming" | "past">("upcoming");
+  const [selectedYear, setSelectedYear] = useState<number | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
 
   // Fetch ALL events once, filter client-side
@@ -127,12 +128,26 @@ export default function Events({ page }: { page: PageProps }) {
     return Number(item.start_date) >= nowNum;
   });
 
-  const pastEvents = allEvents
+  const pastEventsSorted = allEvents
     .filter((item) => {
       if (!item.start_date || item.start_date.length !== 8) return false;
       return Number(item.start_date) < nowNum;
     })
-    .reverse(); // most recent past events first
+    .sort((a, b) => Number(b.start_date) - Number(a.start_date));
+
+  // Unique years descending (e.g. 2026, 2025, 2024…)
+  const pastYears = Array.from(
+    new Set(pastEventsSorted.map((e) => Number(e.start_date.slice(0, 4))))
+  ).sort((a, b) => b - a);
+
+  // When years load, default selectedYear to the most recent one
+  const effectiveYear = selectedYear ?? pastYears[0] ?? null;
+
+  const pastEvents = effectiveYear
+    ? pastEventsSorted.filter(
+        (e) => Number(e.start_date.slice(0, 4)) === effectiveYear
+      )
+    : pastEventsSorted;
 
   const activeEvents = activeTab === "upcoming" ? upcomingEvents : pastEvents;
 
@@ -144,7 +159,13 @@ export default function Events({ page }: { page: PageProps }) {
 
   const handleTabChange = (tab: "upcoming" | "past") => {
     setActiveTab(tab);
-    setCurrentPage(1); // reset to page 1 on tab switch
+    setSelectedYear(null); // auto-select most recent year for past
+    setCurrentPage(1);
+  };
+
+  const handleYearChange = (year: number) => {
+    setSelectedYear(year);
+    setCurrentPage(1);
   };
 
   const handlePageChange = (page: number) => {
@@ -222,6 +243,25 @@ export default function Events({ page }: { page: PageProps }) {
               Past Events
             </button>
           </div>
+
+          {/* Year filter — only shown for past events */}
+          {activeTab === "past" && pastYears.length > 1 && (
+            <div className="flex gap-2 flex-wrap justify-center">
+              {pastYears.map((year) => (
+                <button
+                  key={year}
+                  onClick={() => handleYearChange(year)}
+                  className={`px-5 py-1.5 rounded-full font-semibold text-sm transition-all duration-300 cursor-pointer border ${
+                    effectiveYear === year
+                      ? "bg-navy text-white border-navy"
+                      : "bg-white text-navy border-navy/30 hover:border-navy hover:bg-navy/5"
+                  }`}
+                >
+                  {year}
+                </button>
+              ))}
+            </div>
+          )}
 
           {/* Events List */}
           <div className="w-fit mx-auto flex flex-col gap-10 items-center justify-items-center justify-center md:max-w-[800px] w-full">
