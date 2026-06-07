@@ -47,6 +47,7 @@
   --radius-xl: calc(var(--radius) + 4px);
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
+  --animate-marquee: marquee 30s linear infinite;
   --radius-4xl: calc(var(--radius) + 16px);
   --animate-first: moveVertical 30s ease infinite;
   --animate-second: moveInCircle 20s reverse infinite;
@@ -184,4 +185,17 @@ body {
   100% {
     transform: translateY(-50%);
   }
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: var(--animate-marquee);
 }

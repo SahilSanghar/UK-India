@@ -10,6 +10,7 @@ import Lander from "@/components/Lander";
 import { BackgroundGradientAnimation } from "@/components/ui/background-gradient-animation";
 import Connect from "@/components/Connect";
 import Image from "next/image";
+import LogoMarquee from "@/components/LogoMarquee";
 
 interface PageProps {
   id: string;
@@ -169,6 +170,7 @@ export default function Launchpad({ page }: { page: PageProps }) {
               ]
         }
       />
+      <LogoMarquee />
       {/* <SimpleLander
         ref={landerRef as unknown as React.RefObject<HTMLDivElement>}
         heading1="Influence"
