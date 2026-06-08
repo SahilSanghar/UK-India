@@ -10,6 +10,7 @@ const logos = [
   { src: "/logos/QMUL.png", alt: "QMUL" },
   { src: "/logos/Manchester.jpg.jpeg", alt: "Manchester" },
   { src: "/logos/Imperial.jpg.jpeg", alt: "Imperial" },
+  { src: "/logos/Henley Business School Logo.png", alt: "Henley Business School" },
   { src: "/logos/Goldsmith.jpg.jpeg", alt: "Goldsmiths" },
   { src: "/logos/Essex.jpg.jpeg", alt: "Essex" },
   { src: "/logos/Durham University.jpg.jpeg", alt: "Durham University" },

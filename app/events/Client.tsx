@@ -121,6 +121,11 @@ export default function Events({ page }: { page: PageProps }) {
     now.getFullYear() * 10000 +
     (now.getMonth() + 1) * 100 +
     now.getDate();
+  // Lower bound for past events: only show the last 3 years (rolling window)
+  const threeYearsAgoNum =
+    (now.getFullYear() - 3) * 10000 +
+    (now.getMonth() + 1) * 100 +
+    now.getDate();
 
   const upcomingEvents = allEvents.filter((item) => {
     if (!item.start_date || item.start_date.length !== 8) return false;
@@ -130,7 +135,8 @@ export default function Events({ page }: { page: PageProps }) {
   const pastEvents = allEvents
     .filter((item) => {
       if (!item.start_date || item.start_date.length !== 8) return false;
-      return Number(item.start_date) < nowNum;
+      const d = Number(item.start_date);
+      return d < nowNum && d >= threeYearsAgoNum;
     })
     .sort((a, b) => Number(b.start_date) - Number(a.start_date));
 
