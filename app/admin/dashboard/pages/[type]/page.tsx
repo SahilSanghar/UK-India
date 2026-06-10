@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import Client from "./Client";
+import { fetchPage } from "@/lib/fetchPage";
 
 export default async function Page({
   params,
@@ -8,19 +9,18 @@ export default async function Page({
 }) {
   const { type } = await params;
 
-  // Fetch the page data using the API route
-  const res = await fetch(
-    `${process.env.PUBLIC_URL || ""}/api/admin/pages/get_by_type?type=${type}`,
-    { cache: "no-store" },
-  );
-
-  if (!res.ok) {
+  // Query DynamoDB directly instead of fetching our own API route. The previous
+  // self-fetch needed an absolute base URL (process.env.PUBLIC_URL) and threw
+  // "Failed to parse URL" whenever that env var was missing (e.g. local dev).
+  // fetchPage runs the same query the public pages already use.
+  let page;
+  try {
+    page = await fetchPage(type);
+  } catch {
     return notFound();
   }
 
-  const data = await res.json();
-
-  if (!data?.page) {
+  if (!page) {
     return notFound();
   }
 
