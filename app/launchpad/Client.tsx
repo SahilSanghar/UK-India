@@ -16,6 +16,13 @@ interface PageProps {
   id: string;
   title: string;
   type: string;
+  logos?: {
+    title?: string;
+    items?: {
+      image: string;
+      alt: string;
+    }[];
+  };
   lander: {
     title: string[];
     title2?: string[];
@@ -170,7 +177,7 @@ export default function Launchpad({ page }: { page: PageProps }) {
               ]
         }
       />
-      <LogoMarquee />
+      <LogoMarquee logos={page.logos} type={page.type} />
       {/* <SimpleLander
         ref={landerRef as unknown as React.RefObject<HTMLDivElement>}
         heading1="Influence"
