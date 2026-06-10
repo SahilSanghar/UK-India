@@ -15,10 +15,12 @@ import Cards from "./components/Cards";
 import Fullscreen from "./components/Fullscreen";
 import Locations from "./components/Locations";
 import Companies from "./components/Companies";
+import Logos from "./components/Logos";
 import { useState } from "react";
 
 type Section =
   | "lander"
+  | "logos"
   | "what"
   | "stats"
   | "who"
@@ -82,6 +84,28 @@ export default function Client({ type }: { type: string }) {
                 rawLander={data.page.lander}
                 rawButton={data.page.lander?.button}
                 rawFlip={data.page.lander?.flip}
+              />
+            )}
+          </div>
+        )}
+
+        {/* The logo band currently only exists on the launchpad page, so the
+            editor is shown there even before the `logos` field is created. */}
+        {data?.page && (data.page.logos || type === "launchpad") && (
+          <div className="flex flex-col gap-0 bg-navy/10 w-full rounded-xl px-5 py-5 mt-5">
+            <div
+              className="w-full cursor-pointer"
+              onClick={() => toggle("logos")}
+            >
+              <h1 className="text-2xl font-bold flex items-center justify-left text-navy capitalize">
+                Logo Band
+              </h1>
+            </div>
+
+            {show === "logos" && (
+              <Logos
+                type={type}
+                rawLogos={data.page.logos as Record<string, unknown>}
               />
             )}
           </div>

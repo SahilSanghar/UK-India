@@ -1,6 +1,9 @@
 import Image from "next/image";
 
-const logos = [
+// Fallback used only before the logo band has been configured in the admin
+// panel (i.e. the page record has no `logos` field yet). Once an admin saves
+// the logo band, the dynamic list below takes over entirely.
+const fallbackLogos = [
   { src: "/logos/UEA.png", alt: "UEA" },
   { src: "/logos/UCL.png", alt: "UCL" },
   { src: "/logos/Swansea.jpg.jpeg", alt: "Swansea" },
@@ -19,14 +22,46 @@ const logos = [
   { src: "/logos/Brighton.png", alt: "Brighton" },
 ];
 
-export default function LogoMarquee() {
+interface LogosData {
+  title?: string;
+  items?: { image: string; alt: string }[];
+}
+
+export default function LogoMarquee({
+  logos,
+  type = "launchpad",
+}: {
+  logos?: LogosData;
+  type?: string;
+}) {
+  // If the admin has configured the logo band, use those logos (served from
+  // S3/CloudFront like every other managed image). Otherwise fall back to the
+  // built-in list so the band keeps working until the migration is run.
+  const configured = logos && Array.isArray(logos.items);
+
+  const resolvedLogos = configured
+    ? (logos!.items || [])
+        .filter((l) => l.image)
+        .map((l) => ({
+          src: `https://d2paj8ptqa22jg.cloudfront.net/pages/${type}/${l.image}.webp`,
+          alt: l.alt || "",
+        }))
+    : fallbackLogos;
+
+  const title =
+    logos?.title || "Trusted by students from top UK universities";
+
+  // Respect an intentionally emptied band: if configured but no logos remain,
+  // render nothing rather than resurrecting the fallback list.
+  if (resolvedLogos.length === 0) return null;
+
   return (
     <div className="w-full overflow-hidden bg-white py-10">
       <p className="text-center text-sm uppercase tracking-widest text-gray-400 mb-6 font-medium">
-        Trusted by students from top UK universities
+        {title}
       </p>
       <div className="flex w-max animate-marquee gap-16 items-center">
-        {[...logos, ...logos].map((logo, i) => (
+        {[...resolvedLogos, ...resolvedLogos].map((logo, i) => (
           <div
             key={i}
             className="relative h-12 w-28 flex-shrink-0 grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100"

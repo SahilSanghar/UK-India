@@ -2,6 +2,13 @@ export interface PageProps {
   id: string;
   title: string;
   type: string;
+  logos?: {
+    title?: string;
+    items?: {
+      image: string;
+      alt: string;
+    }[];
+  };
   lander: {
     title: string[];
     title2?: string[];
