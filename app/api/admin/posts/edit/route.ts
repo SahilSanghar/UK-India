@@ -90,6 +90,15 @@ export async function POST(req: Request) {
         putItem.filters = { L: filtersList };
       }
 
+      // Preserve an attached PDF when the date key changes (the move re-puts
+      // the item from scratch, so carry the PDF fields over like the image).
+      if (typeof oldItem.pdfUrl === "string" && oldItem.pdfUrl) {
+        putItem.pdfUrl = { S: oldItem.pdfUrl };
+      }
+      if (typeof oldItem.download === "boolean") {
+        putItem.download = { BOOL: oldItem.download };
+      }
+
       await dynamoClient.send(
         new TransactWriteItemsCommand({
           TransactItems: [

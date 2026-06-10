@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { Download } from "lucide-react";
 
 interface LandscapeCardProps {
   title1: string;
@@ -9,6 +10,7 @@ interface LandscapeCardProps {
   image: string;
   link: string;
   animation: "left" | "center" | "right";
+  pdfUrl?: string;
 }
 
 export default function LandscapeCard({
@@ -17,6 +19,7 @@ export default function LandscapeCard({
   image,
   link,
   animation,
+  pdfUrl,
 }: LandscapeCardProps) {
   const betterDate = date
     ? new Date(date).toLocaleDateString("en-US", {
@@ -59,9 +62,24 @@ export default function LandscapeCard({
       </div>
       <div className="w-full h-[200px]  rounded-b-2xl p-5 flex flex-col justify-between">
         <h3 className=" text-xl font-bold line-clamp-4" dangerouslySetInnerHTML={{ __html: title1 || "" }}></h3>
-        <p className="text-sm font-medium mt-auto flex">
-          {betterDate}
-        </p>
+        <div className="mt-auto flex items-center justify-between gap-2">
+          <p className="text-sm font-medium flex">
+            {betterDate}
+          </p>
+          {pdfUrl && (
+            <a
+              href={pdfUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              download
+              onClick={(e) => e.stopPropagation()}
+              className="inline-flex items-center gap-1.5 bg-navy hover:bg-navy/90 text-white text-xs font-semibold px-3 py-1.5 rounded-full transition-colors duration-150 shrink-0 relative z-10"
+            >
+              <Download className="w-3.5 h-3.5" />
+              PDF
+            </a>
+          )}
+        </div>
       </div>
     </motion.div>
   );

@@ -17,6 +17,8 @@ interface PostProps {
   slug: string;
   date: string;
   filters: string[];
+  download?: boolean;
+  pdfUrl?: string;
 }
 
 const FILTERS = [
@@ -255,6 +257,7 @@ export default function News({ page }: { page: PageProps }) {
                       : "/home-1.png"
                   }
                   link={"/news/" + item.slug}
+                  pdfUrl={item.pdfUrl}
                   animation="center"
                   key={index}
                 />
