@@ -32,6 +32,8 @@ interface PostProps {
   date: string;
   sort: string;
   filters: string[];
+  download?: boolean;
+  pdfUrl?: string;
 }
 
 export default function Page() {
@@ -71,6 +73,7 @@ export default function Page() {
   });
   const [newMemberFile, setNewMemberFile] = useState<File | null>(null);
   const [newMemberPreview, setNewMemberPreview] = useState<string | null>(null);
+  const [newMemberPdf, setNewMemberPdf] = useState<File | null>(null);
   const [newMemberFilterInput, setNewMemberFilterInput] = useState<string>("");
   const newMemberFileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -84,10 +87,13 @@ export default function Page() {
     date: "",
     time: "",
     filters: [] as string[],
+    pdfUrl: "",
   });
   const [filterInputString, setFilterInputString] = useState<string>("");
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [isImageDragOver, setIsImageDragOver] = useState(false);
+  const [editPdfFile, setEditPdfFile] = useState<File | null>(null);
+  const [pdfUploading, setPdfUploading] = useState(false);
   const editFileInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleNewMemberImageFile = (file: File | undefined | null) => {
@@ -156,6 +162,18 @@ export default function Page() {
             },
           });
         }
+        if (newMemberPdf && response.data.id) {
+          try {
+            const pdfForm = new FormData();
+            pdfForm.append("file", newMemberPdf);
+            pdfForm.append("id", response.data.id);
+            pdfForm.append("date", `${newMember.date}T${newMember.time}`);
+            await axios.post("/api/admin/posts/upload-pdf", pdfForm);
+          } catch (pdfError) {
+            console.error("Post created but PDF upload failed", pdfError);
+            alert("Post created, but the PDF failed to upload. You can add it by editing the post.");
+          }
+        }
         queryClient.invalidateQueries({ queryKey: ["news"] });
         setNewMember({
           edit: false,
@@ -168,6 +186,7 @@ export default function Page() {
         });
         setNewMemberFile(null);
         setNewMemberPreview(null);
+        setNewMemberPdf(null);
         setNewMemberFilterInput("");
       } else {
         alert("Failed to create news post");
@@ -200,16 +219,36 @@ export default function Page() {
       queryClient.invalidateQueries({ queryKey: ["news"] });
       setEdit({ ...edit, edit: false });
       setFilterInputString("");
+      setEditPdfFile(null);
     },
     onError: () => {
       console.error("Failed to edit news post");
     },
   });
 
-  const handleEdit = () => {
+  const handleEdit = async () => {
     const safeTime = edit.time?.trim() ? edit.time : "00:00:00";
     const newDate = `${edit.date}T${safeTime}`;
     const oldDate = edit.oldDate;
+
+    // Upload/replace the PDF first (against the current date key) so the edit's
+    // date-move path carries the PDF fields over to the new key.
+    if (editPdfFile) {
+      setPdfUploading(true);
+      try {
+        const pdfForm = new FormData();
+        pdfForm.append("file", editPdfFile);
+        pdfForm.append("id", edit.id);
+        pdfForm.append("date", oldDate);
+        await axios.post("/api/admin/posts/upload-pdf", pdfForm);
+      } catch (pdfError) {
+        console.error("Failed to upload PDF", pdfError);
+        alert("Failed to upload PDF");
+        setPdfUploading(false);
+        return;
+      }
+      setPdfUploading(false);
+    }
 
     editTeam({
       id: edit.id,
@@ -284,6 +323,7 @@ export default function Page() {
                 onClick={() => {
                   setNewMemberPreview(null);
                   setNewMemberFile(null);
+                  setNewMemberPdf(null);
                   setNewMember({ ...newMember, edit: !newMember.edit });
                 }}
               >
@@ -420,6 +460,43 @@ export default function Page() {
                       />
                     </div>
 
+                    <div className="flex flex-col">
+                      <label className="text-sm md:text-base text-navy font-bold mb-1">
+                        PDF (optional)
+                      </label>
+                      <label className="flex items-center gap-3 cursor-pointer border border-dashed border-navy/30 hover:border-navy rounded-lg px-4 py-3 transition-colors w-full">
+                        <span className="bg-navy text-white text-xs font-semibold px-3 py-1.5 rounded-full whitespace-nowrap">
+                          Upload a PDF
+                        </span>
+                        <span className="text-sm text-navy/70 truncate">
+                          {newMemberPdf ? newMemberPdf.name : "No file selected"}
+                        </span>
+                        <input
+                          type="file"
+                          accept="application/pdf"
+                          className="hidden"
+                          onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            if (file && file.type === "application/pdf") {
+                              setNewMemberPdf(file);
+                            } else if (file) {
+                              alert("Please select a PDF file");
+                            }
+                            e.target.value = "";
+                          }}
+                        />
+                      </label>
+                      {newMemberPdf && (
+                        <button
+                          type="button"
+                          onClick={() => setNewMemberPdf(null)}
+                          className="text-xs text-red-500 hover:text-red-600 mt-1 w-fit cursor-pointer"
+                        >
+                          Remove PDF
+                        </button>
+                      )}
+                    </div>
+
                     <div className="flex flex-row gap-3 mt-4 items-center">
                       <button
                         onClick={() => void handleCreate()}
@@ -432,6 +509,7 @@ export default function Page() {
                         onClick={() => {
                           setNewMember({ ...newMember, edit: false });
                           setNewMemberFilterInput("");
+                          setNewMemberPdf(null);
                         }}
                         className="bg-white border border-navy text-navy px-6 py-2 rounded-full shadow hover:bg-navy/5 transition-colors duration-150 cursor-pointer"
                       >
@@ -500,6 +578,7 @@ export default function Page() {
                               className="ml-auto mr-5 underline cursor-pointer"
                               onClick={() => {
                                 setPreviewImage(null);
+                                setEditPdfFile(null);
                                 setEdit({
                                   edit: true,
                                   id: member.id.toString(),
@@ -516,6 +595,7 @@ export default function Page() {
                                       .toTimeString()
                                       .slice(0, 8) || "",
                                   filters: member.filters ?? [],
+                                  pdfUrl: member.pdfUrl ?? "",
                                 });
                                 setFilterInputString(
                                   (member.filters ?? []).join(", "),
@@ -662,13 +742,68 @@ export default function Page() {
                                 />
                               </div>
 
+                              <div className="flex flex-col">
+                                <label className="text-sm md:text-base text-navy font-bold mb-1">
+                                  PDF (optional)
+                                </label>
+                                {edit.pdfUrl && !editPdfFile && (
+                                  <a
+                                    href={edit.pdfUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-sm text-navy underline w-fit mb-2"
+                                  >
+                                    View current PDF
+                                  </a>
+                                )}
+                                <label className="flex items-center gap-3 cursor-pointer border border-dashed border-navy/30 hover:border-navy rounded-lg px-4 py-3 transition-colors w-full">
+                                  <span className="bg-navy text-white text-xs font-semibold px-3 py-1.5 rounded-full whitespace-nowrap">
+                                    {edit.pdfUrl ? "Replace PDF" : "Upload a PDF"}
+                                  </span>
+                                  <span className="text-sm text-navy/70 truncate">
+                                    {editPdfFile
+                                      ? editPdfFile.name
+                                      : edit.pdfUrl
+                                        ? "PDF attached"
+                                        : "No file selected"}
+                                  </span>
+                                  <input
+                                    type="file"
+                                    accept="application/pdf"
+                                    className="hidden"
+                                    onChange={(e) => {
+                                      const file = e.target.files?.[0];
+                                      if (
+                                        file &&
+                                        file.type === "application/pdf"
+                                      ) {
+                                        setEditPdfFile(file);
+                                      } else if (file) {
+                                        alert("Please select a PDF file");
+                                      }
+                                      e.target.value = "";
+                                    }}
+                                  />
+                                </label>
+                                {editPdfFile && (
+                                  <p className="text-xs text-navy/60 mt-1">
+                                    The new PDF will be uploaded when you click
+                                    Save.
+                                  </p>
+                                )}
+                              </div>
+
                               <div className="flex flex-row gap-3 mt-4 items-center">
                                 <button
-                                  onClick={() => handleEdit()}
-                                  disabled={isPending}
-                                  className="bg-navy hover:bg-navy/90 text-white font-semibold px-6 py-2 rounded-full shadow transition-colors duration-150 cursor-pointer"
+                                  onClick={() => void handleEdit()}
+                                  disabled={isPending || pdfUploading}
+                                  className="bg-navy hover:bg-navy/90 text-white font-semibold px-6 py-2 rounded-full shadow transition-colors duration-150 cursor-pointer disabled:opacity-60"
                                 >
-                                  {isPending ? "Saving..." : "Save"}
+                                  {pdfUploading
+                                    ? "Uploading PDF..."
+                                    : isPending
+                                      ? "Saving..."
+                                      : "Save"}
                                 </button>
                                 <button
                                   onClick={() => {

@@ -11,6 +11,8 @@ interface PostProps {
   content: string;
   date: string;
   image: string;
+  download?: boolean;
+  pdfUrl?: string;
 }
 
 const client = new DynamoDBClient({
