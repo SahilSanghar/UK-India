@@ -78,18 +78,18 @@ export default function Vacancies({ page }: { page: PageProps }) {
   return (
     <>
       <Lander
-        title_data={page.lander.title.map((t, i) => ({
+        title_data={(page.lander?.title ?? []).map((t, i) => ({
           title: t,
-          title2: page.lander.title2?.[i] ?? undefined,
-          des: page.lander.des[i] ?? undefined,
+          title2: page.lander?.title2?.[i] ?? undefined,
+          des: page.lander?.des?.[i] ?? undefined,
         }))}
-        button={page.lander.button?.enable || false}
-        buttonTxt={page.lander.button?.text || ""}
-        buttonLink={page.lander.button?.link || ""}
+        button={page.lander?.button?.enable || false}
+        buttonTxt={page.lander?.button?.text || ""}
+        buttonLink={page.lander?.button?.link || ""}
         currency={true}
-        flip={page.lander.flip || false}
+        flip={page.lander?.flip || false}
         images={
-          page.lander.image && page.lander.image.length > 0
+          page.lander?.image && page.lander.image.length > 0
             ? page.lander.image.map((img) => ({
                 image: `https://d2paj8ptqa22jg.cloudfront.net/pages/${page.type}/${img}.webp`,
                 position: "50%_50%",
