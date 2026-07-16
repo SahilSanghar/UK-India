@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
 import { WavyBackground } from "@/components/ui/wavy-background";
@@ -43,14 +43,21 @@ export default function Lander({
 }: LanderProps) {
   const [tick, setTick] = useState(0);
 
-  const allDescriptions = title_data
+  // Falls back to a single blank entry so indexing below never hits an
+  // empty array (e.g. when a page's lander section hasn't been saved yet).
+  const safeTitleData = useMemo(
+    () => (title_data.length > 0 ? title_data : [{ title: "" }]),
+    [title_data],
+  );
+
+  const allDescriptions = safeTitleData
     .map((t) => t.des)
     .filter((d): d is string => !!d);
-  const allTitle2s = title_data
+  const allTitle2s = safeTitleData
     .map((t) => t.title2)
     .filter((t): t is string => !!t);
 
-  const currentTitle = title_data.length <= 1 ? 0 : tick % title_data.length;
+  const currentTitle = safeTitleData.length <= 1 ? 0 : tick % safeTitleData.length;
   const currentDes =
     allDescriptions.length === 0
       ? undefined
@@ -73,12 +80,12 @@ export default function Lander({
   });
 
   useEffect(() => {
-    if (title_data.length <= 1 && allDescriptions.length <= 1 && allTitle2s.length <= 1) return;
+    if (safeTitleData.length <= 1 && allDescriptions.length <= 1 && allTitle2s.length <= 1) return;
     const interval = setInterval(() => {
       setTick((prev) => prev + 1);
     }, 5000);
     return () => clearInterval(interval);
-  }, [title_data, allDescriptions.length, allTitle2s.length]);
+  }, [safeTitleData, allDescriptions.length, allTitle2s.length]);
 
   useEffect(() => {
     if (!showCurrency) return;
@@ -175,7 +182,7 @@ export default function Lander({
                         key={currentTitle}
                         className="flex flex-wrap gap-x-2 md:gap-x-3"
                       >
-                        {title_data[currentTitle].title
+                        {safeTitleData[currentTitle].title
                           .split(" ")
                           .map((word, index) => (
                             <motion.span
@@ -201,7 +208,7 @@ export default function Lander({
                         key={currentTitle}
                         className="flex flex-wrap gap-x-2 md:gap-x-3"
                       >
-                        {title_data[currentTitle].title
+                        {safeTitleData[currentTitle].title
                           .split(" ")
                           .map((word, index) => (
                             <motion.span
