@@ -69,6 +69,12 @@ import InfoCard from "@/components/InfoCard";
 // }
 
 export default function Vacancies({ page }: { page: PageProps }) {
+  // Vacancies were sometimes entered into the generic "Cards" admin section
+  // instead of "Fullscreen Cards" (the field this page actually renders).
+  // Reading both keeps existing entries visible regardless of which section
+  // they were saved under.
+  const vacancyCards = [...(page.cards ?? []), ...(page.fullscreen?.cards ?? [])];
+
   return (
     <>
       <Lander
@@ -129,16 +135,16 @@ export default function Vacancies({ page }: { page: PageProps }) {
           </div>
 
           <div className="w-full flex flex-wrap gap-4 items-stretch justify-center">
-            {page.fullscreen?.cards && page.fullscreen?.cards.length <= 0 && (
+            {vacancyCards.length <= 0 && (
               <div className="w-full flex gap-4 items-center justify-center">
                 <h2 className="md:text-xl text-xl font-medium text-white">
                   No vacancies available at the moment.
                 </h2>
               </div>
             )}
-            {page.fullscreen?.cards?.map((card) => (
+            {vacancyCards.map((card, idx) => (
               <div
-                key={card.title}
+                key={`${card.title}-${idx}`}
                 className="flex flex-col gap-4 items-center justify-center flex-[1_1_320px] min-w-[320px] max-w-md"
               >
                 <InfoCard

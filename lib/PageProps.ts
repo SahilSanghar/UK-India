@@ -81,6 +81,13 @@ export interface PageProps {
     image: string;
     link: string;
   }[];
+  cards?: {
+    title: string;
+    des: string;
+    image: string;
+    buttonTxt?: string;
+    link?: string;
+  }[];
   fullscreen?: {
     title: string;
     des: string;
