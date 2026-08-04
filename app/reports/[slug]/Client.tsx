@@ -15,22 +15,8 @@ interface PostProps {
   download: boolean;
 }
 
-interface SessionProps {
-  type: string;
-  firstname: string;
-  lastname: string;
-  organization: string;
-  id: string;
-}
-export default function Client({
-  post,
-  session,
-}: {
-  post: PostProps;
-  session: SessionProps;
-}) {
-  const [signup, setSignup] = useState(true);
-  const [login, setLogin] = useState(false);
+export default function Client({ post }: { post: PostProps }) {
+  const [showForm, setShowForm] = useState(false);
 
   const [formData, setFormData] = useState({
     firstname: "",
@@ -38,11 +24,9 @@ export default function Client({
     organization: "",
     phone: "",
     email: "",
-    password: "",
     message: "",
   });
 
-  const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState<{
     message: string;
     type: "success" | "error" | "";
@@ -53,17 +37,19 @@ export default function Client({
     loading: false,
   });
 
-  const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setMessage({ message: "", type: "", loading: true });
 
     try {
-      const response = await axios.post(`/api/enquiry/signup`, {
+      const response = await axios.post(`/api/enquiry/report`, {
+        reportId: post.id,
+        reportName: post.title,
         firstname: formData.firstname,
         lastname: formData.lastname,
-        email: formData.email,
-        password: formData.password,
         organization: formData.organization,
         phone: formData.phone,
+        email: formData.email,
         message: formData.message,
       });
       if (response.status !== 200) {
@@ -72,50 +58,11 @@ export default function Client({
           type: "error",
           loading: false,
         });
-      }
-      setMessage({
-        message: response.data.message || "Sign up successful!",
-        type: "success",
-        loading: false,
-      });
-      window.location.reload();
-      return;
-    } catch (error) {
-      setMessage({
-        message:
-          (error as AxiosError<{ message: string }>)?.response?.data?.message ||
-          (error as AxiosError<{ message: string }>)?.message ||
-          "An error occurred. Please try again.",
-        type: "error",
-        loading: false,
-      });
-      return;
-    }
-  };
-
-  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log(formData);
-    try {
-      const response = await axios.get(
-        `/api/enquiry/login?username=${formData.email}&password=${formData.password}`,
-      );
-      if (response.status !== 200) {
-        setMessage({
-          message: response.data.message || "Unknown Error!",
-          type: "error",
-          loading: false,
-        });
         return;
       }
-      setMessage({
-        message: response.data.message || "Login successful!",
-        type: "success",
-        loading: false,
-      });
-      window.location.reload();
-      return;
-    } catch (error: unknown) {
+      window.location.href = `https://d2paj8ptqa22jg.cloudfront.net/reports/pdfs/${post.id}.pdf`;
+      setShowForm(false);
+    } catch (error) {
       setMessage({
         message:
           (error as AxiosError<{ message: string }>)?.response?.data?.message ||
@@ -188,43 +135,18 @@ export default function Client({
           }}
         />
         {post?.download && (
-          // <div className="mt-10">
-          //   <a href={`https://d2paj8ptqa22jg.cloudfront.net/reports/pdfs/${post.id}.pdf`} target="_blank" rel="noopener noreferrer" className="text-white hover:bg-navy/80 transition-colors duration-300   gap-2 bg-navy px-4 py-3 rounded-lg">
-          //     Download Report
-          //   </a>
-          // </div>
-          <div
-            className="mt-10"
-            onClick={async () => {
-              if (session) {
-                try {
-                  const response = await axios.post(`/api/enquiry/report`, {
-                    reportId: post.id,
-                    userId: session.id,
-                    organization: session.organization,
-                    reportName: post.title,
-                  });
-                  if (response.status !== 200) {
-                    return;
-                  }
-                } catch (error) {}
-                window.location.href = `https://d2paj8ptqa22jg.cloudfront.net/reports/pdfs/${post.id}.pdf`;
-              } else {
-                setLogin(true);
-              }
-            }}
-          >
+          <div className="mt-10" onClick={() => setShowForm(true)}>
             <button className="text-white hover:bg-navy/80 transition-colors duration-300   gap-2 bg-navy px-4 py-3 rounded-lg">
               Download Report
             </button>
           </div>
         )}
       </motion.div>
-      {login && (
+      {showForm && (
         <div
           className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
           onClick={(e) => {
-            if (e.target === e.currentTarget) setLogin(false);
+            if (e.target === e.currentTarget) setShowForm(false);
           }}
         >
           <motion.div
@@ -236,7 +158,7 @@ export default function Client({
           >
             <div className="bg-navy px-6 py-5 sm:px-8 sm:py-6">
               <button
-                onClick={() => setLogin(false)}
+                onClick={() => setShowForm(false)}
                 className="absolute top-4 right-4 text-white/70 hover:text-white transition-colors cursor-pointer"
                 aria-label="Close"
               >
@@ -254,7 +176,7 @@ export default function Client({
                 </svg>
               </button>
               <h2 className="text-xl sm:text-2xl font-bold text-white">
-                {signup ? "Sign up to download" : "Log in to download"}
+                Fill out the form to download
               </h2>
               <p className="text-sm text-white/70 mt-1 line-clamp-1">
                 {post?.title}
@@ -262,256 +184,100 @@ export default function Client({
             </div>
 
             <div className="px-6 py-6 sm:px-8 sm:py-8">
-              {signup ? (
-                <form
-                  className="flex flex-col gap-3"
-                  onSubmit={(e) => handleSignup(e)}
-                >
-                  <div className="flex flex-col sm:flex-row gap-3">
-                    <input
-                      type="text"
-                      placeholder="First Name"
-                      className="w-full sm:w-1/2 px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-navy/30 focus:border-navy transition-colors"
-                      name="firstName"
-                      autoComplete="given-name"
-                      value={formData.firstname}
-                      onChange={(e) =>
-                        setFormData({ ...formData, firstname: e.target.value })
-                      }
-                      required
-                    />
-                    <input
-                      type="text"
-                      placeholder="Surname"
-                      className="w-full sm:w-1/2 px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-navy/30 focus:border-navy transition-colors"
-                      name="surname"
-                      autoComplete="family-name"
-                      value={formData.lastname}
-                      onChange={(e) =>
-                        setFormData({ ...formData, lastname: e.target.value })
-                      }
-                      required
-                    />
-                  </div>
-                  <div className="flex flex-col sm:flex-row gap-3">
-                    <input
-                      type="text"
-                      placeholder="Organization"
-                      className="w-full sm:w-1/2 px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-navy/30 focus:border-navy transition-colors"
-                      name="organization"
-                      autoComplete="organization"
-                      value={formData.organization}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          organization: e.target.value,
-                        })
-                      }
-                      required
-                    />
-                    <input
-                      type="tel"
-                      placeholder="Phone Number"
-                      className="w-full sm:w-1/2 px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-navy/30 focus:border-navy transition-colors"
-                      name="phone"
-                      autoComplete="tel"
-                      value={formData.phone}
-                      onChange={(e) =>
-                        setFormData({ ...formData, phone: e.target.value })
-                      }
-                      required
-                    />
-                  </div>
+              <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
+                <div className="flex flex-col sm:flex-row gap-3">
                   <input
-                    type="email"
-                    placeholder="Email"
-                    className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-navy/30 focus:border-navy transition-colors"
-                    name="email"
-                    autoComplete="email"
-                    value={formData.email}
+                    type="text"
+                    placeholder="First Name"
+                    className="w-full sm:w-1/2 px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-navy/30 focus:border-navy transition-colors"
+                    name="firstName"
+                    autoComplete="given-name"
+                    value={formData.firstname}
                     onChange={(e) =>
-                      setFormData({ ...formData, email: e.target.value })
+                      setFormData({ ...formData, firstname: e.target.value })
                     }
                     required
                   />
-                  <div className="relative w-full">
-                    <input
-                      type={showPassword ? "text" : "password"}
-                      placeholder="Password"
-                      className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-navy/30 focus:border-navy transition-colors"
-                      name="password"
-                      autoComplete="current-password"
-                      value={formData.password}
-                      onChange={(e) =>
-                        setFormData({ ...formData, password: e.target.value })
-                      }
-                      required
-                    />
-                    <button
-                      type="button"
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
-                      tabIndex={-1}
-                      onClick={() =>
-                        setShowPassword?.((prev: boolean) => !prev)
-                      }
-                    >
-                      {showPassword ? (
-                        // eye-off SVG
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-5 w-5"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M13.875 18.825A10.05 10.05 0 0112 19c-5 0-9-3.586-9-8 0-1.53.497-3.027 1.409-4.34m3.604 2.07A3 3 0 1112 15a3 3 0 01-3-3c0-.54.135-1.05.37-1.49m11.063-2.255C20.29 7.95 21 9.454 21 11c0 4.414-4 8-9 8a10.05 10.05 0 01-2.84-.395M17.657 16.657l-9.9-9.9"
-                          />
-                        </svg>
-                      ) : (
-                        // eye SVG
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-5 w-5"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0zm6 0c0 4.418-4 8-9 8s-9-3.582-9-8 4-8 9-8 9 3.582 9 8z"
-                          />
-                        </svg>
-                      )}
-                    </button>
-                  </div>
-
-                  <textarea
-                    placeholder="How can we help you?"
-                    className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-navy/30 focus:border-navy transition-colors resize-none"
-                    name="message"
-                    rows={3}
-                    value={formData.message}
-                    onChange={(e) =>
-                      setFormData({ ...formData, message: e.target.value })
-                    }
-                    required
-                  />
-                  <button
-                    type="submit"
-                    className="w-full bg-navy hover:bg-navy/90 text-white font-semibold px-4 py-2.5 rounded-lg transition-colors mt-1 cursor-pointer"
-                    disabled={message.loading}
-                  >
-                    {message.loading ? "Loading..." : "Sign up"}
-                  </button>
-                  {message.message && (
-                    <div
-                      className={`${message.type === "success" ? "text-green-500" : "text-red-500"} font-medium`}
-                    >
-                      {message.message}
-                    </div>
-                  )}
-                </form>
-              ) : (
-                <form
-                  className="flex flex-col gap-3"
-                  onSubmit={(e) => handleLogin(e)}
-                >
                   <input
-                    type="email"
-                    placeholder="Email"
-                    className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-navy/30 focus:border-navy transition-colors"
-                    value={formData.email}
+                    type="text"
+                    placeholder="Surname"
+                    className="w-full sm:w-1/2 px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-navy/30 focus:border-navy transition-colors"
+                    name="surname"
+                    autoComplete="family-name"
+                    value={formData.lastname}
                     onChange={(e) =>
-                      setFormData({ ...formData, email: e.target.value })
+                      setFormData({ ...formData, lastname: e.target.value })
                     }
                     required
                   />
-                  <div className="relative">
-                    <input
-                      type={showPassword ? "text" : "password"}
-                      placeholder="Password"
-                      className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-navy/30 focus:border-navy transition-colors"
-                      value={formData.password}
-                      onChange={(e) =>
-                        setFormData({ ...formData, password: e.target.value })
-                      }
-                      required
-                    />
-                    <button
-                      type="button"
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
-                      tabIndex={-1}
-                      onClick={() =>
-                        setShowPassword?.((prev: boolean) => !prev)
-                      }
-                    >
-                      {showPassword ? (
-                        // eye-off SVG
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-5 w-5"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M13.875 18.825A10.05 10.05 0 0112 19c-5 0-9-3.586-9-8 0-1.53.497-3.027 1.409-4.34m3.604 2.07A3 3 0 1112 15a3 3 0 01-3-3c0-.54.135-1.05.37-1.49m11.063-2.255C20.29 7.95 21 9.454 21 11c0 4.414-4 8-9 8a10.05 10.05 0 01-2.84-.395M17.657 16.657l-9.9-9.9"
-                          />
-                        </svg>
-                      ) : (
-                        // eye SVG
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-5 w-5"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0zm6 0c0 4.418-4 8-9 8s-9-3.582-9-8 4-8 9-8 9 3.582 9 8z"
-                          />
-                        </svg>
-                      )}
-                    </button>
-                  </div>
-                  <button
-                    type="submit"
-                    className="w-full bg-navy hover:bg-navy/90 text-white font-semibold px-4 py-2.5 rounded-lg transition-colors mt-1 cursor-pointer"
-                    disabled={message.loading}
-                  >
-                    {message.loading ? "Loading..." : "Log in"}
-                  </button>
-                  {message.message && (
-                    <div
-                      className={`${message.type === "success" ? "text-green-500" : "text-red-500"} font-medium`}
-                    >
-                      {message.message}
-                    </div>
-                  )}
-                </form>
-              )}
-
-              <p className="text-center text-sm text-gray-500 mt-5">
-                {signup ? "Already have an account?" : "Don't have an account?"}{" "}
-                <span
-                  className="text-navy font-semibold cursor-pointer hover:underline"
-                  onClick={() => setSignup(!signup)}
+                </div>
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <input
+                    type="text"
+                    placeholder="Organization"
+                    className="w-full sm:w-1/2 px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-navy/30 focus:border-navy transition-colors"
+                    name="organization"
+                    autoComplete="organization"
+                    value={formData.organization}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        organization: e.target.value,
+                      })
+                    }
+                    required
+                  />
+                  <input
+                    type="tel"
+                    placeholder="Phone Number"
+                    className="w-full sm:w-1/2 px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-navy/30 focus:border-navy transition-colors"
+                    name="phone"
+                    autoComplete="tel"
+                    value={formData.phone}
+                    onChange={(e) =>
+                      setFormData({ ...formData, phone: e.target.value })
+                    }
+                    required
+                  />
+                </div>
+                <input
+                  type="email"
+                  placeholder="Email"
+                  className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-navy/30 focus:border-navy transition-colors"
+                  name="email"
+                  autoComplete="email"
+                  value={formData.email}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
+                  required
+                />
+                <textarea
+                  placeholder="How can we help you?"
+                  className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-navy/30 focus:border-navy transition-colors resize-none"
+                  name="message"
+                  rows={3}
+                  value={formData.message}
+                  onChange={(e) =>
+                    setFormData({ ...formData, message: e.target.value })
+                  }
+                  required
+                />
+                <button
+                  type="submit"
+                  className="w-full bg-navy hover:bg-navy/90 text-white font-semibold px-4 py-2.5 rounded-lg transition-colors mt-1 cursor-pointer"
+                  disabled={message.loading}
                 >
-                  {signup ? "Log in" : "Sign up"}
-                </span>
-              </p>
+                  {message.loading ? "Loading..." : "Submit"}
+                </button>
+                {message.message && (
+                  <div
+                    className={`${message.type === "success" ? "text-green-500" : "text-red-500"} font-medium`}
+                  >
+                    {message.message}
+                  </div>
+                )}
+              </form>
             </div>
           </motion.div>
         </div>

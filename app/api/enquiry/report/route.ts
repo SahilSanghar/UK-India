@@ -11,9 +11,18 @@ const dynamoClient = new DynamoDBClient({
 
 export async function POST(req: Request) {
   try {
-    const { reportId, userId, organization, reportName } = await req.json();
+    const {
+      reportId,
+      reportName,
+      firstname,
+      lastname,
+      organization,
+      phone,
+      email,
+      message,
+    } = await req.json();
 
-    if (!reportId || !userId || !organization || !reportName) {
+    if (!reportId || !reportName || !firstname || !email) {
       return NextResponse.json(
         { message: "Missing required fields" },
         { status: 400 },
@@ -27,10 +36,14 @@ export async function POST(req: Request) {
       Item: {
         type: { S: "report" },
         id: { S: id },
-        userId: { S: userId ?? null },
-        reportId: { S: reportId ?? null },
-        reportName: { S: reportName ?? null },
-        organization: { S: organization },
+        reportId: { S: reportId },
+        reportName: { S: reportName },
+        firstname: { S: firstname },
+        lastname: { S: lastname ?? "" },
+        organization: { S: organization ?? "" },
+        phone: { S: phone ?? "" },
+        email: { S: email },
+        message: { S: message ?? "" },
         date: { S: new Date().toISOString() },
       },
     });

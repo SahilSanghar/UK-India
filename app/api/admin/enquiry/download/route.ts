@@ -89,7 +89,10 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ rows }, { status: 200 });
     }
 
-    // For reports, resolve user and report details
+    // For reports, resolve user and report details. Older entries only have
+    // a userId pointing at a ukibc_users account (from the removed
+    // signup/login flow); newer entries carry the submitter's details
+    // directly on the enquiry item since there's no account anymore.
     const rows = await Promise.all(
       items.map(async (item: Record<string, unknown>) => {
         const [user, report] = await Promise.all([
@@ -97,16 +100,21 @@ export async function GET(req: NextRequest) {
           item.reportId ? resolveReport(item.reportId as string) : null,
         ]);
 
+        const firstname = (user?.firstname ?? item.firstname) as string | undefined;
+        const lastname = (user?.lastname ?? item.lastname) as string | undefined;
+        const email = (user?.email ?? item.email) as string | undefined;
+        const organization = (user?.organization ?? item.organization) as string | undefined;
+        const phone = (user?.phone ?? item.phone) as string | undefined;
+        const userMessage = (user?.message ?? item.message) as string | undefined;
+
         return {
           Date: formatDate(item.date),
-          "User Email": (user?.email as string) || "",
-          "User Name": [user?.firstname, user?.lastname]
-            .filter(Boolean)
-            .join(" "),
-          "User Organization": (user?.organization as string) || "",
-          "User Phone": (user?.phone as string) || "",
-          "User Message": (user?.message as string) || "",
-          "Report Title": (report?.title as string) || "",
+          "User Email": email || "",
+          "User Name": [firstname, lastname].filter(Boolean).join(" "),
+          "User Organization": organization || "",
+          "User Phone": phone || "",
+          "User Message": userMessage || "",
+          "Report Title": (report?.title as string) || (item.reportName as string) || "",
           "Report Link": report?.slug ? `https://www.ukibc.com/reports/${report.slug}` : "",
         };
       }),

@@ -17,6 +17,7 @@ interface EnquiryItem {
   firstname?: string;
   lastname?: string;
   email?: string;
+  phone?: string;
   location?: string;
   assistance?: string;
   message?: string;
@@ -144,7 +145,22 @@ export default function Page() {
           reportId: item.reportId || undefined,
         },
       });
-      setDetails(res.data);
+      // Older entries resolve "user" from a ukibc_users account (userId).
+      // Newer entries have no account at all, so fall back to the details
+      // already saved directly on the enquiry item itself.
+      const user =
+        res.data.user ||
+        (item.userId
+          ? null
+          : {
+              firstname: item.firstname,
+              lastname: item.lastname,
+              email: item.email,
+              organization: item.organization,
+              phone: item.phone,
+              message: item.message,
+            });
+      setDetails({ user, report: res.data.report });
     } catch {
       setDetails(null);
     } finally {
