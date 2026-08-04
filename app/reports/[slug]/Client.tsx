@@ -176,7 +176,7 @@ export default function Client({ post }: { post: PostProps }) {
                 </svg>
               </button>
               <h2 className="text-xl sm:text-2xl font-bold text-white">
-                Fill out the form to download
+                Download Now
               </h2>
               <p className="text-sm text-white/70 mt-1 line-clamp-1">
                 {post?.title}
