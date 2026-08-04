@@ -100,8 +100,9 @@ export async function GET(req: NextRequest) {
           item.reportId ? resolveReport(item.reportId as string) : null,
         ]);
 
-        const firstname = (user?.firstname ?? item.firstname) as string | undefined;
-        const lastname = (user?.lastname ?? item.lastname) as string | undefined;
+        const name = user
+          ? [user.firstname, user.lastname].filter(Boolean).join(" ")
+          : ((item.name as string) ?? "");
         const email = (user?.email ?? item.email) as string | undefined;
         const organization = (user?.organization ?? item.organization) as string | undefined;
         const phone = (user?.phone ?? item.phone) as string | undefined;
@@ -110,7 +111,7 @@ export async function GET(req: NextRequest) {
         return {
           Date: formatDate(item.date),
           "User Email": email || "",
-          "User Name": [firstname, lastname].filter(Boolean).join(" "),
+          "User Name": name,
           "User Organization": organization || "",
           "User Phone": phone || "",
           "User Message": userMessage || "",

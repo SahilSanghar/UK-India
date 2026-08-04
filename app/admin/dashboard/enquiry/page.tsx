@@ -14,6 +14,7 @@ interface EnquiryItem {
   reportName?: string;
   organization?: string;
   date: string;
+  name?: string;
   firstname?: string;
   lastname?: string;
   email?: string;
@@ -24,14 +25,11 @@ interface EnquiryItem {
 }
 
 interface UserDetails {
-  id: string;
-  firstname?: string;
-  lastname?: string;
+  name?: string;
   email?: string;
   organization?: string;
   phone?: string;
   message?: string;
-  date?: string;
 }
 
 interface ReportDetails {
@@ -145,21 +143,29 @@ export default function Page() {
           reportId: item.reportId || undefined,
         },
       });
-      // Older entries resolve "user" from a ukibc_users account (userId).
-      // Newer entries have no account at all, so fall back to the details
-      // already saved directly on the enquiry item itself.
-      const user =
-        res.data.user ||
-        (item.userId
+      // Older entries resolve "user" from a ukibc_users account (userId),
+      // which stores separate firstname/lastname fields. Newer entries have
+      // no account at all, so fall back to the details already saved
+      // directly on the enquiry item itself (a single "name" field).
+      const user = res.data.user
+        ? {
+            name: [res.data.user.firstname, res.data.user.lastname]
+              .filter(Boolean)
+              .join(" "),
+            email: res.data.user.email,
+            organization: res.data.user.organization,
+            phone: res.data.user.phone,
+            message: res.data.user.message,
+          }
+        : item.userId
           ? null
           : {
-              firstname: item.firstname,
-              lastname: item.lastname,
+              name: item.name,
               email: item.email,
               organization: item.organization,
               phone: item.phone,
               message: item.message,
-            });
+            };
       setDetails({ user, report: res.data.report });
     } catch {
       setDetails(null);
@@ -245,7 +251,7 @@ export default function Page() {
                 {filterType === "report" ? (
                   <p className="text-base text-navy">
                     <span className="font-bold">
-                      {item.organization || item.firstname || item.lastname || "Unknown"}
+                      {item.organization || item.name || "Unknown"}
                     </span>{" "}
                     downloaded{" "}
                     <span className="font-bold">
@@ -345,13 +351,12 @@ export default function Page() {
                                 User Details
                               </p>
                               <div className="grid grid-cols-2 gap-x-8 gap-y-2 text-sm">
-                                {details.user.firstname && (
+                                {details.user.name && (
                                   <p>
                                     <span className="font-semibold text-navy">
                                       Name:
                                     </span>{" "}
-                                    {details.user.firstname}{" "}
-                                    {details.user.lastname}
+                                    {details.user.name}
                                   </p>
                                 )}
                                 {details.user.email && (

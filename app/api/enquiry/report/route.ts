@@ -14,15 +14,14 @@ export async function POST(req: Request) {
     const {
       reportId,
       reportName,
-      firstname,
-      lastname,
+      name,
       organization,
       phone,
       email,
       message,
     } = await req.json();
 
-    if (!reportId || !reportName || !firstname || !email) {
+    if (!reportId || !reportName || !name || !email) {
       return NextResponse.json(
         { message: "Missing required fields" },
         { status: 400 },
@@ -38,8 +37,7 @@ export async function POST(req: Request) {
         id: { S: id },
         reportId: { S: reportId },
         reportName: { S: reportName },
-        firstname: { S: firstname },
-        lastname: { S: lastname ?? "" },
+        name: { S: name },
         organization: { S: organization ?? "" },
         phone: { S: phone ?? "" },
         email: { S: email },

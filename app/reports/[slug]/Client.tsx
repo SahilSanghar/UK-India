@@ -19,8 +19,7 @@ export default function Client({ post }: { post: PostProps }) {
   const [showForm, setShowForm] = useState(false);
 
   const [formData, setFormData] = useState({
-    firstname: "",
-    lastname: "",
+    name: "",
     organization: "",
     phone: "",
     email: "",
@@ -45,8 +44,7 @@ export default function Client({ post }: { post: PostProps }) {
       const response = await axios.post(`/api/enquiry/report`, {
         reportId: post.id,
         reportName: post.title,
-        firstname: formData.firstname,
-        lastname: formData.lastname,
+        name: formData.name,
         organization: formData.organization,
         phone: formData.phone,
         email: formData.email,
@@ -185,32 +183,18 @@ export default function Client({ post }: { post: PostProps }) {
 
             <div className="px-6 py-6 sm:px-8 sm:py-8">
               <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
-                <div className="flex flex-col sm:flex-row gap-3">
-                  <input
-                    type="text"
-                    placeholder="First Name"
-                    className="w-full sm:w-1/2 px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-navy/30 focus:border-navy transition-colors"
-                    name="firstName"
-                    autoComplete="given-name"
-                    value={formData.firstname}
-                    onChange={(e) =>
-                      setFormData({ ...formData, firstname: e.target.value })
-                    }
-                    required
-                  />
-                  <input
-                    type="text"
-                    placeholder="Surname"
-                    className="w-full sm:w-1/2 px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-navy/30 focus:border-navy transition-colors"
-                    name="surname"
-                    autoComplete="family-name"
-                    value={formData.lastname}
-                    onChange={(e) =>
-                      setFormData({ ...formData, lastname: e.target.value })
-                    }
-                    required
-                  />
-                </div>
+                <input
+                  type="text"
+                  placeholder="Name"
+                  className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-navy/30 focus:border-navy transition-colors"
+                  name="name"
+                  autoComplete="name"
+                  value={formData.name}
+                  onChange={(e) =>
+                    setFormData({ ...formData, name: e.target.value })
+                  }
+                  required
+                />
                 <div className="flex flex-col sm:flex-row gap-3">
                   <input
                     type="text"
