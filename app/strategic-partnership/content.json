@@ -1,0 +1,54 @@
+{
+  "title": "Strategic Partnership",
+  "lander": {
+    "title": ["Great North–India Strategic Partnership"],
+    "title2": ["Strengthening Northern England’s engagement with India"],
+    "des": [
+      "The Great North (GN) is strengthening its collective economic engagement with India, with a proposed Mayoral Mission to India in October 2026. Taking place in the emerging post-UK–India Free Trade Agreement (FTA) landscape, the mission provides an opportunity for Northern England to strengthen its presence in one of the world’s most important markets for trade, investment, innovation, education and the visitor economy."
+    ],
+    "image": [],
+    "flip": true,
+    "button": { "enable": true, "text": "Learn more", "link": "#more" }
+  },
+  "box": [
+    {
+      "title": "A coordinated approach to India",
+      "content": "<p>With seven Mayors and multiple city regions participating, the mission brings together a significant collective Northern offer. At the same time, each region has its own sector strengths, economic priorities and level of engagement with India.</p><p>The Great North–UKIBC Strategic Partnership is designed to bring together collective coordination and place-led delivery. The partnership aims to create a coherent Northern proposition for India while ensuring that individual city regions retain ownership of their priorities and relationships.</p><p>The approach covers market planning, mission preparation, in-market engagement and post-mission follow-through, helping move engagement beyond a single visit towards longer-term relationships and commercial opportunities.</p>",
+      "buttonTxt": "",
+      "link": "",
+      "image": []
+    },
+    {
+      "title": "From mission to long-term impact",
+      "content": "<p>India is a market where sustained engagement and strong local relationships are critical. The October 2026 mission therefore represents an opportunity to establish a more coordinated and long-term Great North–India economic partnership.</p>",
+      "buttonTxt": "",
+      "link": "",
+      "image": []
+    },
+    {
+      "title": "",
+      "content": "<p>Alongside the Mayoral mission, UKIBC is also exploring opportunities for a wider GN India Trade Programme, potentially building on its existing Access India experience. This could help Northern businesses prepare for the Indian market, participate in mission-related activity and connect with opportunities arising from the evolving UK–India trade and investment relationship.</p><p><strong>Through this partnership, UKIBC will support the Great North in turning strategic ambition into targeted market engagement, meaningful connections and longer-term opportunities across India.</strong></p>",
+      "buttonTxt": "",
+      "link": "",
+      "image": []
+    }
+  ],
+  "fullscreen": {
+    "title": "UKIBC’s role",
+    "des": "<p>As a business-led organisation focused on the UK–India corridor, UKIBC brings established networks, market knowledge and on-the-ground capability in both countries.</p><p><strong>Under the proposed partnership, UKIBC will support participating city regions to:</strong></p>",
+    "cards": [
+      { "title": "", "des": "<p>Identify priority Indian states, cities, companies, investors, buyers and institutional partners</p>", "buttonTxt": "", "link": "", "image": "" },
+      { "title": "", "des": "<p>Develop focused India market plans aligned with regional sector strengths</p>", "buttonTxt": "", "link": "", "image": "" },
+      { "title": "", "des": "<p>Shape targeted business and government engagement ahead of the October 2026 mission</p>", "buttonTxt": "", "link": "", "image": "" },
+      { "title": "", "des": "<p>Support Mayoral and regional delegations with in-market meetings and stakeholder engagement</p>", "buttonTxt": "", "link": "", "image": "" },
+      { "title": "", "des": "<p>Facilitate introductions to relevant Indian businesses, government bodies and institutions</p>", "buttonTxt": "", "link": "", "image": "" },
+      { "title": "", "des": "<p>Provide on-the-ground support for regional visits beyond Delhi</p>", "buttonTxt": "", "link": "", "image": "" },
+      { "title": "", "des": "<p>Help build relationships and commercial pipelines that can develop after the mission</p>", "buttonTxt": "", "link": "", "image": "" }
+    ]
+  },
+  "contact": {
+    "title": "Connect with us:",
+    "content": "<p>For further enquiries or business support, reach out to <a href=\"mailto:enquiries@ukibc.com\" style=\"text-decoration: underline; font-weight: 600;\">enquiries@ukibc.com</a></p>",
+    "image": ""
+  }
+}
