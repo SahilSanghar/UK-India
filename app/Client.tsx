@@ -21,6 +21,7 @@ import Video from "next-video";
 import map from "@/videos/map.mp4";
 import Fullscreen from "@/components/Fullscreen";
 import Ticker from "@/components/Ticker";
+import NewUpdateStrip from "@/components/NewUpdateStrip";
 import { PageProps } from "@/lib/PageProps";
 
 interface StatCard {
@@ -173,6 +174,7 @@ export default function Home({ pages }: { pages: PageProps }) {
 
   return (
     <>
+      <NewUpdateStrip />
       <Lander
         title_data={pages.lander.title.map((t, i) => ({
           title: t,
