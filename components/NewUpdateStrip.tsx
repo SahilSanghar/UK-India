@@ -33,7 +33,8 @@ export default function NewUpdateStrip() {
           <span className="font-bold">NEW Update</span>
           <span className="hidden sm:inline mx-2">•</span>
           <span className="block sm:inline">
-            Strengthening Northern England&apos;s engagement with India
+            The Great North Mayoral Mission 2026 - Strengthening Northern
+            England&rsquo;s engagement with India
           </span>
         </p>
         <Link
