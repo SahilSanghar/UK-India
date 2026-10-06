@@ -6,10 +6,12 @@ export default function Connect({
   title,
   description,
   image,
+  compact = false,
 }: {
   title: string;
   description: string;
   image: string;
+  compact?: boolean;
 }) {
   return (
     <div className="w-full md:h-fit h-screen flex md:flex-row flex-col justify-center items-center">
@@ -21,14 +23,22 @@ export default function Connect({
         />
         <LiquidButton text="Contact Us" link="/contact" />
       </div>
-      <div className="w-full md:h-screen h-1/2 max-w-6xl bg-red-200 mx-auto flex flex-col gap-8 items-center justify-center text-center">
+      <div
+        className={`w-full md:h-screen h-1/2 max-w-6xl mx-auto flex flex-col gap-8 items-center justify-center text-center ${
+          compact ? "" : "bg-red-200"
+        }`}
+      >
         <Image
           src={image}
           alt="influence"
           width={0}
           height={0}
           sizes="100vw"
-          className="w-full h-full object-cover"
+          className={
+            compact
+              ? "w-[calc(100%-50px)] h-[calc(100%-50px)] object-cover"
+              : "w-full h-full object-cover"
+          }
         />
       </div>
     </div>

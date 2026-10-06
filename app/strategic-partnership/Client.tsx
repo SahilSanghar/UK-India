@@ -219,6 +219,7 @@ export default function StrategicPartnership({
           title={contact.title || "Connect with us:"}
           description={contact.content || ""}
           image={contact.image ? cdn(contact.image) : "/connect.webp"}
+          compact
         />
       </section>
     </>
