@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
 import { useInView } from "react-intersection-observer";
 import { motion } from "framer-motion";
 import Lander from "@/components/Lander";
@@ -80,6 +81,21 @@ export default function StrategicPartnership({
         buttonLink={lander.button?.link || ""}
         currency={true}
         flip={lander.flip ?? true}
+        badge={
+          <div className="flex items-center gap-3">
+            <span className="text-xs sm:text-sm font-semibold uppercase tracking-wide text-navy/70 leading-none [text-box:trim-both_cap_alphabetic]">
+              Mission Strategic Partner
+            </span>
+            <Image
+              src="/HSBC.png"
+              alt="HSBC"
+              width={0}
+              height={0}
+              sizes="120px"
+              className="h-[33px] sm:h-[41px] w-auto object-contain"
+            />
+          </div>
+        }
         images={images(lander.image, [
           "/inf1.webp",
           "/inf2.webp",

@@ -22,6 +22,7 @@ interface LanderProps {
   buttonLink?: string;
   button?: boolean;
   currency?: boolean;
+  badge?: React.ReactNode;
   images:
     | Array<{
         image: string;
@@ -40,6 +41,7 @@ export default function Lander({
   video = false,
   flip = false,
   currency: showCurrency = false,
+  badge,
 }: LanderProps) {
   const [tick, setTick] = useState(0);
 
@@ -226,6 +228,12 @@ export default function Lander({
                   </motion.div>
                 )}
               </div>
+
+              {badge && (
+                <div key={"badge"} className="relative w-full h-fit">
+                  {badge}
+                </div>
+              )}
 
               {currentTitle2 && (
                 <div
