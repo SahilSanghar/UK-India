@@ -21,9 +21,10 @@ const cdn = (img: string) =>
 const images = (
   uploaded: string[] | undefined,
   fallback: string[],
+  position = "center",
 ): { image: string; position: string }[] =>
   (uploaded && uploaded.length > 0 ? uploaded.map(cdn) : fallback).map(
-    (image) => ({ image, position: "center" }),
+    (image) => ({ image, position }),
   );
 
 export default function StrategicPartnership({
@@ -179,13 +180,13 @@ export default function StrategicPartnership({
             <div className="w-[90%] md:w-full max-w-6xl mx-auto flex flex-col gap-12">
               {impact && (
                 <div className="w-full flex flex-col md:flex-row gap-6 bg-mix/10 p-4 rounded-4xl justify-center items-center">
-                  <div className="flex-1 flex items-stretch rounded-2xl overflow-hidden min-h-[150px] max-h-[230px] relative bg-blue-200">
+                  <div className="flex-1 w-full flex items-stretch rounded-3xl overflow-hidden min-h-[300px] md:min-h-[420px] relative bg-blue-200">
                     <ImageSlider
-                      images={images(impact.image, [
-                        "/banerjee.jpeg",
-                        "/govtmeet.jpg",
-                        "/churchHouse.jpg",
-                      ])}
+                      images={images(
+                        impact.image,
+                        ["/banerjee.jpeg", "/govtmeet.jpg", "/churchHouse.jpg"],
+                        "50%_25%",
+                      )}
                     />
                   </div>
                   <div className="flex-1 flex flex-col justify-center py-4 px-4 md:px-8 gap-2">
