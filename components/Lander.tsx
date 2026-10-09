@@ -23,6 +23,7 @@ interface LanderProps {
   button?: boolean;
   currency?: boolean;
   badge?: React.ReactNode;
+  stackOnMobile?: boolean;
   images:
     | Array<{
         image: string;
@@ -42,6 +43,7 @@ export default function Lander({
   flip = false,
   currency: showCurrency = false,
   badge,
+  stackOnMobile = false,
 }: LanderProps) {
   const [tick, setTick] = useState(0);
 
@@ -130,17 +132,25 @@ export default function Lander({
      * h-screen everywhere + min-h-[500px] as safety floor.
      */
     <div
-      className={`max-w-screen overflow-hidden w-full h-screen min-h-[500px] flex flex-col lg:flex-row ${
+      className={`max-w-screen overflow-hidden w-full ${
+        stackOnMobile ? "h-auto lg:h-screen" : "h-screen"
+      } min-h-[500px] flex flex-col lg:flex-row ${
         flip ? "lg:flex-row-reverse" : "lg:flex-row"
       } justify-center bg-white`}
       ref={ref as unknown as React.RefObject<HTMLDivElement>}
     >
       {/* ── Left panel: text + wavy background ── */}
-      <div className="w-full lg:w-1/2 relative h-full">
+      <div
+        className={`w-full lg:w-1/2 relative ${
+          stackOnMobile ? "h-auto lg:h-full" : "h-full"
+        }`}
+      >
         <WavyBackground
           backgroundFill="white"
           colors={["#f15c23", "#012d6b", "#d8c4b5"]}
-          className={`absolute inset-0 flex flex-col ${
+          className={`${
+            stackOnMobile ? "relative lg:absolute lg:inset-0" : "absolute inset-0"
+          } flex flex-col ${
             flip ? "items-center" : "items-start"
           } justify-start z-10`}
         >
@@ -388,7 +398,13 @@ export default function Lander({
            * Original class: "lg:hidden lg:flex hidden" — self-contradictory, hidden always wins.
            * Fixed: "flex lg:hidden" — visible on mobile/tablet, hidden on lg+ (right panel takes over).
            */}
-          <div className="w-full md:w-[70%] h-1/2 mt-auto p-6 rounded-xl flex lg:hidden">
+          <div
+            className={
+              stackOnMobile
+                ? "relative w-[calc(100%-3rem)] md:w-[70%] h-[260px] sm:h-[320px] md:h-[380px] mt-2 mb-8 rounded-2xl overflow-hidden flex lg:hidden shrink-0"
+                : "w-full md:w-[70%] h-1/2 mt-auto p-6 rounded-xl flex lg:hidden"
+            }
+          >
             <ImageSlider images={images} />
           </div>
         </WavyBackground>

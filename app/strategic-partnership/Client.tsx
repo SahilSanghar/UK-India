@@ -82,6 +82,7 @@ export default function StrategicPartnership({
         buttonLink={lander.button?.link || ""}
         currency={true}
         flip={lander.flip ?? true}
+        stackOnMobile
         badge={
           <div className="flex items-center gap-3">
             <span className="text-xs sm:text-sm font-semibold uppercase tracking-wide text-navy/70 leading-none [text-box:trim-both_cap_alphabetic]">
