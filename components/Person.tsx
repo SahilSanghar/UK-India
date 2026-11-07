@@ -16,6 +16,7 @@ interface Props {
   link?: string;
   role2?: string;
   box?: boolean;
+  fallbackImage?: string;
 }
 
 export default function Person({
@@ -31,8 +32,13 @@ export default function Person({
   des1,
   des2,
   link,
+  fallbackImage,
 }: Props) {
   const [clicked, setClicked] = useState(false);
+  // Remember which src failed (not just "failed") so a reused card whose image
+  // prop changes, e.g. after filtering, doesn't keep showing the fallback.
+  const [failedSrc, setFailedSrc] = useState<string | null>(null);
+  const src = fallbackImage && failedSrc === image ? fallbackImage : image;
 
   // Only open the popup if des1 is NOT empty or null
   const handleClick = () => {
@@ -65,7 +71,8 @@ export default function Person({
           >
             <div className="w-full h-fit flex group-hover:opacity-50 duration-300 select-none">
               <Image
-                src={image}
+                src={src}
+                onError={() => setFailedSrc(image)}
                 width={0}
                 height={0}
                 {...(blurdata
@@ -83,7 +90,8 @@ export default function Person({
             onClick={handleClick}
           >
             <Image
-              src={image}
+              src={src}
+              onError={() => setFailedSrc(image)}
               width={0}
               height={0}
               {...(blurdata

@@ -11,6 +11,7 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 
 interface TeamMemberProps {
+  id: string;
   title: string;
   image: string;
   filters: string[];
@@ -294,6 +295,7 @@ export default function Members({ page }: { page: PageProps }) {
                   <Person
                     name={item.title}
                     image={item.image ? item.image : "/person.jpg"}
+                    fallbackImage={`https://ukibc-storage.s3.ap-south-1.amazonaws.com/members/${item.id}`}
                     box={true}
                     link={item.url ? item.url : undefined}
                     role={item.job_title || ""}
